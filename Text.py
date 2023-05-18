@@ -76,7 +76,8 @@ def process_image(image_url):
         return None
 
 def detect_gender_biased_sentences(text):
-    gender_keywords = ['he', 'him', 'his', 'she', 'her', 'hers','man','women']
+    df = pd.read_excel('gender_biased_words.xlsx', sheet_name='word')
+    gender_keywords = df['word'].tolist()
     sentences = re.split(r'(?<!\w\.\w.)(?<![A-Z][a-z]\.)(?<=\.|\?)\s', text)  # Split text into sentences
     biased_sentences = []
     biased_words = []
@@ -95,7 +96,8 @@ def detect_gender_biased_sentences(text):
     return biased_sentences, biased_words
 
 def detect_gender_biased_alt_texts(alt_texts):
-    gender_keywords = ['he', 'him', 'his', 'she', 'her', 'hers','man','women']
+    df = pd.read_excel('gender_biased_words.xlsx', sheet_name='word')
+    gender_keywords = df['word'].tolist()
     biased_alt_texts = []
     biased_words = []
     for alt_text, image_link in alt_texts:
