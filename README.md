@@ -50,10 +50,12 @@ No gender-biased sentences found in the text content.
 
 Gender detection results for images:
 Image URL: https://www.example.com/image3.jpg
-Gender: Male
+Gender: Male -0 ,Female -3
+Image is Gender-biased
 
 Image URL: https://www.example.com/image4.jpg
-Gender: Female
+Gender: Male -5 , Female-0
+Image is Gender-biased
 ```
 
 Note: The gender detection results for images are based on a pre-trained deep learning model and may not be accurate in all cases.
