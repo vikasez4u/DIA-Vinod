@@ -3,6 +3,7 @@
 
 This Python script performs web scraping on a given web page, extracts the text content, and detects gender-biased sentences using a list of gender-biased words. It also extracts alt texts from images on the web page and performs gender detection on the images using a pre-trained deep learning model.
 
+
 ### Dependencies
 
 - Python 3.x
