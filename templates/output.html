@@ -1,0 +1,53 @@
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.8/angular.min.js">
+    </script>
+	</head>
+	<title>RESULT</title>
+	<body class="index">
+
+		<form ngNoForm class="grid" action="/index" method="get" >
+
+				<div class="whitesmoke" style="display: grid;text-align: center;font-size: medium;"	>
+					<h2> Entered Your Url : {{url}} </h2>
+
+					<h2 style="font-style:bold;"> Validating text </h2>
+
+						<h2> Biased words  : {{biased_words}} </h2>
+
+						<h2>Biased Sentences</h2>
+
+						<h1>{{biased_sentences[0]}}</h1>
+						<h1>{{biased_sentences[1]}}</h1>
+						<h1>{{biased_sentences[2]}}</h1>
+
+
+
+						<h2>Biased alt texts :</h2>
+
+						<table>
+									<thead>
+										<th></th>
+									</thead>
+									<tbody>
+										<tr *ngFor="let biased_alt_text of biased_alt_texts" >
+											<td>{{biased_alt_texts.alt_text}}</td>
+											<td>{{biased_alt_texts.image_link}}</td>
+										</tr>
+									</tbody>
+						</table>
+						<h2> Biased Alt words  : {{biased_alt_words}} </h2>
+
+						<center><input class="submit" id="back" type="Submit" value ="BACK" /></center>
+
+				</div>
+		</form>
+
+        <br>
+        <br>
+
+    </body>
+
+</html>
