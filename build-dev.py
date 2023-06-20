@@ -1,10 +1,11 @@
 import os
 import subprocess
 import time
+import shutil
 
 CURRENT_DIRECTORY = os.getcwd()
 directories = os.listdir(CURRENT_DIRECTORY)
-NON_ANGULAR_DIRS = ['static', 'templates', 'weights']
+NON_ANGULAR_DIRS = ['static', 'templates', 'weights', 'venv', 'env']
 
 for directory in directories:
     if "." not in directory and directory not in NON_ANGULAR_DIRS:
@@ -31,9 +32,12 @@ while dir_exists:
                 html_files += (file + ' ')
         print(html_files)
         if len(static_files) > 0:
+            print('cd ' + DIST_PATH + ' &&' + ' mv ' + static_files + FLASK_STATIC_PATH)
             subprocess.call(('cd ' + DIST_PATH + ' &&' + ' mv ' + static_files + FLASK_STATIC_PATH), shell=True)
         if len(html_files) > 0:
-            subprocess.call(('cd ' + DIST_PATH + ' &&' + ' mv ' + html_files + FLASK_TEMPLATES_PATH), shell=True)
+            print('cd ' + DIST_PATH + ' &&' + ' mv ' + html_files + FLASK_TEMPLATES_PATH)
+            print(DIST_PATH + '\\' + html_files, FLASK_TEMPLATES_PATH + '\\' + html_files)
+            subprocess.call((shutil.move(DIST_PATH + '\\' + html_files, FLASK_TEMPLATES_PATH + '\\' + html_files)))
     except Exception as e:
         dir_exists = False
         print(e)
