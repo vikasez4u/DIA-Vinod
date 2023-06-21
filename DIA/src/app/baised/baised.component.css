@@ -1,14 +1,15 @@
 .apptitlecontainer{
   position: absolute;
   z-index: 999;
-  background:black;
+  background:white;
   overflow:hidden;
   width: 100%;
-  color:#ccc;
-  padding-left: 20px;
+  color:black;
+  padding-left: 50px;
   font-size:xx-large;
   padding-bottom:20px;
   padding-top:20px;
+  font-family: Segoe UI;
 }
 
 
@@ -66,7 +67,7 @@
 
 .grid{
     display: grid;
-      grid-gap: 2vmax;
+    grid-gap: 1vmax;
 }
 
 
@@ -106,26 +107,23 @@ form{
 }
 
 label{
-    font-size: 1.5vmax;
+    font-family: Tahoma;
 }
 
 input{
     padding:1vmax;
-    font-size: 1.3vmax;
     border: 1px solid #dddddd;
     outline: none;
 }
 
 select{
     padding:1vmax;
-    font-size: 1.3vmax;
     border: 1px solid #dddddd;
     outline: none;
     letter-spacing: 3px;
 }
 
 option{
-    font-size: 1.5vmax;
     letter-spacing: 3px;
 }
 
@@ -162,14 +160,13 @@ option{
 
   #submit{
     margin-top: 1vmax;
-    border: 1px solid black;
     outline: none;
-    background-color: whitesmoke;
-    color: black;
+    background-color: #28a745;
+    color: white;
     padding: 1vmax;
     cursor: pointer;
     transition: 0.3s;
-    letter-spacing: 3px;
+    font-family:Segoe UI;
   }
 
   .submit:hover{

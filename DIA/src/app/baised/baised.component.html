@@ -5,15 +5,25 @@
 	<div ng-controller="MainCtrl" class="index">
     <div style="height: 535px; width: 1180px;" >
 		     <form ngNoForm class="grid" action="/result" method="POST">
-            <label class="whitesmoke">Enter your URL:</label>
-            <input type="text" style="width: auto;" id="urlName" name="urlName" placeholder="URL">
-            <label>Model</label>
+            <label>
+              <strong>URL</strong>
+              <span style="color: red;">*</span>
+            </label>
+            <input type="text" style="width: auto;" id="urlName" name="urlName" placeholder="Enter the URL here">
+            <label>
+              <strong>
+                Model
+              </strong>
+              <span style="color: red;">*</span>
+            </label>
             <select>
               <option value="" disabled selected>Select...</option>
               <option value="">Image</option>
               <option value="">Text</option>
             </select>
-            <input  id="submit" type="Submit" value="SUBMIT"/>
+             <div class="col-2">
+               <input class="btn btn-success float-right" id="submit" type="Button" value="Submit"/>
+             </div>
          </form>
       </div>
     </div>
