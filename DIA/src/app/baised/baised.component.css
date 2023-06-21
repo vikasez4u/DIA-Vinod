@@ -1,3 +1,17 @@
+.apptitlecontainer{
+  position: absolute;
+  z-index: 999;
+  background:black;
+  overflow:hidden;
+  width: 100%;
+  color:#ccc;
+  padding-left: 20px;
+  font-size:xx-large;
+  padding-bottom:20px;
+  padding-top:20px;
+}
+
+
 .html,body{
 
     list-style: none;
@@ -146,7 +160,7 @@ option{
     100% { transform: rotate(360deg); }
   }
 
-  .submit{
+  #submit{
     margin-top: 1vmax;
     border: 1px solid black;
     outline: none;
