@@ -1,27 +1,22 @@
-<html ng-app="myapp">
-	<head>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script data-require="angular.js@1.2.x"
-            src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.min.js"
-            data-semver="1.2.16">
-    </script>
-	</head>
-	<body ng-controller="MainCtrl" class="index">
-
+<div ng-app="myapp">
+  <div class="col-12">
+    <a class="apptitlecontainer">Digital Inclusivity Auditor</a>
+  </div>
+	<div ng-controller="MainCtrl">
     <div style="height: 535px; width: 1180px;" >
 		     <form ngNoForm class="grid" action="/result" method="POST">
             <label class="whitesmoke">Enter your URL:</label>
-            <input type="text" style="width: auto;" id="urlName" name="urlName">
+            <input type="text" style="width: auto;" id="urlName" name="urlName" placeholder="URL">
             <label>Model</label>
             <select>
-              <option value="">Select...</option>
+              <option value="" disabled selected>Select...</option>
               <option value="">Image</option>
               <option value="">Text</option>
             </select>
             <input  id="submit" type="Submit" value="SUBMIT"/>
          </form>
+      </div>
     </div>
-  </body>
-</html>
+</div>
 
 
