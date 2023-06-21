@@ -1,4 +1,4 @@
-<html>
+<html ng-app="myapp">
 	<head>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script data-require="angular.js@1.2.x"
@@ -10,33 +10,18 @@
 
     <div style="height: 535px; width: 1180px;" >
 		     <form ngNoForm class="grid" action="/result" method="POST">
-
-          		<label class="whitesmoke">Enter your URL:</label>
-          		<input type="text" style="width: auto;" id="urlName" name="urlName">
-				      <input  id="submit" type="Submit" value="SUBMIT"/>
-              <table>
-                <tr>
-                  <td>
-                    <label>Model</label>
-                  </td>
-                  <td>
-                    <div ng-controller="modalOptionController">
-                      <!--Work in Progress-->
-                      <select ng-model="item.type" ng-change ng-options="option as option.name for option in options track by option.type">
-                        <option value="">Select...</option>
-                        <option value="">Image</option>
-                        <option value="">Text</option>
-                      </select>
-                    </div>
-                  </td>
-                </tr>
-              </table>
+            <label class="whitesmoke">Enter your URL:</label>
+            <input type="text" style="width: auto;" id="urlName" name="urlName">
+            <label>Model</label>
+            <select>
+              <option value="">Select...</option>
+              <option value="">Image</option>
+              <option value="">Text</option>
+            </select>
+            <input  id="submit" type="Submit" value="SUBMIT"/>
          </form>
     </div>
-
-
   </body>
-
 </html>
 
 
