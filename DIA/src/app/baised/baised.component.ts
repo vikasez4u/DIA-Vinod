@@ -7,18 +7,18 @@ import {Router} from '@angular/router';
   styleUrls: ['./baised.component.css']
 })
 export class BaisedComponent {
-     url= 'Please Enter URL';
 
-     name='';
-     selectedElement={id:-1, Name:''};
+    url= 'Please Enter URL';
+    name='';
+    selectedElement='';
 
-     handleClear(){
-      this.name='';
-      this.selectedElement= {id:-1, Name:'Select...'};
-     }
+    handleClear(){
+    this.name='';
+    this.selectedElement= '';
+    }
 
     types:any[]=[
-      {id:-1, Name:'Select...'},
+      {id:-1, Name:'Select any value'},
       {id:1, Name:'Image'},
       {id:2, Name:'Text'}
     ];

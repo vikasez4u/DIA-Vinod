@@ -17,8 +17,11 @@
               Model
               <span style="color: red;">*</span>
             </label>
-            <select [(ngModel)]="selectedElement.id">
-              <option *ngFor="let type of types" [ngValue]="type.id">{{type.Name}}</option>
+            <select [(ngModel)]="selectedElement" required>
+              <ng-container *ngFor="let type of types">
+                <option *ngIf="type.id<0" [ngValue]="type.id" disabled>{{type.Name}}</option>
+                <option *ngIf="type.id>0" [ngValue]="type.id">{{type.Name}}</option>
+              </ng-container>
             </select>
              <div class="panel-footer">
                <div class="pull-right">
