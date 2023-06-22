@@ -1,32 +1,32 @@
 <div ng-app="myapp">
-  <div class="col-12">
+  <div class="header">
     <a class="apptitlecontainer">Digital Inclusivity Auditor</a>
   </div>
-	<div ng-controller="MainCtrl" class="index">
-    <div style="height: 535px; width: 1180px;" >
+	<div ng-controller="MainCtrl">
+    <div>
 		     <form ngNoForm class="grid" action="/result" method="POST">
-            <label>
-              <strong>URL</strong>
+           <div class="form-header">
+             <p>Evaluate your digital content</p>
+           </div>
+           <label>
+              URL
               <span style="color: red;">*</span>
             </label>
-            <input type="text" style="width: auto;" id="urlName" name="urlName" placeholder="Enter the URL here">
+            <input type="text" [(ngModel)]="name" style="width: auto;" id="urlName" name="urlName" placeholder="Enter the URL here" required>
             <label>
-              <strong>
-                Model
-              </strong>
+              Model
               <span style="color: red;">*</span>
             </label>
-            <select>
-              <option value="" disabled selected>Select...</option>
-              <option value="">Image</option>
-              <option value="">Text</option>
+            <select [(ngModel)]="selectedElement.id">
+              <option *ngFor="let type of types" [ngValue]="type.id">{{type.Name}}</option>
             </select>
-             <div class="col-2">
-               <input class="btn btn-success float-right" id="submit" type="Button" value="Submit"/>
+             <div class="panel-footer">
+               <div class="pull-right">
+                 <input class="btn btn-success float-right" type="Button" value="Submit"/>
+               </div>
+               <input (click)="handleClear()" class="btn btn-primary" type="button" value="Reset"/>
              </div>
          </form>
       </div>
     </div>
 </div>
-
-

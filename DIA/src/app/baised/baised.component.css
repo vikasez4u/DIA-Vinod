@@ -1,22 +1,64 @@
-.apptitlecontainer{
-  position: absolute;
+.header {
+  box-sizing: border-box;
+  flex-direction: row;
+  height: 80px;
   z-index: 999;
   background:white;
   overflow:hidden;
   width: 100%;
+}
+
+.apptitlecontainer{
   color:black;
   padding-left: 50px;
-  font-size:xx-large;
-  padding-bottom:20px;
-  padding-top:20px;
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 2;
   font-family: Segoe UI;
 }
 
+.form-header{
+  flex-direction: row;
+  box-sizing: border-box;
+  background-color: white;
+  color: black;
+  height: 50px;
+  margin-bottom: 35px;
+  padding-left: 15px;
+  line-height: 1.5;
+  font-size: 15px;
+  font-weight: 500;
+  font-family: Segoe UI;
+  border-radius: 15px;
+}
 
-.html,body{
+label{
+  font-size: 15px;
+  font-weight: 500;
+  font-family: Tahoma;
+}
+
+.panel-footer{
+  margin-top: 10px;
+}
+
+.pull-right{
+  float:right!important;
+}
+
+.btn-success{
+  background-color: #28a745;
+  color: white;
+}
+
+.btn-primary{
+  background-color: #0073cf;
+  color: white;
+}
+
+html,body{
 
     list-style: none;
-    box-sizing: border-box;
     font-family: 'Rubik';
     letter-spacing: 3px;
 
@@ -68,9 +110,8 @@
 .grid{
     display: grid;
     grid-gap: 1vmax;
+    padding: 100px;
 }
-
-
 
 .box2{
     grid-template-columns: 1fr 1fr;
@@ -103,11 +144,6 @@ td, th {
 form{
     margin: 0;
     padding:10vmax;
-
-}
-
-label{
-    font-family: Tahoma;
 }
 
 input{
