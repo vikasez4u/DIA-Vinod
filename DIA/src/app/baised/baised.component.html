@@ -3,24 +3,22 @@
     <a class="apptitlecontainer">Digital Inclusivity Auditor</a>
   </div>
 	<div ng-controller="MainCtrl">
-    <div>
-		     <form ngNoForm class="grid" action="/result" method="POST">
-           <div class="form-header">
-             <p>Evaluate Your Digital Content</p>
+		     <form ngNoForm class="grid" action="/result" method="t">
+           <div style="text-align: center;">
+             <h2>Evaluate Your Digital Content Moderator</h2>
            </div>
            <label>
               URL
               <span style="color: red;">*</span>
             </label>
-            <input type="text" [(ngModel)]="name" style="width: auto;" id="urlName" name="urlName" placeholder="Enter the URL here" required>
+            <input type="text" [(ngModel)]="name" style="width: auto;" id="urlNameId" name="urlName" placeholder={{url}} required>
             <label>
               Model
               <span style="color: red;">*</span>
             </label>
-            <select [(ngModel)]="selectedElement" required>
+            <select [(ngModel)]="selectedElement" id="selectedElement" name="selectedElement" required>
               <ng-container *ngFor="let type of types">
-                <option *ngIf="type.id<0" [ngValue]="type.id" disabled>{{type.Name}}</option>
-                <option *ngIf="type.id>0" [ngValue]="type.id">{{type.Name}}</option>
+                <option id="model" name="model" [ngValue]="type.Name" value="type.Name">{{type.Name}}</option>
               </ng-container>
             </select>
              <div class="panel-footer">
@@ -30,6 +28,5 @@
                <input (click)="handleClear()" class="btn btn-primary" type="button" value="Reset"/>
              </div>
          </form>
-      </div>
     </div>
 </div>

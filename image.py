@@ -125,7 +125,7 @@ def get_gender_count(image, face_net, gender_net, confidence_threshold=0.5):
     gender_label = classify_gender_vgg(image, face_box, gender_net)
 
     # Use DeepFace to predict the gender of the face
-    result = DeepFace.analyze(img_path=face_img)
+    result = DeepFace.analyze(img_path=image)
 
     # Initialize variables to count the number of male and female faces
     male_count = 0
@@ -176,18 +176,19 @@ def extract_image_links(url):
 
 
 # Main function to run the program
-def main():
+def imageexecution(url):
+    print('Image File Entered URL:'+ url)
     # The gender model architecture
     GENDER_MODEL = 'weights/deploy_gender.prototxt'
     # The gender model pre-trained weights
-    GENDER_PROTO = 'weights/gender_net.caffemodel'
+    GENDER_PROTO = 'weights/gender_deploy.prototxt'
     # Each Caffe Model impose the shape of the input image also image preprocessing is required like mean
     # substraction to eliminate the effect of illunination changes
     MODEL_MEAN_VALUES = (78.4263377603, 87.7689143744, 114.895847746)
     # Represent the gender classes
     GENDER_LIST = ['Male', 'Female']
     # face detection model files
-    FACE_PROTO = "weights/deploy.prototxt.txt"
+    FACE_PROTO = "weights/deploy.prototxt"
     FACE_MODEL = "weights/res10_300x300_ssd_iter_140000_fp16.caffemodel"
 
     # load face detection Caffe model
@@ -196,7 +197,7 @@ def main():
     gender_net_main = cv2.dnn.readNetFromCaffe(GENDER_MODEL, GENDER_PROTO)
 
     # Enter the webpage URL to extract image links
-    url = input("Enter the URL of the webpage: ")
+   # url = request.form['urlName']
     # Get all the image links
     extracted_links, soup = extract_image_links(url)
     for image_url in extracted_links:
@@ -217,6 +218,3 @@ def main():
         print("Female count:", female_count)
         print("Confidence:", confidence)
 
-
-if __name__ == '__main__':
-    main()

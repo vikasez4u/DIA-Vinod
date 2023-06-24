@@ -110,7 +110,7 @@ html,body{
 .grid{
     display: grid;
     grid-gap: 1vmax;
-    padding: 100px;
+    padding: 50px;
 }
 
 .box2{
