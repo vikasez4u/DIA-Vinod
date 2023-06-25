@@ -1,3 +1,4 @@
+import flask
 import requests
 import urllib
 
@@ -9,7 +10,10 @@ from io import BytesIO, StringIO
 import os
 from urllib.parse import urlparse
 import pandas as pd
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for
+
+import image
+
 app = Flask(__name__)
 
 @app.route('/')
@@ -19,73 +23,87 @@ def hello_world():
 
 @app.route('/result', methods=['POST', 'GET'])
 def result():
-    url = request.form['urlName']
-    print('URL:')
-    print(url)
-    text = extract_text_from_url(url)
-    #print('text:')
-    #print(text)
-    alt_texts = extract_alt_text_from_url(url)
-    #print('alt_texts:')
-    #print(alt_texts)
-    if text is not None:
-        biased_sentences, biased_words = detect_gender_biased_sentences(text)
-        if biased_sentences:
-            print('Biased sentences:')
-            biased_sentences = [*set(biased_sentences)]
-            for sentence in biased_sentences:
-                print(sentence)
+        url = request.form['urlName']
+        #print('URL : ' + url)
+        #print(request.values)
+        modelType = request.form['selectedElement'].split(':')[1].strip()
+        print(modelType)
+        if modelType == 'Text':
+         # print(modelType)
+          return redirect(url_for('text'), code=307)
+        if modelType == 'Image':
+         # print(modelType)
+          image.imageexecution(url)
+        return None
 
-            print('Biased words:')
-            biased_words = [*set(biased_words)]
-            for word in biased_words:
-                print(word)
-        else:
-            print('No Biased Text')
+@app.route('/text',methods=['POST'])
+def text():
+      url = request.form['urlName']
+      print('Text File Entered URL : ' + url)
+      text = extract_text_from_url(url)
+      #print('text:')
+      #print(text)
+      alt_texts = extract_alt_text_from_url(url)
+      #print('alt_texts:')
+      #print(alt_texts)
+      if text is not None:
+          biased_sentences, biased_words = detect_gender_biased_sentences(text)
+          if biased_sentences:
+              print('Biased sentences:')
+              biased_sentences = [*set(biased_sentences)]
+              for sentence in biased_sentences:
+                  print(sentence)
 
-    if alt_texts is not None:
-        biased_alt_texts, biased_alt_words = detect_gender_biased_alt_texts(alt_texts)
-        print('Biased alt texts:')
-        #  i=input(0)
-        alt_textary = []
-        image_linkary = []
-        biased_alt_texts = [*set(biased_alt_texts)]
-        for alt_text, image_link in biased_alt_texts:
-            # i=int(i) + 1
-            # S  print(i)
-            print('Alt text:', alt_text)
-            alt_textary.append(alt_text)
-            print('Image link:', image_link)
-            image_linkary.append(image_link)
-            print('---')
-        print('Biased alt words:')
-        biased_alt_words = [*set(biased_alt_words)]
-        for alt_word in biased_alt_words:
-            print(alt_word)
-        # print(alt_textary)
-        # print(image_linkary)
-    else:
-        print('No Biased Alt Text')
+              print('Biased words:')
+              biased_words = [*set(biased_words)]
+              for word in biased_words:
+                  print(word)
+          else:
+              print('No Biased Text')
 
-    biased_sentences_img, biased_words_img, link_img = extract_text_from_images(url)
-    if biased_sentences_img:
-        print('Biased sentences from images:')
-        for sentences in biased_sentences_img:
-            for sentence in sentences:
-                print(sentence)
+      if alt_texts is not None:
+          biased_alt_texts, biased_alt_words = detect_gender_biased_alt_texts(alt_texts)
+          print('Biased alt texts:')
+          #  i=input(0)
+          alt_textary = []
+          image_linkary = []
+          biased_alt_texts = [*set(biased_alt_texts)]
+          for alt_text, image_link in biased_alt_texts:
+              # i=int(i) + 1
+              # S  print(i)
+              print('Alt text:', alt_text)
+              alt_textary.append(alt_text)
+              print('Image link:', image_link)
+              image_linkary.append(image_link)
+              print('---')
+          print('Biased alt words:')
+          biased_alt_words = [*set(biased_alt_words)]
+          for alt_word in biased_alt_words:
+              print(alt_word)
+          # print(alt_textary)
+          # print(image_linkary)
+      else:
+          print('No Biased Alt Text')
 
-        print('Biased words from images:')
-        for words in biased_words_img:
-            for word in words:
-                print(word)
+      biased_sentences_img, biased_words_img, link_img = extract_text_from_images(url)
+      if biased_sentences_img:
+          print('Biased sentences from images:')
+          for sentences in biased_sentences_img:
+              for sentence in sentences:
+                  print(sentence)
 
-        print('Image links:')
-        for img_link in link_img:
-            print(img_link)
+          print('Biased words from images:')
+          for words in biased_words_img:
+              for word in words:
+                  print(word)
 
-    else:
-        print('No Biased Text in image')
-    return render_template('output.html', **locals())
+          print('Image links:')
+          for img_link in link_img:
+              print(img_link)
+
+      else:
+          print('No Biased Text in image')
+      return render_template('output.html', **locals())
 
 
 def extract_text_from_url(url):

@@ -9,6 +9,7 @@ import {Router} from '@angular/router';
 export class BaisedComponent {
 
     url= 'Please Enter URL';
+    urlName='';
     name='';
     selectedElement='';
 
@@ -18,10 +19,9 @@ export class BaisedComponent {
     }
 
     types:any[]=[
-      {id:-1, Name:'Select any value'},
+      {id:0, Name:'Select any value'},
       {id:1, Name:'Image'},
       {id:2, Name:'Text'}
     ];
-
 }
 
