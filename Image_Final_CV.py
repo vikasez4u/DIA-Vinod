@@ -189,16 +189,16 @@ def extract_image_links(url):
 # Main function to run the program
 def main():
     # The gender model architecture
-    GENDER_MODEL = 'weights/deploy_gender.prototxt'
+    GENDER_MODEL = 'weights/gender_net.caffemodel'
     # The gender model pre-trained weights
-    GENDER_PROTO = 'weights/gender_net.caffemodel'
+    GENDER_PROTO = 'weights/gender.prototxt'
     # Each Caffe Model impose the shape of the input image also image preprocessing is required like mean
     # substraction to eliminate the effect of illunination changes
     MODEL_MEAN_VALUES = (78.4263377603, 87.7689143744, 114.895847746)
     # Represent the gender classes
     GENDER_LIST = ['Male', 'Female']
     # face detection model files
-    FACE_PROTO = "weights/deploy.prototxt.txt"
+    FACE_PROTO = "weights/deploy.prototxt"
     FACE_MODEL = "weights/res10_300x300_ssd_iter_140000_fp16.caffemodel"
 
     # load face detection Caffe model
