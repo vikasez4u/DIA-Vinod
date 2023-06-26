@@ -179,7 +179,8 @@ def extract_image_links(url):
 def imageexecution(url):
     print('Image File Entered URL:'+ url)
     # The gender model architecture
-    GENDER_MODEL = 'weights/deploy_gender.prototxt'
+  
+    GENDER_MODEL = 'weights/gender_net.caffemodel'
     # The gender model pre-trained weights
     GENDER_PROTO = 'weights/gender_deploy.prototxt'
     # Each Caffe Model impose the shape of the input image also image preprocessing is required like mean
