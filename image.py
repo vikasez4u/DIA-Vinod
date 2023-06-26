@@ -1,4 +1,3 @@
-
 import imghdr
 import urllib.request
 import numpy as np
@@ -6,10 +5,8 @@ import cv2
 import requests
 from bs4 import BeautifulSoup
 from deepface import DeepFace
-
-
-# In[5]:
-
+from PIL import Image
+import tempfile
 
 # Download the image
 def download_image(url):
@@ -23,7 +20,8 @@ def download_image(url):
     if response.status_code == 200:
         img_data = response.content
     else:
-        print(response.status_code)
+        print(f"Failed to download image: {response.status_code}")
+        return None
 
     # Check the image format
     img_format = imghdr.what(None, img_data)
@@ -38,18 +36,12 @@ def download_image(url):
 
     # Read the image using OpenCV
     image = cv2.imdecode(img_array, -1)
-    image = cv2.resize(image, (720, 640))
 
     return image
 
 
-# In[6]:
-
-
 def detect_and_crop_faces(image, net, confidence_threshold):
     # Set the confidence threshold for face detection
-    net.setPreferableBackend(cv2.dnn.DNN_BACKEND_CUDA)
-    net.setPreferableTarget(cv2.dnn.DNN_TARGET_CUDA_FP16)
     conf_threshold = confidence_threshold
 
     if image.shape[-1] == 4:  # check if the image has an alpha channel
@@ -87,12 +79,10 @@ def detect_and_crop_faces(image, net, confidence_threshold):
     return faces, face_boxes
 
 
-# In[7]:
-
-
 def classify_gender_vgg(image, face_boxes, model):
     # Create a list to hold the predicted genders
     genders = []
+
     # Loop over all the detected face boxes
     for face_box in face_boxes:
         # Convert face_box to integer values
@@ -101,58 +91,68 @@ def classify_gender_vgg(image, face_boxes, model):
         # Preprocess the face image
         face_image = image[face_box[1]:face_box[3], face_box[0]:face_box[2]]
         face_image = cv2.cvtColor(face_image, cv2.COLOR_RGBA2RGB)
-        face_blob = cv2.dnn.blobFromImage(face_image, 1.0, (227, 227), (78.4263377603, 87.7689143744, 114.895847746),
-                                          swapRB=False)
+        face_blob = cv2.dnn.blobFromImage(face_image, 1.0, (227, 227), (78.4263377603, 87.7689143744, 114.895847746), swapRB=False)
 
         # Pass the face blob through the model to get the predicted gender
         model.setInput(face_blob)
         predictions = model.forward()
         gender = "Male" if predictions[0][0] < 0.5 else "Female"
         genders.append(gender)
+
     # Return the list of predicted genders
     return genders
 
-
-# In[8]:
-
-
 def get_gender_count(image, face_net, gender_net, confidence_threshold=0.5):
-    # Detect the faces in the image
+    # Convert the image to RGB format if it has an alpha channel
+    if image.shape[-1] == 4:
+        image = cv2.cvtColor(image, cv2.COLOR_RGBA2RGB)
 
-    faces, face_box = detect_and_crop_faces(image, face_net, confidence_threshold)
+    # Convert the image to grayscale
+    gray = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
 
-    # Pass the face through the gender classification network to get the gender prediction
-    gender_label = classify_gender_vgg(image, face_box, gender_net)
+    # Get the height and width of the image
+    (h, w) = image.shape[:2]
 
-    # Use DeepFace to predict the gender of the face
-    result = DeepFace.analyze(img_path=image)
+    # Create a blob from the image and pass it through the face detection network
+    blob = cv2.dnn.blobFromImage(cv2.resize(image, (300, 300)), 1.0, (300, 300), (104.0, 177.0, 123.0))
+    face_net.setInput(blob)
+    detections = face_net.forward()
 
-    # Initialize variables to count the number of male and female faces
+    # Initialize gender counts
     male_count = 0
     female_count = 0
 
-    # Classify the gender of each face and count the number of male and female faces
-    for gender in gender_label:
+    # Process each detected face
+    for i in range(0, detections.shape[2]):
+        confidence = detections[0, 0, i, 2]
 
-        # Update the male and female count based on the gender prediction
-        if gender == "Male":
-            male_count += 1
-        else:
-            female_count += 1
+        # Check if the confidence is above the threshold
+        if confidence > confidence_threshold:
+            # Get the coordinates of the bounding box
+            box = detections[0, 0, i, 3:7] * np.array([w, h, w, h])
+            (startX, startY, endX, endY) = box.astype("int")
 
-    # Check if the image is gender-biased or not
-    total_faces = len(faces)
-    if total_faces == 0:
-        gender_bias_confidence = 0.0
-    else:
-        gender_bias_confidence = abs(male_count - female_count) / total_faces
+            # Crop the face region from the image
+            face = image[startY:endY, startX:endX]
 
-    # Return the male and female count and the gender bias confidence score
-    return male_count, female_count, gender_bias_confidence
+            # Classify the gender of the face using DeepFace
+            try:
+                result = DeepFace.analyze(face, actions=['gender'], enforce_detection=False)
+                gender = result[0]['gender']
+                if gender == 'Man':
+                    male_count += 1
+                elif gender == 'Woman':
+                    female_count += 1
+            except ValueError:
+                # Face could not be detected or gender prediction failed
+                pass
 
+    # Calculate gender bias confidence
+    total_count = male_count + female_count
+    confidence = max(male_count, female_count) / total_count if total_count > 0 else 0
 
-# In[9]:
-
+    # Return the gender counts and confidence
+    return male_count, female_count, confidence 
 
 def extract_image_links(url):
     response = requests.get(url)
@@ -166,56 +166,54 @@ def extract_image_links(url):
     return img_links, soup
 
 
-# In[ ]:
-
-
-###Combained Code
-
-
-# In[12]:
-
-
-# Main function to run the program
-def imageexecution(url):
-    print('Image File Entered URL:'+ url)
+# Main function
+def main():
     # The gender model architecture
-  
     GENDER_MODEL = 'weights/gender_net.caffemodel'
     # The gender model pre-trained weights
-    GENDER_PROTO = 'weights/gender_deploy.prototxt'
-    # Each Caffe Model impose the shape of the input image also image preprocessing is required like mean
-    # substraction to eliminate the effect of illunination changes
-    MODEL_MEAN_VALUES = (78.4263377603, 87.7689143744, 114.895847746)
-    # Represent the gender classes
-    GENDER_LIST = ['Male', 'Female']
+    GENDER_PROTO = 'weights/deploy_gender.prototxt'
     # face detection model files
-    FACE_PROTO = "weights/deploy.prototxt"
+    FACE_PROTO = "weights/deploy.prototxt.txt"
     FACE_MODEL = "weights/res10_300x300_ssd_iter_140000_fp16.caffemodel"
+    # Download the Haar cascade XML file for face detection
+    #cascade_file = "weights/haarcascade_frontalface_default.xml"
+
+    # Load the Haar cascade for face detection
+    #face_cascade = cv2.CascadeClassifier(cascade_file)
 
     # load face detection Caffe model
     face_net_main = cv2.dnn.readNetFromCaffe(FACE_PROTO, FACE_MODEL)
-    # Load gender prediction model
-    gender_net_main = cv2.dnn.readNetFromCaffe(GENDER_MODEL, GENDER_PROTO)
 
-    # Enter the webpage URL to extract image links
-   # url = request.form['urlName']
-    # Get all the image links
-    extracted_links, soup = extract_image_links(url)
-    for image_url in extracted_links:
+    # load gender Caffe model
+    gender_net_main = cv2.dnn.readNetFromCaffe(GENDER_PROTO, GENDER_MODEL)
+
+    # Get the URL from the user
+    url = input("Enter the URL of the webpage containing the images: ")
+
+    # Extract image links from the webpage
+    img_links, soup = extract_image_links(url)
+
+    # Process each image
+    for i, img_link in enumerate(img_links):
+        print(f"Processing image {i+1}/{len(img_links)}")
+
         # Download the image
-        image = download_image(image_url)
+        image = download_image(img_link)
 
-        # If the image could not be downloaded, move on to the next image
+        # If the image download fails, skip to the next image
         if image is None:
             continue
 
         # Detect faces and genders in the image
-        male_count, female_count, confidence = get_gender_count(image, face_net_main, gender_net_main,
-                                                                confidence_threshold=0.5)
+        male_count, female_count, confidence = get_gender_count(image, face_net_main, gender_net_main)
 
-        # Print the results for the current image
-        print("Image URL:", image_url)
-        print("Male count:", male_count)
-        print("Female count:", female_count)
-        print("Confidence:", confidence)
+        # Display the results
+        print("Gender Count:")
+        print(f"Male: {male_count}")
+        print(f"Female: {female_count}")
+        print(f"Gender Bias Confidence: {confidence}")
 
+
+# Run the program
+if __name__ == "__main__":
+    main()
