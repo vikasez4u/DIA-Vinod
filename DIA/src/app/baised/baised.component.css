@@ -10,32 +10,62 @@
 
 .apptitlecontainer{
   color:black;
-  padding-left: 50px;
+  padding-left: 20px;
   font-size: 36px;
   font-weight: 700;
   line-height: 2;
   font-family: Segoe UI;
 }
 
+.sub-header{
+  box-sizing: border-box;
+  flex-direction: row;
+  height: 40px;
+  z-index: 999;
+  background:#ADBDB6;
+  overflow:hidden;
+  width: 100%;
+  text-align: left;
+}
+.sub-header-text{
+  color: #061A1E;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 40px;
+  vertical-align: middle;
+  font-family: Segoe UI;
+  padding-left: 20px;
+}
+
 .form-header{
   flex-direction: row;
   box-sizing: border-box;
-  background-color: #fff;
-  color: #212529;
+  background-color: #ADBDB6;
+  color: #061A1E;
   height: 50px;
-  margin-top: 50px;
-  margin-bottom: 35px;
+  margin-top: 70px;
+  margin-left: 20px;
+  margin-right: 20px;
   padding-left: 15px;
-  line-height: 0.5;
-  font-size: 1rem;
+  line-height: 50px;
+  vertical-align: middle;
+  font-size: 16px;
   font-family: Segoe UI;
-  border-radius: 40px;
+  outline: 1px solid #ADBDB6;
+  text-align: center;
 }
 
 label{
   font-size: 15px;
   font-weight: 500;
   font-family: Tahoma;
+  color: #F5FBEF;
+}
+
+.required-field:after{
+  content:" *";
+  color: red;
+  display:inline;
 }
 
 .panel-footer{
@@ -141,9 +171,11 @@ td, th {
     width: fit-content;
 }
 
-form{
-    margin: 0;
-    padding:10vmax;
+
+.form-outline{
+  outline: 1px solid #ADBDB6;
+  margin-left: 20px;
+  margin-right: 20px;
 }
 
 input{
@@ -205,3 +237,17 @@ select{
     background-color: white;
     color: black
   }
+
+.body-footer{
+  text-align: right;
+  margin-top: 110px;
+  height: 40px;
+  background-color: #061A1E;
+}
+
+.body-footer-text{
+  color: #F5FBEF;
+  padding-right: 20px;
+  line-height: 40px;
+  vertical-align: middle;
+}

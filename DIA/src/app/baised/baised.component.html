@@ -2,32 +2,34 @@
   <div class="header">
     <a class="apptitlecontainer">Digital Inclusivity Auditor</a>
   </div>
+  <div class="sub-header">
+    <span class="sub-header-text">Home</span>
+  </div>
 	<div ng-controller="MainCtrl">
-		     <form ngNoForm class="grid" action="/result" method="POST">
-           <div style="text-align: center;">
-             <h2>Evaluate Your Digital Content</h2>
-           </div>
-           <label>
-              URL
-              <span style="color: red;">*</span>
-            </label>
-            <input type="text" [(ngModel)]="name" style="width: auto;" id="urlNameId" name="urlName" placeholder={{url}} required>
-            <label>
-              Model
-              <span style="color: red;">*</span>
-            </label>
-            <select [(ngModel)]="selectedElement" id="selectedElement" name="selectedElement" required>
-              <ng-container *ngFor="let type of types">
-                <option *ngIf="type.id<0" [ngValue]="type.Name" disabled>{{type.Name}}</option>
-                <option *ngIf="type.id>0" id="model" name="model" [ngValue]="type.Name" value="type.Name">{{type.Name}}</option>
-              </ng-container>
-            </select>
-             <div class="panel-footer">
-               <div class="pull-right">
-                 <input class="btn btn-success float-right" type="Submit" value="Submit"/>
-               </div>
-               <input (click)="handleClear()" class="btn btn-primary" type="button" value="Reset"/>
-             </div>
-         </form>
+    <div class="form-header">
+       <h2>Evaluate Your Digital Content</h2>
     </div>
+    <div class="form-outline">
+      <form ngNoForm class="grid" action="/result" method="POST">
+        <label class="required-field">URL</label>
+        <input type="text" [(ngModel)]="name" style="width: auto;" id="urlNameId" name="urlName" placeholder={{url}} required>
+        <label class="required-field">Model</label>
+        <select [(ngModel)]="selectedElement" id="selectedElement" name="selectedElement" required>
+          <ng-container *ngFor="let type of types">
+            <option *ngIf="type.id<0" [ngValue]="type.Name" disabled>{{type.Name}}</option>
+            <option *ngIf="type.id>0" id="model" name="model" [ngValue]="type.Name" value="type.Name">{{type.Name}}</option>
+          </ng-container>
+        </select>
+        <div class="panel-footer">
+           <div class="pull-right">
+             <input class="btn btn-success float-right" type="Submit" value="Submit"/>
+          </div>
+          <input (click)="handleClear()" class="btn btn-primary" type="button" value="Reset"/>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="body-footer">
+    <span class="body-footer-text">© 2023 Accenture. All Rights Reserved.</span>
+  </div>
 </div>
