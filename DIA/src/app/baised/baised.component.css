@@ -20,16 +20,16 @@
 .form-header{
   flex-direction: row;
   box-sizing: border-box;
-  background-color: white;
-  color: black;
+  background-color: #fff;
+  color: #212529;
   height: 50px;
+  margin-top: 50px;
   margin-bottom: 35px;
   padding-left: 15px;
-  line-height: 1.5;
-  font-size: 15px;
-  font-weight: 500;
+  line-height: 0.5;
+  font-size: 1rem;
   font-family: Segoe UI;
-  border-radius: 15px;
+  border-radius: 40px;
 }
 
 label{
@@ -156,12 +156,8 @@ select{
     padding:1vmax;
     border: 1px solid #dddddd;
     outline: none;
-    letter-spacing: 3px;
 }
 
-option{
-    letter-spacing: 3px;
-}
 
 .file_submit{
   margin-top: 1vmax;

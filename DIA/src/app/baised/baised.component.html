@@ -18,7 +18,8 @@
             </label>
             <select [(ngModel)]="selectedElement" id="selectedElement" name="selectedElement" required>
               <ng-container *ngFor="let type of types">
-                <option id="model" name="model" [ngValue]="type.Name" value="type.Name">{{type.Name}}</option>
+                <option *ngIf="type.id<0" [ngValue]="type.Name" disabled>{{type.Name}}</option>
+                <option *ngIf="type.id>0" id="model" name="model" [ngValue]="type.Name" value="type.Name">{{type.Name}}</option>
               </ng-container>
             </select>
              <div class="panel-footer">

@@ -19,7 +19,7 @@ export class BaisedComponent {
     }
 
     types:any[]=[
-      {id:0, Name:'Select any value'},
+      {id:-1, Name:'Select any value'},
       {id:1, Name:'Image'},
       {id:2, Name:'Text'}
     ];
