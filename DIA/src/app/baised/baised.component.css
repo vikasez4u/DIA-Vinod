@@ -17,33 +17,13 @@
   font-family: Segoe UI;
 }
 
-.sub-header{
-  box-sizing: border-box;
-  flex-direction: row;
-  height: 40px;
-  z-index: 999;
-  background:#ADBDB6;
-  overflow:hidden;
-  width: 100%;
-  text-align: left;
-}
-.sub-header-text{
-  color: #061A1E;
-  font-size: 16px;
-  font-weight: 700;
-  line-height: 40px;
-  vertical-align: middle;
-  font-family: Segoe UI;
-  padding-left: 20px;
-}
-
 .form-header{
   flex-direction: row;
   box-sizing: border-box;
   background-color: #ADBDB6;
   color: #061A1E;
   height: 50px;
-  margin-top: 70px;
+  margin-top: 110px;
   margin-left: 20px;
   margin-right: 20px;
   padding-left: 15px;
