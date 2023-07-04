@@ -1,53 +1,703 @@
-<html>
-	<head>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.8/angular.min.js">
-    </script>
-	</head>
-	<title>RESULT</title>
-	<body class="index">
+<!-- TAB CONTROLLERS -->
+<input id="panel-1-ctrl"
+       class="panel-radios" type="radio" name="tab-radios" checked>
+<input id="panel-2-ctrl"
+       class="panel-radios" type="radio" name="tab-radios">
+<input id="panel-3-ctrl"
+       class="panel-radios" type="radio" name="tab-radios">
+<input id="nav-ctrl"
+       class="panel-radios" type="checkbox" name="nav-checkbox">
 
-		<form ngNoForm class="grid" action="/index" method="get" >
+<header id="introduction">
+  <h1>Digital Inclusivity Auditor</h1>
+</header>
 
-				<div class="whitesmoke" style="display: grid;text-align: center;font-size: medium;"	>
-					<h2> Entered Your Url : {{url}} </h2>
+<!-- TABS LIST -->
+<ul id="tabs-list">
+    <!-- MENU TOGGLE -->
+    <label id="open-nav-label" for="nav-ctrl"></label>
+    <li id="li-for-panel-1">
+      <label class="panel-label"
+             for="panel-1-ctrl">Text Results</label>
+    </li><!--INLINE-BLOCK FIX
+ --><li id="li-for-panel-2">
+      <label class="panel-label"
+             for="panel-2-ctrl">Alt Text Results</label>
+    </li><!--INLINE-BLOCK FIX
+ --><li id="li-for-panel-3">
+      <label class="panel-label"
+             for="panel-3-ctrl">Image Text Results</label>
+    </li>
+    <label id="close-nav-label" for="nav-ctrl">Close</label>
+</ul>
 
-					<h2 style="font-style:bold;"> Validating text </h2>
+<!-- THE PANELS -->
+<article id="panels">
+  <div class="container">
+    <section id="panel-1">
+      <div class="progress-container">
+        <div class="progress-bar" id="myBar"></div>
+      </div>
+      <main>
+        <h1>Text Results</h1>
+         <p>
+                            {% if biased_results %}
+                                    <div class="result">
+                                        <!--<h2>Text Results</h2>-->
+                                        <ul>
+                                            {% for result in biased_results %}
+                                            <li>{{ result[0] }}: {{ result[1] | safe }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                {% else %}
+                                    <div class="result">
+                                        <p>No biased sentences found in the text.</p>
+                                    </div>
+                                {% endif %}
+    </p>
+      </main>
+    </section>
+    <section id="panel-2">
+      <main>
+        <h1>Alt Text Results</h1>
+        <p>
+                           {% if biased_alt_results %}
+                                    <div class="result">
+                                       <!-- <h2>Alt Text Results</h2>-->
+                                        <ul>
+                                            {% for alt_result in biased_alt_results %}
+                                            <li>{{ alt_result[0] }}: {{ alt_result[1] | safe }}</li>
+                            <li><a style="color: greenyellow;" href="{{ alt_result[2] }}">{{ alt_result[2] }}</a></li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                {% else %}
+                                    <div class="result">
+                                        <p>No biased alternative texts found.</p>
+                                    </div>
+                                {% endif %}
+    </p>
+      </main>
+    </section>
+    <section id="panel-3">
+      <main>
+        <h1>Image Text Results</h1>
+         <p>
+                            {% if biased_img_results %}
+                                    <div class="result">
+                                      <!--  <h2>Image Text Results</h2>-->
+                                        <ul>
+                                            {% for img_result in biased_img_results %}
+                                            <li>{{ img_result[0] }}: {{ img_result[1] | safe }}</li>
+                            <li><a style="color: greenyellow;" href="{{ img_result[2] }}">{{ img_result[2] }}</a></li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                {% else %}
+                                    <div class="result">
+                                        <p>No biased image texts found.</p>
+                                    </div>
+                                {% endif %}
+    </p>
+      </main>
+    </section>
+  </div>
+</article>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.8/angular.min.js">
+</script>
 
-						<h2> Biased words  : {{biased_words}} </h2>
+<style>
 
-						<h2>Biased Sentences</h2>
+.progress-container {
+  width: 81+%;
+  height: 8px;
+  background: #ccc;
+}
 
-						<h1>{{biased_sentences[0]}}</h1>
-						<h1>{{biased_sentences[1]}}</h1>
-						<h1>{{biased_sentences[2]}}</h1>
+.progress-bar {
+  height: 8px;
+  background: #04AA6D;
+  width: 0%;
+}
+<!--Page Loader-->
+ .lds-grid {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+.lds-grid div {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #fff;
+  animation: lds-grid 1.2s linear infinite;
+}
+.lds-grid div:nth-child(1) {
+  top: 8px;
+  left: 8px;
+  animation-delay: 0s;
+}
+.lds-grid div:nth-child(2) {
+  top: 8px;
+  left: 32px;
+  animation-delay: -0.4s;
+}
+.lds-grid div:nth-child(3) {
+  top: 8px;
+  left: 56px;
+  animation-delay: -0.8s;
+}
+.lds-grid div:nth-child(4) {
+  top: 32px;
+  left: 8px;
+  animation-delay: -0.4s;
+}
+.lds-grid div:nth-child(5) {
+  top: 32px;
+  left: 32px;
+  animation-delay: -0.8s;
+}
+.lds-grid div:nth-child(6) {
+  top: 32px;
+  left: 56px;
+  animation-delay: -1.2s;
+}
+.lds-grid div:nth-child(7) {
+  top: 56px;
+  left: 8px;
+  animation-delay: -0.8s;
+}
+.lds-grid div:nth-child(8) {
+  top: 56px;
+  left: 32px;
+  animation-delay: -1.2s;
+}
+.lds-grid div:nth-child(9) {
+  top: 56px;
+  left: 56px;
+  animation-delay: -1.6s;
+}
+@keyframes lds-grid {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+<!-- Page Loader-->
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400|Inconsolata);
+ul#tabs-list {
+  list-style: none;
+  text-align: center;
+  border-bottom: 1px solid darkslategray;
+  margin: 0;
+  padding: 0;
+}
+
+label.panel-label {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  display: block;
+  width: 100%;
+  color: #bdc3c7;
+  cursor: pointer;
+  background-color: #ecf0f1;
+  transition-property: background-color, color;
+  transition-duration: 200ms;
+}
+label.panel-label:hover {
+  color: #c0392b;
+}
+
+#panels {
+  background-color: #2f4f4f;
+}
+#panels .container {
+  margin: 0 auto;
+  width: 90%;
+}
+#panels section header label.panel-label {
+  padding: 12px 24px;
+  box-sizing: border-box;
+}
+#panels section main {
+  box-sizing: border-box;
+  max-height: 0;
+  opacity: 0;
+  transition: opacity 600ms;
+  overflow-y: hidden;
+}
+
+#panel-1-ctrl:checked ~ #panels #panel-1 main {
+  max-height: initial;
+  opacity: 1;
+  padding: 48px 24px;
+}
+
+#panel-2-ctrl:checked ~ #panels #panel-2 main {
+  max-height: initial;
+  opacity: 1;
+  padding: 48px 24px;
+}
+
+#panel-3-ctrl:checked ~ #panels #panel-3 main {
+  max-height: initial;
+  opacity: 1;
+  padding: 48px 24px;
+}
+
+#panel-4-ctrl:checked ~ #panels #panel-4 main {
+  max-height: initial;
+  opacity: 1;
+  padding: 48px 24px;
+}
+
+#panel-5-ctrl:checked ~ #panels #panel-5 main {
+  max-height: initial;
+  opacity: 1;
+  padding: 48px 24px;
+}
+
+@media all and (max-width: 767px) {
+  #nav-ctrl:checked ~ #tabs-list #li-for-panel-1 {
+    max-height: 46px;
+    opacity: 1;
+  }
+
+  #nav-ctrl:checked ~ #tabs-list #li-for-panel-2 {
+    max-height: 46px;
+    opacity: 1;
+  }
+
+  #nav-ctrl:checked ~ #tabs-list #li-for-panel-3 {
+    max-height: 46px;
+    opacity: 1;
+  }
+
+  #nav-ctrl:checked ~ #tabs-list #li-for-panel-4 {
+    max-height: 46px;
+    opacity: 1;
+  }
+
+  #nav-ctrl:checked ~ #tabs-list #li-for-panel-5 {
+    max-height: 46px;
+    opacity: 1;
+  }
+
+  #open-nav-label {
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    cursor: pointer;
+  }
+
+  #nav-ctrl:checked ~ #tabs-list #open-nav-label {
+    display: none;
+  }
+
+  #close-nav-label {
+    display: block;
+    max-height: 0;
+    overflow-y: hidden;
+    background-color: #444444;
+    color: #ecf0f1;
+    padding: 0px;
+    transition: max-height 200ms;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-size: 12px;
+    line-height: 22px;
+    letter-spacing: 1px;
+  }
+
+  #nav-ctrl:checked ~ #tabs-list #close-nav-label {
+    max-height: 36px;
+    opacity: 1;
+    padding: 12px 24px;
+  }
+
+  #tabs-list {
+    position: relative;
+  }
+  #tabs-list label.panel-label {
+    padding: 12px 0;
+  }
+  #tabs-list #li-for-panel-1 {
+    max-height: 0;
+    overflow-y: hidden;
+    transition: max-height 200ms;
+  }
+  #tabs-list #li-for-panel-2 {
+    max-height: 0;
+    overflow-y: hidden;
+    transition: max-height 200ms;
+  }
+  #tabs-list #li-for-panel-3 {
+    max-height: 0;
+    overflow-y: hidden;
+    transition: max-height 200ms;
+  }
+  #tabs-list #li-for-panel-4 {
+    max-height: 0;
+    overflow-y: hidden;
+    transition: max-height 200ms;
+  }
+  #tabs-list #li-for-panel-5 {
+    max-height: 0;
+    overflow-y: hidden;
+    transition: max-height 200ms;
+  }
+
+  #panel-1-ctrl:checked ~ #tabs-list #li-for-panel-1 {
+    max-height: 46px;
+    opacity: 1;
+  }
+  #panel-1-ctrl:checked ~ #tabs-list #li-for-panel-1 label.panel-label {
+    background-color: white;
+    color: #2f4f4f;
+  }
+
+  #panel-2-ctrl:checked ~ #tabs-list #li-for-panel-2 {
+    max-height: 46px;
+    opacity: 1;
+  }
+  #panel-2-ctrl:checked ~ #tabs-list #li-for-panel-2 label.panel-label {
+    background-color: white;
+    color: #c0392b;
+    background-color: #c0392b;
+    color: white;
+  }
+
+  #panel-3-ctrl:checked ~ #tabs-list #li-for-panel-3 {
+    max-height: 46px;
+    opacity: 1;
+  }
+  #panel-3-ctrl:checked ~ #tabs-list #li-for-panel-3 label.panel-label {
+    background-color: white;
+    color: #c0392b;
+    background-color: #c0392b;
+    color: white;
+  }
+
+  #panel-4-ctrl:checked ~ #tabs-list #li-for-panel-4 {
+    max-height: 46px;
+    opacity: 1;
+  }
+  #panel-4-ctrl:checked ~ #tabs-list #li-for-panel-4 label.panel-label {
+    background-color: white;
+    color: #c0392b;
+    background-color: #c0392b;
+    color: white;
+  }
+
+  #panel-5-ctrl:checked ~ #tabs-list #li-for-panel-5 {
+    max-height: 46px;
+    opacity: 1;
+  }
+  #panel-5-ctrl:checked ~ #tabs-list #li-for-panel-5 label.panel-label {
+    background-color: white;
+    color: #c0392b;
+    background-color: #c0392b;
+    color: white;
+  }
+
+  #panels .container {
+    width: 100%;
+  }
+  #panels section header {
+    display: block;
+  }
+}
+@media all and (min-width: 768px) {
+  #panel-1-ctrl:checked ~ #tabs-list #li-for-panel-1 {
+    pointer-events: none;
+    cursor: default;
+    transform: translate3d(0, 1px, 0);
+    box-shadow: none;
+    border-right: none;
+  }
+  #panel-1-ctrl:checked ~ #tabs-list #li-for-panel-1.last {
+    border-right: 1px solid transparent;
+  }
+  #panel-1-ctrl:checked ~ #tabs-list #li-for-panel-1 + li {
+    border-left: 1px solid #dfdfdf;
+  }
+  #panel-1-ctrl:checked ~ #tabs-list #li-for-panel-1 label.panel-label {
+    background-color: white;
+    color: #2f4f4f;
+    padding-top: 26px;
+  }
+  #panel-1-ctrl:checked ~ #tabs-list #li-for-panel-1 label.panel-label::after {
+    height: 6px;
+  }
+
+  #panel-2-ctrl:checked ~ #tabs-list #li-for-panel-2 {
+    pointer-events: none;
+    cursor: default;
+    transform: translate3d(0, 1px, 0);
+    box-shadow: none;
+    border-right: none;
+  }
+  #panel-2-ctrl:checked ~ #tabs-list #li-for-panel-2.last {
+    border-right: 1px solid transparent;
+  }
+  #panel-2-ctrl:checked ~ #tabs-list #li-for-panel-2 + li {
+    border-left: 1px solid #dfdfdf;
+  }
+  #panel-2-ctrl:checked ~ #tabs-list #li-for-panel-2 label.panel-label {
+    background-color: white;
+    color: #c0392b;
+    padding-top: 26px;
+  }
+  #panel-2-ctrl:checked ~ #tabs-list #li-for-panel-2 label.panel-label::after {
+    height: 6px;
+  }
+
+  #panel-3-ctrl:checked ~ #tabs-list #li-for-panel-3 {
+    pointer-events: none;
+    cursor: default;
+    transform: translate3d(0, 1px, 0);
+    box-shadow: none;
+    border-right: none;
+  }
+  #panel-3-ctrl:checked ~ #tabs-list #li-for-panel-3.last {
+    border-right: 1px solid transparent;
+  }
+  #panel-3-ctrl:checked ~ #tabs-list #li-for-panel-3 + li {
+    border-left: 1px solid #dfdfdf;
+  }
+  #panel-3-ctrl:checked ~ #tabs-list #li-for-panel-3 label.panel-label {
+    background-color: white;
+    color: #c0392b;
+    padding-top: 26px;
+  }
+  #panel-3-ctrl:checked ~ #tabs-list #li-for-panel-3 label.panel-label::after {
+    height: 6px;
+  }
+
+  #panel-4-ctrl:checked ~ #tabs-list #li-for-panel-4 {
+    pointer-events: none;
+    cursor: default;
+    transform: translate3d(0, 1px, 0);
+    box-shadow: none;
+    border-right: none;
+  }
+  #panel-4-ctrl:checked ~ #tabs-list #li-for-panel-4.last {
+    border-right: 1px solid transparent;
+  }
+  #panel-4-ctrl:checked ~ #tabs-list #li-for-panel-4 + li {
+    border-left: 1px solid #dfdfdf;
+  }
+  #panel-4-ctrl:checked ~ #tabs-list #li-for-panel-4 label.panel-label {
+    background-color: white;
+    color: #c0392b;
+    padding-top: 26px;
+  }
+  #panel-4-ctrl:checked ~ #tabs-list #li-for-panel-4 label.panel-label::after {
+    height: 6px;
+  }
+
+  #panel-5-ctrl:checked ~ #tabs-list #li-for-panel-5 {
+    pointer-events: none;
+    cursor: default;
+    transform: translate3d(0, 1px, 0);
+    box-shadow: none;
+    border-right: none;
+  }
+  #panel-5-ctrl:checked ~ #tabs-list #li-for-panel-5.last {
+    border-right: 1px solid transparent;
+  }
+  #panel-5-ctrl:checked ~ #tabs-list #li-for-panel-5 + li {
+    border-left: 1px solid #dfdfdf;
+  }
+  #panel-5-ctrl:checked ~ #tabs-list #li-for-panel-5 label.panel-label {
+    background-color: white;
+    color: #c0392b;
+    padding-top: 26px;
+  }
+  #panel-5-ctrl:checked ~ #tabs-list #li-for-panel-5 label.panel-label::after {
+    height: 6px;
+  }
+
+  ul#tabs-list {
+    text-align: center;
+    border-bottom: 0px solid #dfdfdf;
+  }
+  ul#tabs-list li {
+    display: inline-block;
+    text-align: center;
+    font-size: 0.875em;
+    width: 18%;
+    box-shadow: 0px -2px 2px rgba(0, 0, 0, 0.05);
+    border-right: 1px solid #dfdfdf;
+    position: relative;
+  }
+  ul#tabs-list li:hover {
+    transition: none;
+    border-right: none;
+  }
+  ul#tabs-list li:hover.last {
+    border-right: 1px solid transparent;
+  }
+  ul#tabs-list li:hover + li {
+    border-left: 1px solid #dfdfdf;
+  }
+  ul#tabs-list li label.panel-label {
+    position: relative;
+    padding: 24px 0;
+  }
+  ul#tabs-list li label.panel-label::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    left: 0;
+    bottom: 100%;
+    background-color: #c0392b;
+    height: 0;
+    transition-property: height;
+    transition-duration: 200ms;
+  }
+  ul#tabs-list li label.panel-label:hover {
+    padding-top: 25px;
+  }
+  ul#tabs-list li label.panel-label:hover::after {
+    height: 6px;
+  }
+
+  #open-nav-label,
+#close-nav-label {
+    display: none;
+  }
+
+  #nav-ctrl {
+    display: none;
+  }
+}
+@media all and (min-width: 900px) {
+  main {
+    width: 70%;
+    margin: 0 auto;
+  }
+}
+.panel-radios {
+  position: fixed;
+  left: 50%;
+  top: 10px;
+  width: 20px;
+  opacity: 0.5;
+  z-index: 99;
+}
+.panel-radios:nth-child(1) {
+  transform: translateX(-50px);
+}
+.panel-radios:nth-child(2) {
+  transform: translateX(-30px);
+}
+.panel-radios:nth-child(3) {
+  transform: translateX(-10px);
+}
+.panel-radios:nth-child(4) {
+  transform: translateX(10px);
+}
+.panel-radios:nth-child(5) {
+  transform: translateX(30px);
+}
+.panel-radios:nth-child(6) {
+  top: 30px;
+  transform: translateX(-10px);
+  display: block;
+}
+
+body {
+  background: darkslategray;
+  color: white;
+  font-family: "Open Sans", "Helvetica Neue", Helvetica, sans-serif;
+}
+
+#introduction {
+  width: 90%;
+  margin: 0 auto;
+  padding: 48px 24px;
+  color: white;
+}
+#introduction h1 {
+  font-weight: 300;
+  text-align: center;
+}
+
+main h1 {
+  margin-top: 0;
+  font-weight: 300;
+  color: white;
+}
+main p {
+  line-height: 1.8;
+}
+main hr {
+  margin: 12px 0;
+  border-top: 1px solid #dfdfdf;
+}
+
+label.demo-label {
+  background-color: #c0392b;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 2px;
+  cursor: pointer;
+  display: inline-block;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+label.demo-label:hover {
+  background-color: #e74c3c;
+}
+
+#demo-child-toggle {
+  display: none;
+}
+#demo-child-toggle:checked ~ #demo-parent #demo-child {
+  color: #c0392b;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+#demo-parent {
+  margin-top: 8px;
+}
+
+code,
+pre {
+  color: #c0392b;
+  font-family: Inconsolata, "Andale Mono", Andale, monowidth;
+  background-color: #ecf0f1;
+  border: 1px solid #dfdfdf;
+  border-radius: 2px;
+}
+
+code {
+  padding: 2px 6px;
+}
+
+pre {
+  padding: 12px;
+  line-height: 1.6;
+}
+pre strong {
+  color: #444444;
+  font-weight: normal;
+}
+</style>
 
 
-
-						<h2>Biased alt texts :</h2>
-
-						<table>
-									<thead>
-										<th></th>
-									</thead>
-									<tbody>
-										<tr *ngFor="let biased_alt_text of biased_alt_texts" >
-											<td>{{biased_alt_texts.alt_text}}</td>
-											<td>{{biased_alt_texts.image_link}}</td>
-										</tr>
-									</tbody>
-						</table>
-						<h2> Biased Alt words  : {{biased_alt_words}} </h2>
-
-						<center><input class="submit" id="back" type="Submit" value ="BACK" /></center>
-
-				</div>
-		</form>
-
-        <br>
-        <br>
-
-    </body>
-
-</html>

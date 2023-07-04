@@ -7,8 +7,11 @@ import pytesseract
 from io import BytesIO
 import os
 from urllib.parse import urlparse
-import pandas as pd
-from flask import Flask, render_template, request
+
+from markupsafe import Markup
+
+import image
+from flask import Flask, render_template, request, redirect, url_for
 import pandas as pd
 import bleach
 
@@ -73,7 +76,7 @@ def process_image(image_url):
         # Perform OCR using pytesseract
         text = pytesseract.image_to_string(image)
 
-        return text 
+        return text
     except (requests.exceptions.RequestException, OSError, UnidentifiedImageError) as e:
         print(f'Error processing image {image_url}: {str(e)}')
         return None
@@ -93,7 +96,7 @@ def detect_gender_biased_sentences(text):
                 end = min(i + 6, len(words))
                 trimmed_sentence = ' '.join(words[start:end])
                 #trimmed_sentence = re.sub(r'\b' + re.escape(words[i]) + r'\b', '\033[91m' + words[i] + '\033[0m', trimmed_sentence)
-                trimmed_sentence = re.sub(r'\b' + re.escape(words[i]) + r'\b', r'<span style="color:red">\g<0></span>', trimmed_sentence, flags=re.IGNORECASE)
+                trimmed_sentence = re.sub(r'\b' + re.escape(words[i]) + r'\b', r'<span style="color:orangered">\g<0></span>', trimmed_sentence, flags=re.IGNORECASE)
                 biased_sentences.append(trimmed_sentence)
                 biased_words.append(words[i])
                 break  # Move to the next sentence
@@ -118,7 +121,7 @@ def detect_gender_biased_sentences_img(text):
             end = min(words.index(sentence_biased_words[-1]) + 6, len(words))
             trimmed_sentence = ' '.join(words[start:end])
             trimmed_sentence = re.sub(r'\b' + '|'.join(re.escape(word) for word in sentence_biased_words) + r'\b',
-                                      r'<span style="color:red">\g<0></span>', trimmed_sentence, flags=re.IGNORECASE)
+                                      r'<span style="color:orangered">\g<0></span>', trimmed_sentence, flags=re.IGNORECASE)
             biased_sentences.append(trimmed_sentence)
             biased_words.extend(sentence_biased_words)
 
@@ -164,44 +167,71 @@ def extract_text_from_images(url):
 
 
 def highlight_biased_word(sentence, word):
-    highlighted_sentence = re.sub(r'\b' + word + r'\b', '<span style="color:red">{}</span>'.format(word), sentence, flags=re.IGNORECASE)
+    highlighted_sentence = re.sub(r'\b' + word + r'\b', '<span style="color:orangered">{}</span>'.format(word), sentence, flags=re.IGNORECASE)
     return highlighted_sentence
 
 
 @app.route('/')
-def index():
+@app.route('/static/')
+def hello_world():
     return render_template('index.html')
 
 @app.route('/result', methods=['POST', 'GET'])
 def result():
-    url = request.form['url']
+    url = request.form['urlName']
+    modelType = request.form['selectedElement'].split(':')[1].strip()
+    print(modelType)
+    if modelType == 'Text':
+      # print(modelType)
+      return redirect(url_for('text'), code=307)
+    if modelType == 'Image':
+      # print(modelType)
+      image.imageexecution(url)
+    return None
+
+
+@app.route('/text', methods=['POST'])
+def text():
+    url = request.form['urlName']
+    print('Text File Entered URL : ' + url)
     text = extract_text_from_url(url)
     text_results, biased_words = detect_gender_biased_sentences(text)
     # Remove HTML tags from text_results
     text_results = [bleach.clean(sentence, tags=[], strip=True) for sentence in text_results]
     # Combine biased word and sentence side by side
     biased_results = [(word, highlight_biased_word(sentence, word)) for word, sentence in zip(biased_words, text_results)]
-    
-    #Extract Alt text from the URL 
+
+    #Extract Alt text from the URL
     alt_text = extract_alt_text_from_url(url)
     #alt_text = extract_alt_text_from_url('https://www.goodgoodgood.co/articles/quotes-to-empower-women')
-    #Find the biased terms from the Alt text 
+    #Find the biased terms from the Alt text
     alt_texts, alt_words = detect_gender_biased_alt_texts(alt_text)
-    #Higlight the biased word in the sentence 
+    #Higlight the biased word in the sentence
     biased_alt_results = []
     for (alt_text, image_link), word in zip(alt_texts, alt_words):
         highlighted_text = highlight_biased_word(alt_text, word)
         biased_alt_results.append((word, highlighted_text, image_link))
-    
-    #Extract the text from the image 
+
+    #Extract the text from the image
     biased_img_results = []
     img_texts, img_words, img_link=extract_text_from_images(url)
     for text, link, words in zip(img_texts, img_link, img_words):
         highlighted_text = highlight_biased_word(text, words)
         biased_img_results.append((words, highlighted_text, link))
+    print(biased_results)
+    print(biased_alt_results)
+    print(biased_img_results)
+    return render_template('output.html', **locals())
 
-    return render_template('text_results.html', biased_results=biased_results, biased_alt_results=biased_alt_results, biased_img_results=biased_img_results)
 
+@app.route("/form", methods=["POST", "GET"])
+def page():
+    return render_template("index.html")
+
+@app.route('/index', methods=["POST", "GET"])
+def index():
+    msg1 = "back"
+    return render_template("index.html")
 
 if __name__ == '__main__':
-    app.run() 
+    app.run()
