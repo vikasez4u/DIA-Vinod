@@ -160,7 +160,7 @@ def extract_image_links(url):
     return img_links
 
 # Main function
-def main():
+def main(url):
     # Load the gender model
     GENDER_MODEL = 'weights/gender_net.caffemodel'
     GENDER_PROTO = 'weights/deploy_gender.prototxt'
@@ -170,15 +170,15 @@ def main():
     gender_net = cv2.dnn.readNetFromCaffe(GENDER_PROTO, GENDER_MODEL)
 
     # Get the URL from the user
-    url = input("Enter the URL of the webpage containing the images: ")
+    #url = input("Enter the URL of the webpage containing the images: ")
 
     # Extract image links from the webpage
     img_links = extract_image_links(url)
 
+    biased_alt_results = []
     # Process each image
     for i, img_link in enumerate(img_links):
         print(f"Processing image {i+1}/{len(img_links)}")
-
         # Download the image
         image = download_image(img_link)
 
@@ -214,15 +214,15 @@ def main():
                 print(f"Dominant Race: {max_race_key}")
             else:
                 print("No race detected in the image.")
+
+            biased_alt_results.append((img_link,male_count,female_count,confidence,max_skin_key,max_race_key))
         else:
             print("No faces detected in the image.")
+
+    return biased_alt_results
 
 if __name__ == "__main__":
     main()
 
 
 # In[ ]:
-
-
-
-

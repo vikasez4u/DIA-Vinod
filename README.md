@@ -37,6 +37,7 @@ This Python script performs web scraping on a given web page, extracts the text 
 - beautifulsoup4
 - pillow
 - pytesseract
+- tesseract
 - pandas
 - numpy
 - cv2

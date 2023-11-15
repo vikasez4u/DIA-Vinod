@@ -1,0 +1,260 @@
+
+<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css'>
+
+<script src='https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/textfit/2.4.0/textFit.min.js'></script>
+
+
+<div class="container">
+
+  <h1>Digital Inclusivity Auditor</h1>
+
+    <div class="swiper swiperCarousel">
+
+        <div class="swiper-wrapper">
+          {% for img_result in biased_alt_results %}
+            <div class="swiper-slide">
+                <div class="card">
+                    <img class="avatar" src="{{ img_result[0] }}" />
+                    <svg class="quote-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="125px" height="125px">
+              <path
+                d="M 16.482422 8.9921875 A 1.50015 1.50015 0 0 0 15.943359 9.1074219 C 15.943359 9.1074219 13.068414 10.279429 10.357422 13.464844 C 7.6464301 16.650259 5 21.927419 5 30 A 1.50015 1.50015 0 0 0 5.015625 30.21875 A 8.5 8.5 0 0 0 13.5 39 A 8.5 8.5 0 0 0 13.5 22 A 8.5 8.5 0 0 0 8.7089844 23.480469 C 9.5777265 19.777157 11.122152 17.196657 12.642578 15.410156 C 14.931586 12.720571 17.056641 11.892578 17.056641 11.892578 A 1.50015 1.50015 0 0 0 16.482422 8.9921875 z M 37.482422 8.9921875 A 1.50015 1.50015 0 0 0 36.943359 9.1074219 C 36.943359 9.1074219 34.068414 10.279429 31.357422 13.464844 C 28.64643 16.650259 26 21.927419 26 30 A 1.50015 1.50015 0 0 0 26.015625 30.21875 A 8.5 8.5 0 0 0 34.5 39 A 8.5 8.5 0 0 0 34.5 22 A 8.5 8.5 0 0 0 29.708984 23.480469 C 30.577727 19.777157 32.122152 17.196657 33.642578 15.410156 C 35.931586 12.720571 38.056641 11.892578 38.056641 11.892578 A 1.50015 1.50015 0 0 0 37.482422 8.9921875 z"
+              />
+            </svg>
+                    <div class="header">
+                        <h1 class="name">Gender Count: </h1>
+                    </div>
+                    <div class="title">
+                        <h2 class="title"> Male:  {{ img_result[1] }} </h2>
+                        <h2 class="title"> Female: {{ img_result[2] }} </h2>
+                        <h2 class="title">  Gender Bias Confidence: {{ img_result[3] }} </h2>
+                        <h2 class="title">  Skin Color: {{ img_result[4] }} </h2>
+                        <h2 class="title"> Dominant Race: {{ img_result[5] }} </h2>
+                    </div>
+                </div>
+            </div>
+          {% endfor %}
+        </div>
+
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-pagination"></div>
+    </div>
+</div>
+
+<style>
+
+  @import url("https://fonts.googleapis.com/css2?family=Hammersmith+One&family=Poppins&display=swap");
+
+body {
+  background-color: #d5e1ef;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  width: 100vw;
+  height: 100vh;
+}
+
+#introduction {
+  width: 90%;
+  margin: -60px 0 0 60;
+  padding: 28px 24px 30 30;
+
+  color: Black;
+}
+
+ h1 {
+ margin: -30px 0 0 60;
+  padding: 28px 54px 0 0;
+  text-align: center;
+}
+.container {
+  width: 100%;
+  height: 100%;
+}
+.card {
+  background-color: #f9fafe;
+  width: 550px;
+  height: 45%;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: left;
+  position: relative;
+  padding: 40px 0 0 40px;
+  transition: transform 400ms;
+  opacity: 0.5;
+  box-shadow: none;
+}
+
+.quote-icon {
+  position: absolute;
+  z-index: 0;
+  opacity: 0.05;
+  left: 3%;
+  top: 0;
+}
+
+.avatar {
+  width: 350px;
+  height: 150px;
+  border-radius: 150px;
+  border: 5px solid #f9fafe;
+  box-shadow: 0 0 50px #ccc;
+  position: absolute;
+  top: 0;
+  left: 20%;
+  transform: translate(-50px, 10px);
+  z-index: 1;
+}
+
+.header {
+  margin: 80px 0 0 0;
+  text-align: Left;
+  z-index: 1;
+}
+
+.name {
+  font-family: "Hammersmith One", sans-serif;
+  text-transform: uppercase;
+  font-size: 16px;
+  margin: 3px;
+  padding: 0 5px;
+}
+
+.title {
+  font-family: "Hammersmith One", sans-serif;
+
+  font-size: 14px;
+  font-weight: 400;
+  margin: -1px 0 0 0;
+  padding: 0 5px;
+  ##color: #7ccdc5;
+}
+
+.quote-container {
+  margin: 0;
+  height: 100%;
+  z-index: 1;
+  padding: 15px 30px 30px 30px;
+  overflow: hidden;
+}
+
+.quote {
+  width: 100%;
+  height: 95%;
+  font-family: "Poppins", sans-serif;
+  font-size: 12px;
+  text-align: center;
+  color: #73808c;
+  margin: 0;
+}
+
+.swiper {
+  width: 100%;
+  height: 100%;
+}
+
+.swiper-slide {
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+}
+
+.swiper-slide-active {
+  z-index: 1;
+}
+
+.swiper-slide-active .card {
+  box-shadow: 0 8px 30px -7px #c9dff0;
+  opacity: 1;
+  transform: scale(1.5);
+}
+
+.swiper {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.swiper-button-next:focus,
+.swiper-button-prev:focus {
+  outline: none;
+}
+
+@media (max-height: 400px) {
+  .header {
+    margin: 40px 0 0 0;
+  }
+  .name {
+    font-size: 12px;
+  }
+  .title {
+    font-size: 10px;
+  }
+  .quote-container {
+    padding: 5px 20px 20px 20px;
+  }
+  .quote-icon {
+    width: 75px;
+    height: 75px;
+  }
+  .avatar {
+    width: 100px;
+    height: 100px;
+    transform: translate(-50px, -50px);
+  }
+}
+
+</style>
+
+<script>
+
+  /**
+  Swiper:
+  https://swiperjs.com/
+**/
+const swiper = new Swiper(".swiperCarousel", {
+  slidesPerView: 3,
+  centeredSlides: true,
+  spaceBetween: 10,
+  keyboard: {
+    enabled: true,
+  },
+  loop: true,
+  pagination: {
+    el: ".swiper-pagination",
+  },
+  navigation: {
+    nextEl: ".swiper-button-next",
+    prevEl: ".swiper-button-prev",
+  },
+});
+
+const slides = document.getElementsByClassName("swiper-slide");
+for (const slide of slides) {
+  slide.addEventListener("click", () => {
+    const { className } = slide;
+    if (className.includes("swiper-slide-next")) {
+      swiper.slideNext();
+    } else if (className.includes("swiper-slide-prev")) {
+      swiper.slidePrev();
+    }
+  });
+}
+
+function resizeTextToFit() {
+  const quoteEls = document.getElementsByClassName('quote');
+  for (const el of quoteEls) {
+    el.style.width = el.offsetWidth;
+    el.style.height = el.offsetHeight;
+  }
+  textFit(quoteEls, { maxFontSize: 14 });
+}
+resizeTextToFit();
+addEventListener("resize", (event) => {
+  resizeTextToFit();
+});
+
+</script>

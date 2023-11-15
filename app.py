@@ -10,7 +10,7 @@ from urllib.parse import urlparse
 
 from markupsafe import Markup
 
-import image
+import Image_Mode_Race_colour as imageMode
 from flask import Flask, render_template, request, redirect, url_for
 import pandas as pd
 import bleach
@@ -69,7 +69,7 @@ def process_image(image_url):
 
         # Load the image from URL
         response = requests.get(image_url)
-        print(response)
+       # print(response)
         #print(response.content)
         image = Image.open(BytesIO(response.content))
 
@@ -186,8 +186,9 @@ def result():
       return redirect(url_for('text'), code=307)
     if modelType == 'Image':
       # print(modelType)
-      image.imageexecution(url)
-    return None
+      biased_alt_results = imageMode.main(url)
+      print(biased_alt_results)
+      return render_template('imageOp.html', **locals())
 
 
 @app.route('/text', methods=['POST'])

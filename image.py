@@ -141,8 +141,8 @@ def image_resize(image, width = None, height = None, inter = cv2.INTER_AREA):
 
 
 # Main function
-def main():
-    
+def main(url):
+
     # The gender model architecture
     # https://drive.google.com/open?id=1W_moLzMlGiELyPxWiYQJ9KFaXroQ_NFQ
     GENDER_PROTO = 'weights/deploy_gender.prototxt'
@@ -155,7 +155,7 @@ def main():
     # Represent the gender classes
     GENDER_LIST = ['Male', 'Female']
     # https://raw.githubusercontent.com/opencv/opencv/master/samples/dnn/face_detector/deploy.prototxt
-    FACE_PROTO = "weights/deploy.prototxt.txt"
+    FACE_PROTO = "weights/deploy.prototxt"
     # https://raw.githubusercontent.com/opencv/opencv_3rdparty/dnn_samples_face_detector_20180205_fp16/res10_300x300_ssd_iter_140000_fp16.caffemodel
     FACE_MODEL = "weights/res10_300x300_ssd_iter_140000_fp16.caffemodel"
     # Load the Haar cascade for face detection
@@ -168,7 +168,7 @@ def main():
     gender_net_main = cv2.dnn.readNetFromCaffe(GENDER_PROTO, GENDER_MODEL)
 
     # Get the URL from the user
-    url = input("Enter the URL of the webpage containing the images: ")
+   # url = input("Enter the URL of the webpage containing the images: ")
 
     # Extract image links from the webpage
     img_links, soup = extract_image_links(url)
@@ -193,7 +193,8 @@ def main():
         print(f"Male: {male_count}")
         print(f"Female: {female_count}")
         print(f"Gender Bias Confidence: {confidence}")
-        
+
+    return male_count, female_count, confidence
 
 
 # Run the program
