@@ -1,0 +1,57 @@
+ul li{
+    list-style: none;
+}
+
+ul li a{
+  text-decoration: none;
+}
+
+ul{
+    display: flex;
+    justify-content: flex-start;
+    background-color: darkslategray;
+    height: 40px;
+}
+
+a{
+  line-height: 40px;
+  color: white;
+  margin: 0 20px;
+  padding: 10px 10px;
+}
+
+li{
+  background-color: Black;
+}
+
+
+.active{
+  background-color: #ADBDB6;
+}
+
+.apptitlecontainer{
+  color:black;
+  padding-left: 20px;
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 2;
+  font-family: Segoe UI;
+  text-align: center;
+}
+
+
+#leftbox {
+    float:left;
+    width:25%;
+    height:100px;
+}
+#middlebox{
+    float:left;
+    width:50%;
+    height:100px;
+}
+#rightbox{
+    float:right;
+    width:25%;
+    height:100px;
+}

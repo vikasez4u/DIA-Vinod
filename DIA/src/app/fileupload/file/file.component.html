@@ -1,0 +1,49 @@
+<div class="container m-5 ">
+  <div class="form-header">
+  <h2 class="text-primary text-center">File Upload</h2>
+  </div>
+  <div class="form-file-upload">
+  <input type="file" [(ngModel)]="filename" class="file-input" (change)="onChange($event)"  accept=".xlsx" #fileUpload />
+  </div>
+  <div class="text-center form-file-details" *ngIf="file">
+    <section class="file-info">
+      File details:
+      <ul>
+        <li>Name: {{file.name}}</li>
+        <li>Type: {{file.type}}</li>
+        <li>Size: {{file.size}} bytes</li>
+      </ul>
+    </section>
+
+    <button (click)="onUpload()" class="btn btn-primary">Upload the file</button>
+
+    <section [ngSwitch]="status">
+      <p *ngSwitchCase="'uploading'">⏳ Uploading...</p>
+      <p *ngSwitchCase="'success'">✅ Done!</p>
+      <p *ngSwitchCase="'fail'">❌ Error!</p>
+      <p *ngSwitchDefault>😶 Waiting to upload...</p>
+    </section>
+  </div>
+  <div class="row form-excel-data outer-wrapper">
+     <h4 style="text-align: center " *ngIf="users.length==0">No Data Found</h4>
+    <div class="col-sm-12 table-wrapper">
+      <table class="table" #table *ngIf="users.length>0">
+
+            <tbody>
+              <tr>
+                <th scope="col">S.No</th>
+                <th scope="col">Biased Words</th>
+              </tr>
+            </tbody>
+
+            <tbody>
+                <tr *ngFor="let u of users;  let i =index">
+                    <td>{{i+1}}</td>
+                    <td>{{u.word}}</td>
+                </tr>
+            </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
