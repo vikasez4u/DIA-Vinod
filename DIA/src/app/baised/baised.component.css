@@ -234,3 +234,15 @@ select{
   line-height: 40px;
   vertical-align: middle;
 }
+
+.col {
+  float: left;
+  width: 30%;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}

@@ -8,8 +8,6 @@ from io import BytesIO
 import os
 from urllib.parse import urlparse
 
-from markupsafe import Markup
-
 import Image_Mode_Race_colour as imageMode
 from flask import Flask, render_template, request, redirect, url_for
 import pandas as pd
@@ -64,13 +62,13 @@ def process_image(image_url):
 
         # Skip processing if the file extension is not in the allowed formats
         if ext not in ALLOWED_FORMATS:
-            #print(f'Skipping image {image_url}: Unsupported format')
+            # print(f'Skipping image {image_url}: Unsupported format')
             return None
 
         # Load the image from URL
         response = requests.get(image_url)
-       # print(response)
-        #print(response.content)
+        # print(response)
+        # print(response.content)
         image = Image.open(BytesIO(response.content))
 
         # Perform OCR using pytesseract
@@ -82,7 +80,7 @@ def process_image(image_url):
         return None
 
 def detect_gender_biased_sentences(text):
-    df = pd.read_excel('gender_biased_words.xlsx', sheet_name='word')
+    df = pd.read_excel('E:/Projects/DIAWorkspace/DIA/uploads/gender_biased_words.xlsx', sheet_name='word')
     gender_keywords = df['word'].tolist()
     sentences = re.split(r'(?<!\w\.\w.)(?<![A-Z][a-z]\.)(?<=\.|\?)\s', text)  # Split text into sentences
     biased_sentences = []
@@ -95,7 +93,7 @@ def detect_gender_biased_sentences(text):
                 start = max(0, i - 5)
                 end = min(i + 6, len(words))
                 trimmed_sentence = ' '.join(words[start:end])
-                #trimmed_sentence = re.sub(r'\b' + re.escape(words[i]) + r'\b', '\033[91m' + words[i] + '\033[0m', trimmed_sentence)
+              # trimmed_sentence = re.sub(r'\b' + re.escape(words[i]) + r'\b', '\033[91m' + words[i] + '\033[0m', trimmed_sentence)
                 trimmed_sentence = re.sub(r'\b' + re.escape(words[i]) + r'\b', r'<span style="color:orangered">\g<0></span>', trimmed_sentence, flags=re.IGNORECASE)
                 biased_sentences.append(trimmed_sentence)
                 biased_words.append(words[i])
@@ -103,7 +101,7 @@ def detect_gender_biased_sentences(text):
     return biased_sentences, biased_words
 
 def detect_gender_biased_sentences_img(text):
-    df = pd.read_excel('gender_biased_words.xlsx', sheet_name='word')
+    df = pd.read_excel('E:/Projects/DIAWorkspace/DIA/uploads/gender_biased_words.xlsx', sheet_name='word')
     gender_keywords = df['word'].tolist()
     sentences = re.split(r'(?<!\w\.\w.)(?<![A-Z][a-z]\.)(?<=\.|\?)\s', text)  # Split text into sentences
     biased_sentences = []
@@ -129,7 +127,7 @@ def detect_gender_biased_sentences_img(text):
 
 
 def detect_gender_biased_alt_texts(alt_texts):
-    df = pd.read_excel('gender_biased_words.xlsx', sheet_name='word')
+    df = pd.read_excel('E:/Projects/DIAWorkspace/DIA/uploads/gender_biased_words.xlsx', sheet_name='word')
     gender_keywords = df['word'].tolist()
     biased_alt_texts = []
     biased_words = []
@@ -179,17 +177,30 @@ def hello_world():
 @app.route('/result', methods=['POST', 'GET'])
 def result():
     url = request.form['urlName']
-    modelType = request.form['selectedElement'].split(':')[1].strip()
-    print(modelType)
-    if modelType == 'Text':
-      # print(modelType)
-      return redirect(url_for('text'), code=307)
-    if modelType == 'Image':
-      # print(modelType)
-      biased_alt_results = imageMode.main(url)
-      print(biased_alt_results)
-      return render_template('imageOp.html', **locals())
+    modeltypetextcontent=''
+    modeltypeimagecontent=''
+    # modelType = request.form['selectedElement'].split(':')[1].strip()
+    try:
+        if request.form['Text']:
+           modeltypetextcontent = request.form['Text']
+    except:
+        print('Text option not selected')
 
+    try:
+        if request.form['Image']:
+          modeltypeimagecontent = request.form['Image']
+    except:
+        print('Image option not selected')
+
+    if modeltypetextcontent == 'Text':
+
+      biased_results, biased_alt_results, biased_img_results = text()
+
+      return render_template('output.html', **locals())
+    if modeltypeimagecontent == 'Image':
+      biased_alt_results = imageMode.main(url)
+      # print(biased_alt_results)
+      return render_template('imageOp.html', **locals())
 
 @app.route('/text', methods=['POST'])
 def text():
@@ -202,18 +213,18 @@ def text():
     # Combine biased word and sentence side by side
     biased_results = [(word, highlight_biased_word(sentence, word)) for word, sentence in zip(biased_words, text_results)]
 
-    #Extract Alt text from the URL
+    # Extract Alt text from the URL
     alt_text = extract_alt_text_from_url(url)
-    #alt_text = extract_alt_text_from_url('https://www.goodgoodgood.co/articles/quotes-to-empower-women')
-    #Find the biased terms from the Alt text
+    # alt_text = extract_alt_text_from_url('https://www.goodgoodgood.co/articles/quotes-to-empower-women')
+    # Find the biased terms from the Alt text
     alt_texts, alt_words = detect_gender_biased_alt_texts(alt_text)
-    #Higlight the biased word in the sentence
+    # Higlight the biased word in the sentence
     biased_alt_results = []
     for (alt_text, image_link), word in zip(alt_texts, alt_words):
         highlighted_text = highlight_biased_word(alt_text, word)
         biased_alt_results.append((word, highlighted_text, image_link))
 
-    #Extract the text from the image
+    # Extract the text from the image
     biased_img_results = []
     img_texts, img_words, img_link=extract_text_from_images(url)
     for text, link, words in zip(img_texts, img_link, img_words):
@@ -222,7 +233,7 @@ def text():
     print(biased_results)
     print(biased_alt_results)
     print(biased_img_results)
-    return render_template('output.html', **locals())
+    return biased_results, biased_alt_results, biased_img_results # render_template('output.html', **locals())
 
 
 @app.route("/form", methods=["POST", "GET"])

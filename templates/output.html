@@ -1,17 +1,36 @@
-
 <!-- TAB CONTROLLERS -->
 <input id="panel-1-ctrl"
-       class="panel-radios" type="radio" name="tab-radios" checked>
+       class="panel-radios" type="radio" name="tab-radios" checked hidden="hidden">
 <input id="panel-2-ctrl"
-       class="panel-radios" type="radio" name="tab-radios">
+       class="panel-radios" type="radio" name="tab-radios" hidden="hidden">
 <input id="panel-3-ctrl"
-       class="panel-radios" type="radio" name="tab-radios">
+       class="panel-radios" type="radio" name="tab-radios" hidden="hidden">
+<input id="panel-4-ctrl"
+       class="panel-radios" type="radio" name="tab-radios" hidden="hidden">
 <input id="nav-ctrl"
-       class="panel-radios" type="checkbox" name="nav-checkbox">
-
+       class="panel-radios" type="checkbox" name="nav-checkbox" hidden="hidden">
 <header id="introduction">
   <h1>Digital Inclusivity Auditor</h1>
 </header>
+
+<!--<div>
+  <div id = "leftbox">
+       <ul class="ulh">
+          <li class="lih">
+              <a routerLink="/" >Home</a>
+          </li>
+         </ul>
+  </div>
+   <div id = "middlebox">
+          <a class="apptitlecontainer">Digital Inclusivity Auditor</a>
+  </div>
+  <div id = "rightbox">
+     <ul>
+          <li>
+
+          </li>
+      </ul>
+</div>-->
 
 <!-- TABS LIST -->
 <ul id="tabs-list">
@@ -28,6 +47,10 @@
  --><li id="li-for-panel-3">
       <label class="panel-label"
              for="panel-3-ctrl">Image Text Results</label>
+    </li>
+    <li id="li-for-panel-4" style="margin-left:-5px">
+      <label class="panel-label"
+             for="panel-4-ctrl">Summary</label>
     </li>
     <label id="close-nav-label" for="nav-ctrl">Close</label>
 </ul>
@@ -84,6 +107,28 @@
     <section id="panel-3">
       <main>
         <h1>Image Text Results</h1>
+         <p>
+                            {% if biased_img_results %}
+                                    <div class="result">
+                                      <!--  <h2>Image Text Results</h2>-->
+                                        <ul>
+                                            {% for img_result in biased_img_results %}
+                                            <li>{{ img_result[0] }}: {{ img_result[1] | safe }}</li>
+                            <li><a style="color: greenyellow;" href="{{ img_result[2] }}">{{ img_result[2] }}</a></li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                {% else %}
+                                    <div class="result">
+                                        <p>No biased image texts found.</p>
+                                    </div>
+                                {% endif %}
+    </p>
+      </main>
+    </section>
+    <section id="panel-4">
+      <main>
+        <h1>Summary</h1>
          <p>
                             {% if biased_img_results %}
                                     <div class="result">
@@ -221,7 +266,7 @@ label.panel-label:hover {
 }
 #panels .container {
   margin: 0 auto;
-  width: 90%;
+  width: 95%;
 }
 #panels section header label.panel-label {
   padding: 12px 24px;
@@ -229,10 +274,15 @@ label.panel-label:hover {
 }
 #panels section main {
   box-sizing: border-box;
-  max-height: 0;
   opacity: 0;
   transition: opacity 600ms;
-  overflow-y: hidden;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  border: 1px solid black;
+  border-collapse: separate;
+  border-spacing: 0px;
+  margin-left: 190px;
+  max-height: 0px;
 }
 
 #panel-1-ctrl:checked ~ #panels #panel-1 main {
@@ -554,7 +604,7 @@ label.panel-label:hover {
   }
   ul#tabs-list li label.panel-label {
     position: relative;
-    padding: 24px 0;
+    padding: 24px 0px;
   }
   ul#tabs-list li label.panel-label::after {
     content: "";
@@ -585,7 +635,7 @@ label.panel-label:hover {
 }
 @media all and (min-width: 900px) {
   main {
-    width: 70%;
+    width: 73%;
     margin: 0 auto;
   }
 }
@@ -627,6 +677,7 @@ body {
 #introduction {
   width: 90%;
   margin: 0 auto;
+  margin-top: -60px;
   padding: 48px 24px;
   color: white;
 }
@@ -636,7 +687,7 @@ body {
 }
 
 main h1 {
-  margin-top: 0;
+  margin-top: -40px;
   font-weight: 300;
   color: white;
 }
@@ -698,6 +749,11 @@ pre strong {
   color: #444444;
   font-weight: normal;
 }
+
+.result{
+  max-height: 200px;
+}
+
 </style>
 
 

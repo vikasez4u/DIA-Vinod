@@ -1,7 +1,4 @@
 <div ng-app="myapp">
-  <div class="header">
-    <a class="apptitlecontainer">Digital Inclusivity Auditor</a>
-  </div>
 	<div ng-controller="MainCtrl">
     <div class="form-header">
        <h2>Evaluate Your Digital Content</h2>
@@ -10,13 +7,32 @@
       <form ngNoForm class="grid" action="/result" method="POST">
         <label class="required-field">URL</label>
         <input type="text" [(ngModel)]="name" style="width: auto;" id="urlNameId" name="urlName" placeholder={{url}} required>
-        <label class="required-field">Model</label>
+        <!--<label class="required-field">Model</label>
         <select [(ngModel)]="selectedElement" id="selectedElement" name="selectedElement" required>
           <ng-container *ngFor="let type of types">
             <option *ngIf="type.id<0" [ngValue]="type.Name" disabled>{{type.Name}}</option>
             <option *ngIf="type.id>0" id="model" name="model" [ngValue]="type.Name" value="type.Name">{{type.Name}}</option>
           </ng-container>
-        </select>
+        </select>-->
+
+        <label class="required-field input-group" ><strong>Type of Content </strong></label>
+
+        <div class="required-field row">
+
+            <div class="col">
+              <div >
+                <input type="checkbox" [(ngModel)]="checkBoxText" id="Text" value="Text" name="Text" />
+                <label >Text</label>
+              </div>
+            </div>
+
+            <div class="col">
+              <div >
+                <input type="checkbox" [(ngModel)]="checkBoxImage" id="Image" value="Image" name="Image" />
+                <label >Image</label>
+              </div>
+            </div>
+        </div>
         <div class="panel-footer">
            <div class="pull-right">
              <input class="btn btn-success float-right" type="Submit" value="Submit"/>
