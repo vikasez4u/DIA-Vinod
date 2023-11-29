@@ -4,6 +4,7 @@
   </div>
   <div class="form-file-upload">
   <input type="file" [(ngModel)]="filename" class="file-input" (change)="onChange($event)"  accept=".xlsx" #fileUpload />
+   <button style="margin-left:20px" (click)="onDownload()">Template Biased File Upload</button>
   </div>
   <div class="text-center form-file-details" *ngIf="file">
     <section class="file-info">
@@ -27,7 +28,7 @@
   <div class="row form-excel-data outer-wrapper">
      <h4 style="text-align: center " *ngIf="users.length==0">No Data Found</h4>
     <div class="col-sm-12 table-wrapper">
-      <table class="table" #table *ngIf="users.length>0">
+      <table class="table" *ngIf="users.length>0">
 
             <tbody>
               <tr>
@@ -43,6 +44,15 @@
                 </tr>
             </tbody>
       </table>
+
+      <table class="table" #table style="display:none">
+            <tbody>
+              <tr>
+                <th scope="col">Words</th>
+              </tr>
+            </tbody>
+      </table>
+
     </div>
   </div>
 </div>
