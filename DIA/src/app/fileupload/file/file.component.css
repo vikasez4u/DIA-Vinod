@@ -43,6 +43,7 @@
   margin-left: 200px;
   margin-right: -300px;
   padding-left: 15px;
+  padding-bottom: 15px;
   line-height: 20px;
   vertical-align: middle;
   font-size: 16px;
@@ -83,7 +84,7 @@ th{
 .table-wrapper{
   max-height: 300px;
   overflow-y: scroll;
-  overflow-X: hidden;
+  overflow-x: hidden;
   margin:20px;
 }
 

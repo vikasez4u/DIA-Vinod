@@ -35,6 +35,15 @@
   text-align: center;
 }
 
+.note{
+  color: white;
+  display: inline;
+  font-size: 15px;
+  font-weight: 500;
+  font-family: Tahoma;
+  padding-left: 220px;
+}
+
 label{
   font-size: 15px;
   font-weight: 500;
