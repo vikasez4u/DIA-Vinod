@@ -1,0 +1,9 @@
+beautifulsoup4==4.9.3
+opencv-python==4.5.1.48
+numpy==1.20.1
+requests==2.25.1
+deepface==0.0.68
+pytesseract==0.3.8
+pillow==8.1.0
+pandas==1.2.2
+imghdr==0.1.0
