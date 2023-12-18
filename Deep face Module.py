@@ -9,8 +9,7 @@ import numpy as np
 import cv2
 import requests
 from bs4 import BeautifulSoup
-from deepface import DeepFace
-import 
+from deepface import DeepFace 
 
 # Download the image
 def download_image(url):
