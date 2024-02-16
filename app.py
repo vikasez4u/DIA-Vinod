@@ -12,6 +12,7 @@ import Image_Mode_Race_colour as imageMode
 from flask import Flask, render_template, request, redirect, url_for
 import pandas as pd
 import bleach
+from pexecute.thread import ThreadLoom
 
 app = Flask(__name__)
 
@@ -192,9 +193,26 @@ def result():
     except:
         print('Image option not selected')
 
+    if modeltypetextcontent and modeltypeimagecontent != '':
+      # Parellel execution
+      loom = ThreadLoom(max_runner_cap=2)
+
+      loom.add_function(text, [url], {})
+      loom.add_function(imageMode.main, [url], {})
+
+      output = loom.execute()
+
+      # using session to access the variables globally
+      biased_results = output[0]['output'][0]
+      biased_alt_results = output[0]['output'][1]
+      biased_img_results = output[0]['output'][2]
+      image_biased_results = output[1]['output']
+
+      return render_template('parallelexec.html', **locals())
+
     if modeltypetextcontent == 'Text':
 
-      biased_results, biased_alt_results, biased_img_results = text()
+      biased_results, biased_alt_results, biased_img_results = text(url)
 
       return render_template('output.html', **locals())
     if modeltypeimagecontent == 'Image':
@@ -203,8 +221,8 @@ def result():
       return render_template('imageOp.html', **locals())
 
 @app.route('/text', methods=['POST'])
-def text():
-    url = request.form['urlName']
+def text(url):
+    # url = request.form['urlName']
     print('Text File Entered URL : ' + url)
     text = extract_text_from_url(url)
     text_results, biased_words = detect_gender_biased_sentences(text)

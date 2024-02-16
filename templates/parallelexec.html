@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css'>
+<style>
+
+@import url("https://fonts.googleapis.com/css2?family=Hammersmith+One&family=Poppins&display=swap");
+
+body {
+background-color: darkslategray;
+}
+
+#introduction{
+  color:black;
+  padding-left: 20px;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.6;
+  font-family: Segoe UI;
+  text-align: center;
+}
+
+/* Style the tab */
+.tab {
+  overflow: hidden;
+  background-color: #ADBDB6;
+  width: 100%
+}
+
+.tab a{
+  float: left;
+  text-decoration: none;
+  font-size: 17px;
+  color: #061A1E;
+  text-align: center;
+  padding: 14px 16px;
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+  background-color: inherit;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+  font-size: 17px;
+}
+
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+  background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  /*border: 1px solid #ccc;*/
+  border-top: none;
+}
+
+/* Style the drop down tab*/
+.dropdowntab {
+  float: left;
+  overflow: hidden;
+}
+
+/*Style the subtab link*/
+.sub-tablinks{
+  display: none;
+  position: absolute;
+  left: 7px;
+  background-color: #ADBDB6;
+  color: #061A1E;
+  width: 100%;
+  z-index: 1;
+}
+
+.sub-tablinks a{
+  color: #061A1E;
+  text-decoration: none;
+  float: left;
+}
+
+.tab a:hover .tablinks {background-color: #ddd;}
+
+.dropdowntab:hover .sub-tablinks {display: block;}
+
+.sub-tablinks a:hover {
+  background-color: #ddd;
+}
+
+/* Create an active/current sub-tablink class */
+.sub-tablinks a.active {
+  background-color: #ccc;
+}
+
+/*Text Style*/
+.result{
+  max-height: 200px;
+  color: white;
+}
+
+div h3 {
+  font-weight: 300;
+  color: white;
+}
+div p {
+  line-height: 1.8;
+  color: white;
+}
+
+/* Image results style */
+.container {
+  width: 100%;
+  height: 100%;
+}
+.card {
+  background-color: #f9fafe;
+  width: 550px;
+  height: 45%;
+  border-radius: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: left;
+  position: relative;
+  padding: 40px 0 0 40px;
+  transition: transform 400ms;
+  opacity: 0.5;
+  box-shadow: none;
+}
+
+.quote-icon {
+  position: absolute;
+  z-index: 0;
+  opacity: 0.25;
+  left: 3%;
+  top: 15%;
+}
+
+.avatar {
+  width: 350px;
+  height: 150px;
+  border-radius: 50px;
+  border: 5px solid #f9fafe;
+  box-shadow: 0 0 50px #ccc;
+  position: absolute;
+  top: 20%;
+  left: 20%;
+  transform: translate(-50px, 10px);
+  z-index: 1;
+}
+
+.header {
+  margin: 250px 0 0 0;
+  text-align: Left;
+  z-index: 1;
+}
+
+.name {
+  font-family: "Hammersmith One", sans-serif;
+  text-transform: uppercase;
+  font-size: 16px;
+  margin: 0;
+  padding: 0 5px;
+}
+
+.title {
+  margin: 1px 0 95px 0;
+  padding: 0 5px;
+  ##color: #7ccdc5;
+}
+
+.title h2{
+  font-family: "Hammersmith One", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.quote-container {
+  margin: 0;
+  height: 100%;
+  z-index: 1;
+  padding: 15px 30px 30px 30px;
+  overflow: hidden;
+}
+
+.quote {
+  width: 100%;
+  height: 95%;
+  font-family: "Poppins", sans-serif;
+  font-size: 12px;
+  text-align: center;
+  color: #73808c;
+  margin: 0;
+}
+
+.swiper {
+  width: 100%;
+  height: 100%;
+}
+
+.swiper-slide {
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+}
+
+.swiper-slide-active {
+  z-index: 1;
+}
+
+.swiper-slide-active .card {
+  box-shadow: 0 8px 30px -7px #c9dff0;
+  opacity: 1;
+  transform: scale(1.5);
+}
+
+.swiper {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.swiper-button-next:focus,
+.swiper-button-prev:focus {
+  outline: none;
+}
+
+@media (max-height: 400px) {
+  .header {
+    margin: 40px 0 0 0;
+  }
+  .name {
+    font-size: 12px;
+  }
+  .title {
+    font-size: 10px;
+  }
+  .quote-container {
+    padding: 5px 20px 20px 20px;
+  }
+  .quote-icon {
+    width: 75px;
+    height: 75px;
+  }
+  .avatar {
+    width: 100px;
+    height: 100px;
+    transform: translate(-50px, -50px);
+  }
+}
+</style>
+</head>
+<body>
+
+<header id="introduction">
+  <h1>Digital Inclusivity Auditor</h1>
+</header>
+
+<div class="tab">
+<div class="dropdowntab">
+  <button class="tablinks" onclick="openResult(event, 'TextResults')">Text Results<i class="fa fa-caret-down"></i></button>
+  <div class="sub-tablinks tabcontent" id="TextResults">
+      <a onclick="openResult(event, 'txt_results')">Text Results</a>
+      <a onclick="openResult(event, 'alt_txt_results')">Alt Text Results</a>
+      <a onclick="openResult(event, 'img_txt_results')">Image Text Results</a>
+      <a onclick="openResult(event, 'summary')">Summary</a>
+    </div>
+  </div>
+
+  <button class="tablinks" onclick="openResult(event, 'ImageResults')">Image Results</button>
+</div>
+
+<div id="txt_results" class="tabcontent">
+  <h3>Text Results</h3>
+         <p>
+                            {% if biased_results %}
+                                    <div class="result">
+                                        <!--<h2>Text Results</h2>-->
+                                        <ul>
+                                            {% for result in biased_results %}
+                                            <li>{{ result[0] }}: {{ result[1] | safe }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                {% else %}
+                                    <div class="result">
+                                        <p>No biased sentences found in the text.</p>
+                                    </div>
+                                {% endif %}
+        </p>
+</div>
+
+<div id="alt_txt_results" class="tabcontent">
+  <h3>Alt Text Results</h3>
+        <p>
+                           {% if biased_alt_results %}
+                                    <div class="result">
+                                       <!-- <h2>Alt Text Results</h2>-->
+                                        <ul>
+                                            {% for alt_result in biased_alt_results %}
+                                            <li>{{ alt_result[0] }}: {{ alt_result[1] | safe }}</li>
+                            <li><a style="color: greenyellow;" href="{{ alt_result[2] }}">{{ alt_result[2] }}</a></li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                {% else %}
+                                    <div class="result">
+                                        <p>No biased alternative texts found.</p>
+                                    </div>
+                                {% endif %}
+    </p>
+</div>
+
+<div id="img_txt_results" class="tabcontent">
+  <h3>Image Text Results</h3>
+         <p>
+                            {% if biased_img_results %}
+                                    <div class="result">
+                                      <!--  <h2>Image Text Results</h2>-->
+                                        <ul>
+                                            {% for img_result in biased_img_results %}
+                                            <li>{{ img_result[0] }}: {{ img_result[1] | safe }}</li>
+                            <li><a style="color: greenyellow;" href="{{ img_result[2] }}">{{ img_result[2] }}</a></li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                {% else %}
+                                    <div class="result">
+                                        <p>No biased image texts found.</p>
+                                    </div>
+                                {% endif %}
+    </p>
+</div>
+
+<div id="summary" class="tabcontent">
+  <h3>Summary</h3>
+         <p>
+                            {% if biased_img_results %}
+                                    <div class="result">
+                                      <!--  <h2>Image Text Results</h2>-->
+                                        <ul>
+                                            {% for img_result in biased_img_results %}
+                                            <li>{{ img_result[0] }}: {{ img_result[1] | safe }}</li>
+                            <li><a style="color: greenyellow;" href="{{ img_result[2] }}">{{ img_result[2] }}</a></li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                {% else %}
+                                    <div class="result">
+                                        <p>No biased image texts found.</p>
+                                    </div>
+                                {% endif %}
+    </p>
+</div>
+
+<div id="ImageResults" class="tabcontent">
+<div class="container">
+
+    <div class="swiper swiperCarousel">
+
+        <div class="swiper-wrapper">
+          {% for img_result in image_biased_results %}
+            <div class="swiper-slide">
+                <div class="card">
+                    <img class="avatar" src="{{ img_result[0] }}" />
+                    <svg class="quote-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="125px" height="125px">
+              <path
+                d="M 16.482422 8.9921875 A 1.50015 1.50015 0 0 0 15.943359 9.1074219 C 15.943359 9.1074219 13.068414 10.279429 10.357422 13.464844 C 7.6464301 16.650259 5 21.927419 5 30 A 1.50015 1.50015 0 0 0 5.015625 30.21875 A 8.5 8.5 0 0 0 13.5 39 A 8.5 8.5 0 0 0 13.5 22 A 8.5 8.5 0 0 0 8.7089844 23.480469 C 9.5777265 19.777157 11.122152 17.196657 12.642578 15.410156 C 14.931586 12.720571 17.056641 11.892578 17.056641 11.892578 A 1.50015 1.50015 0 0 0 16.482422 8.9921875 z M 37.482422 8.9921875 A 1.50015 1.50015 0 0 0 36.943359 9.1074219 C 36.943359 9.1074219 34.068414 10.279429 31.357422 13.464844 C 28.64643 16.650259 26 21.927419 26 30 A 1.50015 1.50015 0 0 0 26.015625 30.21875 A 8.5 8.5 0 0 0 34.5 39 A 8.5 8.5 0 0 0 34.5 22 A 8.5 8.5 0 0 0 29.708984 23.480469 C 30.577727 19.777157 32.122152 17.196657 33.642578 15.410156 C 35.931586 12.720571 38.056641 11.892578 38.056641 11.892578 A 1.50015 1.50015 0 0 0 37.482422 8.9921875 z"
+              />
+            </svg>
+                    <div class="header">
+                        <h1 class="name">Gender Count: </h1>
+                    </div>
+                    <div class="title">
+                        <h2 > Male:  {{ img_result[1] }} </h2>
+                        <h2 > Female: {{ img_result[2] }} </h2>
+                        <h2 >  Gender Bias Confidence: {{ img_result[3] }} </h2>
+                        <h2 >  Skin Color: {{ img_result[4] }} </h2>
+                        <h2 > Dominant Race: {{ img_result[5] }} </h2>
+                    </div>
+                </div>
+            </div>
+          {% endfor %}
+        </div>
+
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-pagination"></div>
+    </div>
+</div>
+</div>
+
+<script>
+function openResult(evt, resultName) {
+  var i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+  document.getElementById(resultName).style.display = "block";
+  evt.currentTarget.className += " active";
+}
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.8/angular.min.js"></script>
+<script src='https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/textfit/2.4.0/textFit.min.js'></script>
+
+<script>
+
+  /**
+  Swiper:
+  https://swiperjs.com/
+**/
+const swiper = new Swiper(".swiperCarousel", {
+  slidesPerView: 3,
+  centeredSlides: true,
+  spaceBetween: 10,
+  keyboard: {
+    enabled: true,
+  },
+  loop: true,
+  pagination: {
+    el: ".swiper-pagination",
+  },
+  navigation: {
+    nextEl: ".swiper-button-next",
+    prevEl: ".swiper-button-prev",
+  },
+});
+
+const slides = document.getElementsByClassName("swiper-slide");
+for (const slide of slides) {
+  slide.addEventListener("click", () => {
+    const { className } = slide;
+    if (className.includes("swiper-slide-next")) {
+      swiper.slideNext();
+    } else if (className.includes("swiper-slide-prev")) {
+      swiper.slidePrev();
+    }
+  });
+}
+
+function resizeTextToFit() {
+  const quoteEls = document.getElementsByClassName('quote');
+  for (const el of quoteEls) {
+    el.style.width = el.offsetWidth;
+    el.style.height = el.offsetHeight;
+  }
+  textFit(quoteEls, { maxFontSize: 14 });
+}
+resizeTextToFit();
+addEventListener("resize", (event) => {
+  resizeTextToFit();
+});
+
+</script>
+
+</body>
+</html>
