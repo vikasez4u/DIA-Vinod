@@ -41,7 +41,7 @@
   font-size: 15px;
   font-weight: 500;
   font-family: Tahoma;
-  padding-left: 220px;
+  padding-left: 180px;
 }
 
 label{
@@ -197,20 +197,86 @@ select{
   color: black
 }
 
+/* HTML: <div class="loader"></div> */
+.loader1 .btn-success:active {
+  width: 70px;
+  height: 70px;
+  position: absolute;
+  top: 42%;
+  left: 50%;
+  margin: -56px 0 0 -56px;
+  display: flex;
+  color: whitesmoke;
+  background:
+    linear-gradient(currentColor 0 0) right  /51% 100%,
+    linear-gradient(currentColor 0 0) bottom /100% 51%;
+  background-repeat: no-repeat;
+  animation: l17-0 2s infinite linear .25s;
+}
+.loader1::before{
+  content:"";
+  width: 50%;
+  height: 50%;
+  background: currentColor;
+  transform-origin: 10% 10%;
+  animation: l17-1 .5s infinite linear;
+}
+@keyframes l17-0 {
+  0%   ,12.49% {transform: rotate(0deg)}
+  12.5%,37.49% {transform: rotate(90deg)}
+  37.5%,62.49% {transform: rotate(180deg)}
+  62.5%,87.49% {transform: rotate(270deg)}
+  87.5%,100%   {transform: rotate(360deg)}
+}
+@keyframes l17-1 {
+  0%      {transform: perspective(80px) rotate3d(-1,1,0, 0)}
+  80%,100%{transform: perspective(80px) rotate3d(-1,1,0,-360deg)}
+}
+.animate p .btn-success:active{
+  position: absolute;
+  text-align: center;
+  top: 57%;
+  left: 39%;
+  margin: -50px 0 0 -50px;
+  display: flex;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.6;
+  font-family: Segoe UI;
+}
+
 .loader {
-    border: 16px solid #f3f3f3; /* Light grey */
-    border-top: 16px solid #acdeff; /* Blue */
-    border-radius: 50%;
-    width: 140px;
-    height: 140px;
-    animation: spin 2s linear infinite;
+    position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 1;
+  width: 150px;
+  height: 150px;
+  margin: -75px 0 0 -75px;
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #3498db;
+  width: 120px;
+  height: 120px;
+  position: relative;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
   }
 
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
+  /* Safari */
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
 
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loadertext {
+background:white;
+}
   #submit{
     margin-top: 1vmax;
     outline: none;

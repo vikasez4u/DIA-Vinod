@@ -3,8 +3,13 @@
     <div class="form-header">
        <h2>Evaluate Your Digital Content</h2>
     </div>
+    <!--<ngx-spinner
+      bdColor = "rgba(51, 51, 51, 0.8)"
+      size = "large"
+      color = "#934d4d"
+      type = "square-jelly-box"></ngx-spinner>!-->
     <div class="form-outline">
-      <form ngNoForm class="grid" action="/result" method="POST">
+      <form class="grid" method="POST"> <!--action="/result"-->
         <label class="required-field">URL</label>
         <input type="text" [(ngModel)]="name" style="width: auto;" id="urlNameId" name="urlName" placeholder={{url}} required>
         <!--<label class="required-field">Model</label>
@@ -35,13 +40,19 @@
         </div>
         <div class="panel-footer">
            <div class="pull-right">
-             <input class="btn btn-success float-right" type="Submit" value="Submit"/>
+             <input (click)="onSubmit()" class="btn btn-success float-right" type="Submit" value="Submit"/>
+             <ngx-spinner size="medium" *ngIf="loader" >
+               <div class = "loader"></div>
+               <div class="loadertext"> <br><p> Please wait while we work on your content biased data. <br><br> Appreciate your patience</p>
+               </div>
+             </ngx-spinner>
+
           </div>
           <input (click)="handleClear()" class="btn btn-primary" type="button" value="Reset"/>
           <p class="note">Note: If you have a biased file you can Navigate to "Biased File Upload" page to upload your biased file before entering above details.</p>
         </div>
       </form>
-    </div>
+    </div>exit
   </div>
   <div class="body-footer">
     <span class="body-footer-text">© 2023 Accenture. All Rights Reserved.</span>

@@ -1,8 +1,9 @@
 import { Component, OnInit, Injectable } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { HttpClient, HttpParams } from "@angular/common/http";
+import { HttpClient, HttpParams, HttpHeaders } from "@angular/common/http";
 import { throwError } from "rxjs";
-const uploadURL = "http://localhost:5000/static/";
+import { NgxSpinnerService } from 'ngx-spinner';
+const uploadURL = "http://localhost:5000/output/";
 
 @Component({
   selector: 'app-baised',
@@ -13,18 +14,20 @@ const uploadURL = "http://localhost:5000/static/";
 @Injectable({
   providedIn: 'root'
 })
+
 export class BaisedComponent implements OnInit {
 
     url= 'Please Enter URL';
     urlName='';
     name : any;
+    loader = false;
    // selectedElement='';
     //Text='';
     checkBoxText: any;
     checkBoxImage: any;
     category: any;
 
-    constructor(private router: Router, private http: HttpClient) {}
+    constructor(private router: Router, private http: HttpClient, private spinnerService: NgxSpinnerService) {}
 
     ngOnInit(): void {}
 
@@ -41,34 +44,47 @@ export class BaisedComponent implements OnInit {
       {id:2, Name:'Text'}
     ]; */
 
-    onsubmit(){
-     // alert(this.name);
-     // alert(this.checkBoxText);
-     // alert(this.checkBoxImage);
+    onSubmit(){
+     this.spinnerService.show();
+      this.loader = true;
+      const data = new HttpParams()
+      .set('urlName', this.name)
+      .set('Text', this.checkBoxText)
+      .set('Image',this.checkBoxImage);
 
-      if (this.name) {
-          alert('calling service');
-          const headers = { 'content-type': 'application/html'};
-          const params = new HttpParams()
-          .set('urlName', this.name)
-          .set('Text', this.checkBoxText)
-          .set('Image',this.checkBoxImage);
-
-          this.http.post(uploadURL,{},{'headers': headers,
-    params: params})
-      .subscribe(data => {
-              alert(data);
-                console.log(data);
-                let resp = JSON.parse(JSON.stringify(data));
-                 alert(resp);
-      },
-        err => {
-          console.log("error while getting initial data" + err.message);
+      function loadTo(Page: any): void {
+        if (Page['file'] == 'output.html') {
+          window.location.assign('/output');
         }
-      );
+        else if (Page['file'] == 'imageOp.html') {
+          window.location.assign('/imageOp');
+        }
+        else {
+          window.location.assign('/parallelexec');
+        }
       }
-    }
 
+       const fetchRes = fetch('/result', {
+        "method": "POST",
+        "body": JSON.stringify(data),
+        "headers": {
+          "Content-Type": "application/json",
+        },
+    })
+
+      fetchRes
+        .then((res: Response) => res.json())
+        .then((d: any) => {
+          loadTo(d);
+          this.spinnerService.hide();
+          this.loader = false;
+        },
+        err => {
+          this.spinnerService.hide();
+          this.loader = false;
+          console.log("error while getting initial data" + err.message);
+        });
+    }
 
     callCreateRequest(category: any){
         console.log('Vikash');

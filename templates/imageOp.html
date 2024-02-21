@@ -12,7 +12,7 @@
     <div class="swiper swiperCarousel">
 
         <div class="swiper-wrapper">
-          {% for img_result in biased_alt_results %}
+          {% for img_result in session['image_biased_results'] %}
             <div class="swiper-slide">
                 <div class="card">
                     <img class="avatar" src="{{ img_result[0] }}" />
