@@ -8,10 +8,53 @@ import os
 from urllib.parse import urlparse
 
 import Image_Mode_Race_colour as imageMode
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, g
 import pandas as pd
 import bleach
 from pexecute.thread import ThreadLoom
+import sqlite3
+from datetime import datetime
+
+DATABASE = 'DIA.db'
+def get_db():
+    db = getattr(g, '_database', None)
+    if db is None:
+        db = g._database = sqlite3.connect(DATABASE)
+    return db
+
+def create_table(table_name):
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute(f'''
+        CREATE TABLE IF NOT EXISTS {table_name} (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            result_type TEXT,
+            sentence TEXT,
+            word TEXT,
+            image_link TEXT,
+            test_run TEXT
+        )
+    ''')
+
+def insert_result(table_name, result_type, sentence, word, image_link=None):
+    db = get_db()
+    cursor = db.cursor()
+    try:
+        cleaned_sentence = bleach.clean(sentence, tags=[], strip=True)
+        test_run = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+        cursor.execute(f'''
+            INSERT INTO {table_name} (result_type, sentence, word, image_link, test_run)
+            VALUES (?, ?, ?, ?, ?)
+        ''', (result_type, cleaned_sentence, word, image_link, test_run))
+        db.commit()
+    except Exception as e:
+        print(f"Error inserting into the database: {e}")
+
+def close_db(error):
+    db = getattr(g, '_database', None)
+    if db is not None:
+        db.close()
 
 app = Flask(__name__)
 app.secret_key = 'Digital Inclusivity Auditor'
@@ -101,32 +144,49 @@ def detect_gender_biased_sentences(text):
                                   trimmed_sentence, flags=re.IGNORECASE)
         biased_sentences.append(trimmed_sentence)
         biased_words.append(words[i])
+        insert_result('biased_Text_results', 'text', trimmed_sentence, words[i], 'Not image')
         break  # Move to the next sentence
   return biased_sentences, biased_words
 
 
-def detect_gender_biased_sentences_img(text):
+def detect_gender_biased_sentences_img(text,image_link):
   df = pd.read_excel('E:/Projects/DIAWorkspace/DIA/uploads/gender_biased_words.xlsx', sheet_name='word')
   gender_keywords = df['word'].tolist()
   sentences = re.split(r'(?<!\w\.\w.)(?<![A-Z][a-z]\.)(?<=\.|\?)\s', text)  # Split text into sentences
   biased_sentences = []
   biased_words = []
+  create_table('biased_img_results')
+
   for sentence in sentences:
     sentence = sentence.lower().strip()
     words = re.findall(r'\b\w+\b', sentence)  # Split sentence into words
     sentence_biased_words = []  # Store the biased words found in the sentence
-    for word in words:
-      if word in gender_keywords:
-        sentence_biased_words.append(word)
+    #for word in words:
+    #  if word in gender_keywords:
+    #   sentence_biased_words.append(word)
 
-    if sentence_biased_words:
-      start = max(0, words.index(sentence_biased_words[0]) - 5)
-      end = min(words.index(sentence_biased_words[-1]) + 6, len(words))
-      trimmed_sentence = ' '.join(words[start:end])
-      trimmed_sentence = re.sub(r'\b' + '|'.join(re.escape(word) for word in sentence_biased_words) + r'\b',
-                                r'<span style="color:orangered">\g<0></span>', trimmed_sentence, flags=re.IGNORECASE)
-      biased_sentences.append(trimmed_sentence)
-      biased_words.extend(sentence_biased_words)
+    # if sentence_biased_words:
+    #  start = max(0, words.index(sentence_biased_words[0]) - 5)
+    #  end = min(words.index(sentence_biased_words[-1]) + 6, len(words))
+    #  trimmed_sentence = ' '.join(words[start:end])
+    #  trimmed_sentence = re.sub(r'\b' + '|'.join(re.escape(word) for word in sentence_biased_words) + r'\b',
+    #                            r'<span style="color:orangered">\g<0></span>', trimmed_sentence, flags=re.IGNORECASE)
+    #  biased_sentences.append(trimmed_sentence)
+    #  biased_words.extend(sentence_biased_words)
+    # added code to remove the duplicate values coming from above code
+    for i in range(len(words)):
+      if words[i] in gender_keywords:
+        start = max(0, i - 5)
+        end = min(i + 6, len(words))
+        trimmed_sentence = ' '.join(words[start:end])
+        trimmed_sentence = re.sub(r'\b' + re.escape(words[i]) + r'\b', r'<span style="color:orangered">\g<0></span>',
+                                  trimmed_sentence, flags=re.IGNORECASE)
+        biased_sentences.append(trimmed_sentence)
+        biased_words.append(words[i])
+        # Insert result into the database
+        insert_result('biased_img_results', 'text', trimmed_sentence, words[i], image_link)
+        break  # Move to the next sentence
+        conn.close()
 
   return biased_sentences, biased_words
 
@@ -136,6 +196,7 @@ def detect_gender_biased_alt_texts(alt_texts):
   gender_keywords = df['word'].tolist()
   biased_alt_texts = []
   biased_words = []
+  create_table('biased_alt_Text_results')
   for alt_text, image_link in alt_texts:
     alt_text = alt_text.lower().strip()
     words = re.findall(r'\b\w+\b', alt_text)
@@ -143,6 +204,7 @@ def detect_gender_biased_alt_texts(alt_texts):
       if word in gender_keywords:
         biased_alt_texts.append((alt_text, image_link))
         biased_words.append(word)
+        insert_result('biased_alt_Text_results', 'text', alt_text, word, image_link)
         break
   return biased_alt_texts, biased_words
 
@@ -160,7 +222,7 @@ def extract_text_from_images(url):
   for image_url in image_urls:
     text = process_image(image_url)
     if text:
-      sentences, words = detect_gender_biased_sentences_img(text)
+      sentences, words = detect_gender_biased_sentences_img(text, image_url)
       if sentences:
         biased_sentences.extend(sentences)
         biased_words.extend(words)
@@ -291,6 +353,58 @@ def page():
 def index():
   msg1 = "back"
   return render_template("index.html")
+
+
+@app.route('/show_db')
+def show_db():
+  db = get_db()
+  cursor = db.cursor()
+
+  # Fetch data from the biased_Text_results table
+  cursor.execute('SELECT * FROM biased_Text_results')
+  text_results = cursor.fetchall()
+
+  # Adjust unpacking based on the structure of text_results
+  # unique_words_text = set(word for _, _, content, category, _, _, _ in text_results) if text_results else set()
+
+  # Fetch data from the biased_alt_Text_results table
+  cursor.execute('SELECT * FROM biased_alt_Text_results')
+  alt_text_results = cursor.fetchall()
+  # print("Structure of alt_text_results:", alt_text_results)  # Add this line to print the structure
+  # Fetch data from the biased_img_results table
+  cursor.execute('SELECT * FROM biased_img_results')
+  img_results = cursor.fetchall()
+
+  # Calculate summary statistics
+  total_biased_text = len(text_results)
+  total_biased_alt_text = len(alt_text_results)
+  total_biased_img_results = len(img_results)
+
+  # Extract unique words from biased sentences, alt texts, and image results
+  unique_words_text = set(word for _, _, content, _, _, _ in text_results if content for word in content.split())
+  unique_words_alt_text = set(
+    word for _, _, alt_text, _, _, _ in alt_text_results if alt_text for word in alt_text.split())
+  unique_words_img_results = set(word for _, _, content, _, _, _ in img_results if content for word in content.split())
+
+  # Calculate unique word counts
+  unique_word_count_text = len(unique_words_text)
+  unique_word_count_alt_text = len(unique_words_alt_text)
+  unique_word_count_img_results = len(unique_words_img_results)
+
+  return render_template('show_db.html', text_results=text_results, alt_text_results=alt_text_results,
+                         img_results=img_results, total_biased_text=total_biased_text,
+                         total_biased_alt_text=total_biased_alt_text,
+                         total_biased_img_results=total_biased_img_results,
+                         unique_word_count_text=unique_word_count_text,
+                         unique_word_count_alt_text=unique_word_count_alt_text,
+                         unique_word_count_img_results=unique_word_count_img_results)
+
+  # return render_template('show_db.html', text_results=text_results, alt_text_results=alt_text_results, img_results=img_results)
+
+
+@app.teardown_appcontext
+def close_database_connection(exception=None):
+  close_db(exception)
 
 
 if __name__ == '__main__':
