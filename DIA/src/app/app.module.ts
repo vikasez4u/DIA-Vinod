@@ -8,6 +8,8 @@ import { FileComponent } from './fileupload/file/file.component';
 import { RouterModule, Routes } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { HeaderComponent } from './header/header.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 const routes : Routes = [
 { path: '', component: BaisedComponent},
@@ -26,6 +28,8 @@ const routes : Routes = [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    BrowserAnimationsModule,
+    NgxSpinnerModule,
     HttpClientModule,
     RouterModule.forRoot(routes)
   ],
