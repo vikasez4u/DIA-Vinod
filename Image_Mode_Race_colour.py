@@ -1,8 +1,3 @@
-
-
-# In[56]:
-
-
 from collections import Counter
 import imghdr
 import numpy as np
@@ -12,6 +7,8 @@ from bs4 import BeautifulSoup
 from deepface import DeepFace
 from webcolors import CSS3_HEX_TO_NAMES, hex_to_rgb, rgb_to_name
 from mtcnn import MTCNN
+import db as diadb
+from datetime import datetime
 
 # Download the image
 def download_image(url):
@@ -161,6 +158,7 @@ def extract_image_links(url):
 
 # Main function
 def main(url):
+    transaction_id = datetime.now().strftime("%Y%m%d%H%M%S")
     # Load the gender model
     GENDER_MODEL = 'weights/gender_net.caffemodel'
     GENDER_PROTO = 'weights/deploy_gender.prototxt'
@@ -192,6 +190,7 @@ def main(url):
         # Check if any faces were detected
         total_count = male_count + female_count
         if total_count > 0:
+            diadb.create_table('Image_Txt_Results')
             # Display the results for each face
             print(f"Image URL: {img_link}")
             print("Gender Count:")
@@ -215,6 +214,7 @@ def main(url):
             else:
                 print("No race detected in the image.")
 
+            diadb.saveImage('Image_Txt_Results', transaction_id, 'Image', male_count, female_count, confidence, max_skin_key, max_race_key, img_link)
             biased_alt_results.append((img_link,male_count,female_count,confidence,max_skin_key,max_race_key))
         else:
             print("No faces detected in the image.")

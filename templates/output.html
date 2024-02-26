@@ -65,11 +65,11 @@
       <main>
         <h1>Text Results</h1>
          <p>
-                            {% if session['biased_results'] %}
+                            {% if session.biased_txt_results %}
                                     <div class="result">
                                         <!--<h2>Text Results</h2>-->
                                         <ul>
-                                            {% for result in session['biased_results'] %}
+                                            {% for result in session.biased_txt_results %}
                                             <li>{{ result[0] }}: {{ result[1] | safe }}</li>
                                             {% endfor %}
                                         </ul>
@@ -130,14 +130,35 @@
       <main>
         <h1>Summary</h1>
          <p>
-                            {% if session['biased_img_results'] %}
+                            {% if total_biased_text %}
                                     <div class="result">
                                       <!--  <h2>Image Text Results</h2>-->
                                         <ul>
-                                            {% for img_result in session['biased_img_results'] %}
-                                            <li>{{ img_result[0] }}: {{ img_result[1] | safe }}</li>
-                            <li><a style="color: greenyellow;" href="{{ img_result[2] }}">{{ img_result[2] }}</a></li>
-                                            {% endfor %}
+
+                                            <li>
+                                              <p>Total Biased Sentences: {{ total_biased_text }}</p>
+                                                  <ul>
+                                                    {% for txt_gender_count in text_results_tr_Gender_Count %}
+                                                   <li>{{ txt_gender_count[0] }}: {{ txt_gender_count[1] | safe }}</li>
+                                                    {% endfor %}
+                                                  </ul>
+                                            </li>
+
+                                              <li><p>Total Biased Alt Texts: {{ total_biased_alt_text }}</p>
+                                                  <ul>
+                                                    {% for alt_txt_gender_count in alt_text_results_tr_Gender_Count %}
+                                                   <li>{{ alt_txt_gender_count[0] }}: {{ alt_txt_gender_count[1] | safe }}</li>
+                                                    {% endfor %}
+                                                  </ul>
+                                              </li>
+                                              <li><p>Total Biased Image Results: {{ total_biased_img_results }}</p>
+                                                  <ul>
+                                                    {% for img_txt_gender_count in img_text_results_tr_Gender_Count %}
+                                                   <li>{{ img_txt_gender_count[0] }}: {{ img_txt_gender_count[1] | safe }}</li>
+                                                    {% endfor %}
+                                                  </ul>
+                                              </li>
+
                                         </ul>
                                     </div>
                                 {% else %}

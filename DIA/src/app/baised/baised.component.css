@@ -41,7 +41,7 @@
   font-size: 15px;
   font-weight: 500;
   font-family: Tahoma;
-  padding-left: 180px;
+  padding-left: 80px;
 }
 
 label{
@@ -275,7 +275,7 @@ select{
 }
 
 .loadertext {
-background:white;
+color:white;
 }
   #submit{
     margin-top: 1vmax;
