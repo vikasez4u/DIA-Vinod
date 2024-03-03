@@ -17,6 +17,7 @@ from datetime import datetime
 
 app = Flask(__name__)
 app.secret_key = 'Digital Inclusivity Auditor'
+
 def extract_text_from_url(url):
   try:
     response = requests.get(url)
@@ -90,7 +91,8 @@ def detect_gender_biased_sentences(textip):
   sentences = re.split(r'(?<!\w\.\w.)(?<![A-Z][a-z]\.)(?<=\.|\?)\s', textip)  # Split text into sentences
   biased_sentences = []
   biased_words = []
-  diadb.create_table('biased_Text_results')
+  with app.app_context():
+    diadb.create_table('biased_Text_results')
   for sentence in sentences:
     sentence = sentence.lower().strip()
     words = re.findall(r'\b\w+\b', sentence)  # Split sentence into words
@@ -105,7 +107,8 @@ def detect_gender_biased_sentences(textip):
                                   trimmed_sentence, flags=re.IGNORECASE)
         biased_sentences.append(trimmed_sentence)
         biased_words.append(words[i])
-        diadb.insert_result('biased_Text_results', transaction_id, 'Text', trimmed_sentence, words[i], 'Not image')
+        with app.app_context():
+          diadb.insert_result('biased_Text_results', transaction_id, 'Text', trimmed_sentence, words[i], 'Not image')
         break  # Move to the next sentence
   return biased_sentences, biased_words
 
@@ -116,7 +119,8 @@ def detect_gender_biased_sentences_img(textip, image_link):
   sentences = re.split(r'(?<!\w\.\w.)(?<![A-Z][a-z]\.)(?<=\.|\?)\s', textip)  # Split text into sentences
   biased_sentences = []
   biased_words = []
-  diadb.create_table('biased_img_results')
+  with app.app_context():
+    diadb.create_table('biased_img_results')
 
   for sentence in sentences:
     sentence = sentence.lower().strip()
@@ -145,7 +149,8 @@ def detect_gender_biased_sentences_img(textip, image_link):
         biased_sentences.append(trimmed_sentence)
         biased_words.append(words[i])
         # Insert result into the database
-        diadb.insert_result('biased_img_results', transaction_id, 'Text', trimmed_sentence, words[i], image_link)
+        with app.app_context():
+          diadb.insert_result('biased_img_results', transaction_id, 'Text', trimmed_sentence, words[i], image_link)
         break  # Move to the next sentence
         # conn.close()
 
@@ -157,7 +162,8 @@ def detect_gender_biased_alt_texts(alt_texts):
   gender_keywords = df['word'].tolist()
   biased_alt_texts = []
   biased_words = []
-  diadb.create_table('biased_alt_Text_results')
+  with app.app_context():
+    diadb.create_table('biased_alt_Text_results')
   for alt_text, image_link in alt_texts:
     alt_text = alt_text.lower().strip()
     words = re.findall(r'\b\w+\b', alt_text)
@@ -165,7 +171,8 @@ def detect_gender_biased_alt_texts(alt_texts):
       if word in gender_keywords:
         biased_alt_texts.append((alt_text, image_link))
         biased_words.append(word)
-        diadb.insert_result('biased_alt_Text_results', transaction_id, 'Text', alt_text, word, image_link)
+        with app.app_context():
+          diadb .insert_result('biased_alt_Text_results', transaction_id, 'Text', alt_text, word, image_link)
         break
   return biased_alt_texts, biased_words
 
@@ -206,8 +213,7 @@ def hello_world():
 
 @app.route('/output')
 def output():
-  #print(biased_txt_results)
-  session['biased_txt_results'] = biased_txt_results
+  #session['biased_txt_results'] = biased_txt_results
   #print(session['biased_txt_results'], session['biased_alt_results'], session['biased_img_results'])
   total_biased_text, total_biased_alt_text, total_biased_img_results, text_results_tr_Gender_Count, alt_text_results_tr_Gender_Count, img_text_results_tr_Gender_Count = diadb.textsummaryresult()
   return render_template('output.html', **locals())
@@ -221,7 +227,7 @@ def imageop():
 
 @app.route('/parallelexec')
 def parallelexec():
-  session['biased_txt_results'] = biased_txt_results
+  #session['biased_txt_results'] = biased_txt_results
   total_biased_text, total_biased_alt_text, total_biased_img_results, text_results_tr_Gender_Count, alt_text_results_tr_Gender_Count, img_text_results_tr_Gender_Count = diadb.textsummaryresult()
   image_results_tr = diadb.imagesummaryresult()
   return render_template('parallelexec.html', **locals())
@@ -230,10 +236,6 @@ def parallelexec():
 @app.route('/result', methods=['POST', 'GET'])
 def result():
   global transaction_id
-  global biased_txt_results
-  global biased_alt_results
-  global biased_img_results
-  global image_biased_results
 
   transaction_id = datetime.now().strftime("%Y%m%d%H%M%S")
   if request.method == "POST":
@@ -252,7 +254,7 @@ def result():
     if data["updates"][2]["value"]:
       modeltypeimagecontent = True
   except:
-     print('Image option not selected')
+    print('Image option not selected')
 
   if modeltypetextcontent and modeltypeimagecontent != '':
     # Parellel execution
@@ -264,7 +266,7 @@ def result():
     parllelexecresult = loom.execute()
 
     # using session to access the variables globally
-    biased_txt_results = parllelexecresult[0]['output'][0]
+    session['biased_txt_results'] = parllelexecresult[0]['output'][0]
     session['biased_alt_results'] = parllelexecresult[0]['output'][1]
     session['biased_img_results'] = parllelexecresult[0]['output'][2]
     session['image_biased_results'] = parllelexecresult[1]['output']
@@ -273,7 +275,7 @@ def result():
     return {"file": "parallelexec.html"}
 
   elif modeltypetextcontent:
-    biased_txt_results, session['biased_alt_results'], session['biased_img_results'] = text(url)
+    session['biased_txt_results'], session['biased_alt_results'], session['biased_img_results'] = text(url)
     # return render_template('output.html', **locals())
     #print(session['biased_txt_results'], session['biased_alt_results'], session['biased_img_results'])
     return {"file": "output.html"}

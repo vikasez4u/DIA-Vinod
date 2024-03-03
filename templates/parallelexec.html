@@ -284,11 +284,11 @@ div p {
 <div id="txt_results" class="tabcontent">
   <h3>Text Results</h3>
          <p>
-                            {% if session['biased_results'] %}
+                            {% if session['biased_txt_results'] %}
                                     <div class="result">
                                         <!--<h2>Text Results</h2>-->
                                         <ul>
-                                            {% for result in session['biased_results'] %}
+                                            {% for result in session['biased_txt_results'] %}
                                             <li>{{ result[0] }}: {{ result[1] | safe }}</li>
                                             {% endfor %}
                                         </ul>
