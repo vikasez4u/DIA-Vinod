@@ -46,11 +46,11 @@
       <main>
         <h1>Image Text Results</h1>
          <p>
-                            {% if session.image_biased_results %}
+                            {% if image_biased_results %}
                                     <div class="result">
                                         <!--<h2>Text Results</h2>-->
                                         <ul>
-                                            {% for result in session.image_biased_results %}
+                                            {% for result in image_biased_results %}
                                             <li><a style="color: greenyellow;" href="{{ result[0] }}">{{ result[0] }}</a></li>
                                             <ul>
                                               <li> Male:  {{ result[1] }} </li>
@@ -78,7 +78,7 @@
     <div class="swiper swiperCarousel">
 
         <div class="swiper-wrapper">
-          {% for img_result in session['image_biased_results'] %}
+          {% for img_result in image_biased_results %}
             <div class="swiper-slide">
                 <div class="card">
                     <img class="avatar" src="{{ img_result[0] }}" />

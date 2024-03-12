@@ -213,20 +213,26 @@ def hello_world():
 
 @app.route('/output')
 def output():
-  #session['biased_txt_results'] = biased_txt_results
-  #print(session['biased_txt_results'], session['biased_alt_results'], session['biased_img_results'])
+  biased_txt_results = txt_results
+  biased_alt_results = alt_results
+  biased_img_results = txt_img_results
   total_biased_text, total_biased_alt_text, total_biased_img_results, text_results_tr_Gender_Count, alt_text_results_tr_Gender_Count, img_text_results_tr_Gender_Count = diadb.textsummaryresult()
   return render_template('output.html', **locals())
 
 
 @app.route('/imageOp')
 def imageop():
+  image_biased_results = image_results
   image_results_tr = diadb.imagesummaryresult()
   return render_template('imageOp.html', **locals())
 
 
 @app.route('/parallelexec')
 def parallelexec():
+  biased_txt_results = txt_results
+  biased_alt_results = alt_results
+  biased_img_results = txt_img_results
+  image_biased_results = image_results
   #session['biased_txt_results'] = biased_txt_results
   total_biased_text, total_biased_alt_text, total_biased_img_results, text_results_tr_Gender_Count, alt_text_results_tr_Gender_Count, img_text_results_tr_Gender_Count = diadb.textsummaryresult()
   image_results_tr = diadb.imagesummaryresult()
@@ -236,6 +242,10 @@ def parallelexec():
 @app.route('/result', methods=['POST', 'GET'])
 def result():
   global transaction_id
+  global txt_results
+  global alt_results
+  global txt_img_results
+  global image_results
 
   transaction_id = datetime.now().strftime("%Y%m%d%H%M%S")
   if request.method == "POST":
@@ -258,6 +268,7 @@ def result():
 
   if modeltypetextcontent and modeltypeimagecontent != '':
     # Parellel execution
+
     loom = ThreadLoom(max_runner_cap=2)
 
     loom.add_function(text, [url], {})
@@ -266,22 +277,22 @@ def result():
     parllelexecresult = loom.execute()
 
     # using session to access the variables globally
-    session['biased_txt_results'] = parllelexecresult[0]['output'][0]
-    session['biased_alt_results'] = parllelexecresult[0]['output'][1]
-    session['biased_img_results'] = parllelexecresult[0]['output'][2]
-    session['image_biased_results'] = parllelexecresult[1]['output']
+    txt_results = parllelexecresult[0]['output'][0]
+    alt_results = parllelexecresult[0]['output'][1]
+    txt_img_results = parllelexecresult[0]['output'][2]
+    image_results = parllelexecresult[1]['output']
 
     # render_template('parallelexec.html', **locals())
     return {"file": "parallelexec.html"}
 
   elif modeltypetextcontent:
-    session['biased_txt_results'], session['biased_alt_results'], session['biased_img_results'] = text(url)
+    txt_results, alt_results, txt_img_results = text(url)
     # return render_template('output.html', **locals())
     #print(session['biased_txt_results'], session['biased_alt_results'], session['biased_img_results'])
     return {"file": "output.html"}
 
   elif modeltypeimagecontent:
-    session['image_biased_results'] = imageMode.main(url)
+    image_results = imageMode.main(url)
     # print(biased_alt_results)
     # return render_template('imageOp.html', **locals())
     return {"file": "imageOp.html"}

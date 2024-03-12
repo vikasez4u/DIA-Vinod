@@ -65,11 +65,11 @@
       <main>
         <h1>Text Results</h1>
          <p>
-                            {% if session['biased_txt_results'] %}
+                            {% if biased_txt_results %}
                                     <div class="result">
                                         <!--<h2>Text Results</h2>-->
                                         <ul>
-                                            {% for result in session['biased_txt_results'] %}
+                                            {% for result in biased_txt_results %}
                                             <li>{{ result[0] }}: {{ result[1] | safe }}</li>
                                             {% endfor %}
                                         </ul>
@@ -86,11 +86,11 @@
       <main>
         <h1>Alt Text Results</h1>
         <p>
-                           {% if session['biased_alt_results'] %}
+                           {% if biased_alt_results %}
                                     <div class="result">
                                        <!-- <h2>Alt Text Results</h2>-->
                                         <ul>
-                                            {% for alt_result in session['biased_alt_results'] %}
+                                            {% for alt_result in biased_alt_results %}
                                             <li>{{ alt_result[0] }}: {{ alt_result[1] | safe }}</li>
                             <li><a style="color: greenyellow;" href="{{ alt_result[2] }}">{{ alt_result[2] }}</a></li>
                                             {% endfor %}
@@ -108,11 +108,11 @@
       <main>
         <h1>Image Text Results</h1>
          <p>
-                            {% if session['biased_img_results'] %}
+                            {% if biased_img_results %}
                                     <div class="result">
                                       <!--  <h2>Image Text Results</h2>-->
                                         <ul>
-                                            {% for img_result in session['biased_img_results'] %}
+                                            {% for img_result in biased_img_results %}
                                             <li>{{ img_result[0] }}: {{ img_result[1] | safe }}</li>
                             <li><a style="color: greenyellow;" href="{{ img_result[2] }}">{{ img_result[2] }}</a></li>
                                             {% endfor %}
