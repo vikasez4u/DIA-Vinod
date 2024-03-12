@@ -8,6 +8,7 @@ from deepface import DeepFace
 from webcolors import CSS3_HEX_TO_NAMES, hex_to_rgb, rgb_to_name
 from mtcnn import MTCNN
 import db as diadb
+from app import app
 from datetime import datetime
 
 # Download the image
@@ -190,7 +191,8 @@ def main(url):
         # Check if any faces were detected
         total_count = male_count + female_count
         if total_count > 0:
-            diadb.create_table('Image_Txt_Results')
+            with app.app_context():
+              diadb.create_table('Image_Txt_Results')
             # Display the results for each face
             print(f"Image URL: {img_link}")
             print("Gender Count:")
@@ -214,7 +216,8 @@ def main(url):
             else:
                 print("No race detected in the image.")
 
-            diadb.saveImage('Image_Txt_Results', transaction_id, 'Image', male_count, female_count, confidence, max_skin_key, max_race_key, img_link)
+            with app.app_context():
+              diadb.saveImage('Image_Txt_Results', transaction_id, 'Image', male_count, female_count, confidence, max_skin_key, max_race_key, img_link)
             biased_alt_results.append((img_link,male_count,female_count,confidence,max_skin_key,max_race_key))
         else:
             print("No faces detected in the image.")
