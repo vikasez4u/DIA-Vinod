@@ -44,14 +44,18 @@ li{
     float:left;
     width:25%;
     height:100px;
+    padding-top:15px;
 }
 #middlebox{
     float:left;
     width:50%;
     height:100px;
+    padding-left:85px;
 }
 #rightbox{
     float:right;
     width:25%;
     height:100px;
+    padding-top:15px;
+    padding-left:65px;
 }

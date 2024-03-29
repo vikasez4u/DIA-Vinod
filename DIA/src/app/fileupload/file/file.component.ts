@@ -3,6 +3,7 @@ import { HttpClient } from "@angular/common/http";
 import { throwError } from "rxjs";
 const uploadURL = "http://localhost:3000/upload_files";
 import { read, utils, writeFile } from 'xlsx';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: "app-file",
@@ -13,9 +14,50 @@ export class FileComponent implements OnInit {
   status: "initial" | "uploading" | "success" | "fail" = "initial"; // Variable to store file status
   file: File | null = null; // Variable to store file
   users: any[] = [];
-  constructor(private http: HttpClient) {}
+  defaultwords: any[] = [];
+  constructor(private http: HttpClient, route:ActivatedRoute) {
+    route.params.subscribe(val => {
+      this.http.get('assets/defaultwords.xlsx', { responseType: 'blob' })
+          .subscribe((data: any) => {
+           // alert(data);
+            const reader: FileReader = new FileReader();
+            reader.readAsArrayBuffer(data);
+            reader.onload = (event: any) => {
+            //alert(event);
+              const wb =read(event.target.result);
+              const sheets = wb.SheetNames;
+
+              if(sheets.length){
+                const rows = utils.sheet_to_json(wb.Sheets[sheets[0]]);
+                this.defaultwords =rows;
+                //alert("called");
+              }
+            };
+          });
+    });
+
+  }
+
   filename='';
-  ngOnInit(): void {
+  ngOnInit(){
+      this.http.get('assets/defaultwords.xlsx', { responseType: 'blob' })
+          .subscribe((data: any) => {
+           // alert(data);
+            const reader: FileReader = new FileReader();
+            reader.readAsArrayBuffer(data);
+            reader.onload = (event: any) => {
+            //alert(event);
+              const wb =read(event.target.result);
+              const sheets = wb.SheetNames;
+
+              if(sheets.length){
+                const rows = utils.sheet_to_json(wb.Sheets[sheets[0]]);
+                this.defaultwords =rows;
+                //alert("called");
+              }
+            };
+          });
+
   }
 
   // On file Select
