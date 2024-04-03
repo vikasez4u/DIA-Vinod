@@ -27,7 +27,11 @@ export class BaisedComponent implements OnInit {
     checkBoxImage: any;
     category: any;
 
-    constructor(private router: Router, private http: HttpClient, private spinnerService: NgxSpinnerService) {}
+    constructor(private router: Router, private http: HttpClient, private spinnerService: NgxSpinnerService) {
+              this.name='';
+             this.checkBoxText='';
+             this.checkBoxImage='';
+    }
 
     ngOnInit(): void {}
 
@@ -45,7 +49,12 @@ export class BaisedComponent implements OnInit {
     ]; */
 
     onSubmit(){
-    if(this.name != null && ( this.checkBoxText != null || this.checkBoxImage!=null)){
+    alert(this.checkBoxText);
+    alert(this.checkBoxImage);
+    if(this.name != null && this.name.length >0 && ( this.checkBoxText != null || this.checkBoxImage!=null) &&
+     ( this.checkBoxText !='undefined' || this.checkBoxImage !='undefined') &&
+     ( this.checkBoxText !=' ' || this.checkBoxImage !=' ') &&
+     ( this.checkBoxText !='' || this.checkBoxImage !='')){
          this.spinnerService.show();
           this.loader = true;
           const data = new HttpParams()
@@ -83,11 +92,17 @@ export class BaisedComponent implements OnInit {
             err => {
               this.spinnerService.hide();
               this.loader = false;
+              this.name='';
+              this.checkBoxText='';
+              this.checkBoxImage='';
               alert("error while getting initial data :::  " + err.message);
               console.log("error while getting initial data" + err.message);
             });
         }else{
             alert("Please Enter All mandatory fields");
+             this.name='';
+             this.checkBoxText='';
+             this.checkBoxImage='';
         }
     }
 
