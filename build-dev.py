@@ -19,7 +19,7 @@ FLASK_TEMPLATES_PATH = os.path.join(CURRENT_DIRECTORY, 'templates')
 
 dir_exists = True
 
-while dir_exists:
+if dir_exists:
     try:
         subprocess.call(('cd ' + ANGULAR_PROJECT_PATH + ' && ng build --base-href /static/ --output-hashing=all &'), shell=True)
         for f in os.listdir(FLASK_STATIC_PATH):
@@ -29,7 +29,7 @@ while dir_exists:
         static_files = ""
         html_files = ""
         for file in files:
-            if '.js' in file or '.js.map' in file or '.ico' in file or '.css' in file or '.jpg' in file:
+            if '.js' in file or '.js.map' in file or '.ico' in file or '.css' in file or '.jpg' in file or '.woff' in file or '.woff2' in file:
                 static_files = file
                 print(DIST_PATH + '\\' + static_files, FLASK_STATIC_PATH + '\\' + static_files)
                 (shutil.move(DIST_PATH + '\\' + static_files, FLASK_STATIC_PATH + '\\' + static_files))
@@ -46,4 +46,3 @@ while dir_exists:
     except Exception as e:
         dir_exists = False
         print(e)
-    time.sleep(10.0)
