@@ -10,6 +10,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { HeaderComponent } from './header/header.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import {APP_BASE_HREF} from '@angular/common';
 
 const routes : Routes = [
 { path: '', component: BaisedComponent},
@@ -33,7 +34,7 @@ const routes : Routes = [
     HttpClientModule,
     RouterModule.forRoot(routes)
   ],
-  providers: [],
+  providers: [{provide: APP_BASE_HREF, useValue: '/dia/home'}],
   bootstrap: [AppComponent],
   exports: [RouterModule]
 })
