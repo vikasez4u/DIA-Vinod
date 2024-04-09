@@ -14,6 +14,9 @@ import bleach
 from pexecute.thread import ThreadLoom
 import db as diadb
 from datetime import datetime
+import pytesseract
+
+pytesseract.pytesseract.tesseract_cmd = "C:\\Program Files\\Tesseract-OCR\\tesseract.exe"
 
 app = Flask(__name__)
 app.secret_key = 'Digital Inclusivity Auditor'
@@ -54,12 +57,13 @@ def extract_alt_text_from_url(url):
     return None
 
 
-def process_image(image_url):
+def process_image(image_url,url):
   allowed_formats = ['jpeg', 'jpg', 'png']
   try:
     parsed_url = urlparse(image_url)
     if not parsed_url.scheme:
-      image_url = f'http:/{image_url}'
+      # image_url = f'http:/{image_url}'
+      image_url = f'{url}{image_url}'
 
     # Check the file extension of the image URL
     _, ext = os.path.splitext(image_url)
@@ -69,19 +73,25 @@ def process_image(image_url):
     if ext not in allowed_formats:
       # print(f'Skipping image {image_url}: Unsupported format')
       return None
+    print("processing the image for text extraction: {}".format(image_url))
 
     # Load the image from URL
     response = requests.get(image_url)
+    if response.status_code != 200:
+      print(f'Failed to fetch image from {image_url}')
+      return None
     # print(response)
     # print(response.content)
     image = Image.open(BytesIO(response.content))
 
     # Perform OCR using pytesseract
     text = pytesseract.image_to_string(image)
+    print("Text exracted from the image {} is \n {}".format(image_url,text))
 
     return text
   except (requests.exceptions.RequestException, OSError, UnidentifiedImageError) as e:
-    print(f'Error processing image {image_url}: {str(e)}')
+    # print(f'Error processing image {image_url}: {str(e)}')
+    print(f'Error processing image for text extraction : {image_url}: {str(e)}')
     return None
 
 
@@ -177,7 +187,7 @@ def detect_gender_biased_alt_texts(alt_texts):
   return biased_alt_texts, biased_words
 
 
-def extract_text_from_images(url):
+def extract_text_from_images(url:str):
   response = requests.get(url)
   soup = BeautifulSoup(response.content, 'html.parser')
   img_tags = soup.find_all('img')
@@ -188,7 +198,7 @@ def extract_text_from_images(url):
   image_links = []
 
   for image_url in image_urls:
-    textimg = process_image(image_url)
+    textimg = process_image(image_url=image_url,url=url)
     if textimg:
       sentences, words = detect_gender_biased_sentences_img(textimg, image_url)
       if sentences:

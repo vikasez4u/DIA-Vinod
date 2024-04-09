@@ -49,26 +49,41 @@ def download_image(url):
 # Detect faces and crop them
 def detect_and_crop_faces(image, face_net, confidence_threshold=0.5):
     detector = MTCNN()
-    results = detector.detect_faces(image)
+    # results = detector.detect_faces(image)
+    #
+    # faces = []
+    # face_boxes = []
+    #
+    # for result in results:
+    #     if result['confidence'] > confidence_threshold:
+    #         x, y, width, height = result['box']
+    #         x1, y1 = abs(x), abs(y)
+    #         x2, y2 = x1 + width, y1 + height
+    #         face = image[y1:y2, x1:x2]
+    #
+    #         faces.append(face)
+    #         face_boxes.append(result['box'])
+    #
+    # return faces, face_boxes
 
-    faces = []
     face_boxes = []
+    # Perform face detection
+    faces = detector.detect_faces(image)
 
-    for result in results:
-        if result['confidence'] > confidence_threshold:
-            x, y, width, height = result['box']
-            x1, y1 = abs(x), abs(y)
-            x2, y2 = x1 + width, y1 + height
-            face = image[y1:y2, x1:x2]
+    # Analyze each detected face
+    for i, face_info in enumerate(faces):
+      # Extract bounding box coordinates
+      x, y, w, h = face_info['box']
 
-            faces.append(face)
-            face_boxes.append(result['box'])
-
-    return faces, face_boxes
+      # Crop the face region
+      face = image[y:y + h, x:x + w]
+      face_boxes.append(face)
+    return face_boxes
 
 def get_gender_count(image, gender_net, confidence_threshold=0.5):
     # Detect faces and genders in the image using MTCNN
-    faces, _ = detect_and_crop_faces(image, confidence_threshold)
+    #faces, _ = detect_and_crop_faces(image, confidence_threshold)
+    faces = detect_and_crop_faces(image, confidence_threshold)
 
     # Initialize gender counts
     male_count = 0
@@ -139,6 +154,7 @@ def extract_skin_regions(image):
 # Get additional image details (gender, race, etc.)
 def get_race_detail(image):
     # Use DeepFace to predict the race of the face
+    model = DeepFace.build_model("VGG-Face")
     result = DeepFace.analyze(img_path=image, actions=["race"], enforce_detection=False)
     print(result)
     for entry in result:
@@ -155,6 +171,13 @@ def extract_image_links(url):
         img_link = img.get("src")
         if img_link and (img_link.endswith(".jpg") or img_link.endswith(".jpeg") or img_link.endswith(".png")):
             img_links.append(img_link)
+
+    for i in range(len(img_links)):
+      if img_links[i].startswith("https://"):
+        continue
+      else:
+        img_links[i] = str(url) + str(img_links[i])
+
     return img_links
 
 # Main function
@@ -180,6 +203,7 @@ def main(url):
         print(f"Processing image {i+1}/{len(img_links)}")
         # Download the image
         image = download_image(img_link)
+        print("processing image at: " + img_link)
 
         # If the image download fails, skip to the next image
         if image is None:

@@ -49,8 +49,6 @@ export class BaisedComponent implements OnInit {
     ]; */
 
     onSubmit(){
-    alert(this.checkBoxText);
-    alert(this.checkBoxImage);
     if(this.name != null && this.name.length >0 && ( this.checkBoxText != null || this.checkBoxImage!=null) &&
      ( this.checkBoxText !='undefined' || this.checkBoxImage !='undefined') &&
      ( this.checkBoxText !=' ' || this.checkBoxImage !=' ') &&
@@ -58,6 +56,8 @@ export class BaisedComponent implements OnInit {
          this.spinnerService.show();
           this.loader = true;
           const data = new HttpParams()
+
+
           .set('urlName', this.name)
           .set('Text', this.checkBoxText)
           .set('Image',this.checkBoxImage);
