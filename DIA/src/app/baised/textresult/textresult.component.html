@@ -1,0 +1,151 @@
+<!-- TAB CONTROLLERS -->
+<input id="panel-1-ctrl"
+       class="panel-radios" type="radio" name="tab-radios" checked hidden="hidden">
+<input id="panel-2-ctrl"
+       class="panel-radios" type="radio" name="tab-radios" hidden="hidden">
+<input id="panel-3-ctrl"
+       class="panel-radios" type="radio" name="tab-radios" hidden="hidden">
+<input id="panel-4-ctrl"
+       class="panel-radios" type="radio" name="tab-radios" hidden="hidden">
+<input id="nav-ctrl"
+       class="panel-radios" type="checkbox" name="nav-checkbox" hidden="hidden">
+
+<!--<div>
+  <div id = "leftbox">
+       <ul class="ulh">
+          <li class="lih">
+              <a routerLink="/" >Home</a>
+          </li>
+         </ul>
+  </div>
+   <div id = "middlebox">
+          <a class="apptitlecontainer">Digital Inclusivity Auditor</a>
+  </div>
+  <div id = "rightbox">
+     <ul>
+          <li>
+
+          </li>
+      </ul>
+</div>-->
+
+<!-- TABS LIST -->
+<ul id="tabs-list">
+    <!-- MENU TOGGLE -->
+    <label id="open-nav-label" for="nav-ctrl"></label>
+    <li id="li-for-panel-1">
+      <label class="panel-label"
+             for="panel-1-ctrl">Text Results</label>
+    </li><!--INLINE-BLOCK FIX
+ --><li id="li-for-panel-2">
+      <label class="panel-label"
+             for="panel-2-ctrl">Alt Text Results</label>
+    </li><!--INLINE-BLOCK FIX
+ --><li id="li-for-panel-3">
+      <label class="panel-label"
+             for="panel-3-ctrl">Image Text Results</label>
+    </li>
+    <li id="li-for-panel-4" style="margin-left:-5px">
+      <label class="panel-label"
+             for="panel-4-ctrl">Summary</label>
+    </li>
+    <label id="close-nav-label" for="nav-ctrl">Close</label>
+</ul>
+
+<!-- THE PANELS -->
+<article id="panels">
+  <div class="container">
+    <section id="panel-1">
+      <div class="progress-container">
+        <div class="progress-bar" id="myBar"></div>
+      </div>
+      <main>
+        <h1>Text Results</h1>
+        <p>
+          <div class="result" *ngIf="biased_txt_results.length>0">
+            <ul>
+              <li *ngFor="let result of biased_txt_results;">
+                {{ result[0] }}: <span [innerHTML]="result[1]"></span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="result" *ngIf="biased_txt_results.length==0">
+            <p>No biased sentences found in the text.</p>
+          </div>
+      </main>
+    </section>
+    <section id="panel-2">
+      <main>
+        <h1>Alt Text Results</h1>
+        <p>
+          <div class="result" *ngIf="biased_alt_results.length>0">
+            <ul *ngFor="let result of biased_alt_results;">
+              <li>
+                {{ result[0] }}: <span [innerHTML]="result[1]"></span>
+              </li>
+              <li><a style="color: greenyellow;" href="{{ result[2] }}">{{ result[2] }}</a></li>
+            </ul>
+          </div>
+
+          <div class="result" *ngIf="biased_alt_results.length==0">
+            <p>No biased sentences found in the text.</p>
+          </div>
+      </main>
+    </section>
+    <section id="panel-3">
+      <main>
+        <h1>Image Text Results</h1>
+        <p>
+          <div class="result" *ngIf="biased_img_results.length>0">
+            <ul *ngFor="let result of biased_img_results;">
+              <li>
+                {{ result[0] }}: <span [innerHTML]="result[1]"></span>
+              </li>
+              <li><a style="color: greenyellow;" href="{{ result[2] }}">{{ result[2] }}</a></li>
+            </ul>
+          </div>
+
+          <div class="result" *ngIf="biased_img_results.length==0">
+            <p>No biased sentences found in the text.</p>
+          </div>
+      </main>
+    </section>
+    <section id="panel-4">
+      <main>
+        <h1>Summary</h1>
+        <p>
+          <div class="result" >
+            <ul>
+              <li>
+                Total Biased Sentences: {{ total_biased_text }}
+                <ul *ngFor="let txt_gender_count of text_results_tr_Gender_Count;">
+                  <li>{{ txt_gender_count[0] }}: {{ txt_gender_count[1] }}</li>
+                </ul>
+              </li>
+              <br>
+              <li>Total Biased Alt Texts: {{ total_biased_alt_text }}
+                <ul *ngFor="let alt_txt_gender_count of alt_text_results_tr_Gender_Count;">
+                  <li>{{ alt_txt_gender_count[0] }}: {{ alt_txt_gender_count[1] }}</li>
+                </ul>
+              </li>
+              <br>
+              <li>Total Biased Image Results: {{ total_biased_img_results }}
+                <ul *ngFor="let img_txt_gender_count of img_text_results_tr_Gender_Count;">
+                  <li>{{ img_txt_gender_count[0] }}: {{ img_txt_gender_count[1] }}</li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+      </main>
+    </section>
+  </div>
+</article>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.8/angular.min.js">
+</script>
+
+<br><app-barchart [contentType]="modelType" [total_biased_text]="total_biased_text"
+                  [total_biased_alt_text]="total_biased_alt_text" [total_biased_img_results]="total_biased_img_results"
+                  [text_results_tr_Gender_Count]="text_results_tr_Gender_Count"
+                  [alt_text_results_tr_Gender_Count]="alt_text_results_tr_Gender_Count"
+                  [img_text_results_tr_Gender_Count]="img_text_results_tr_Gender_Count"></app-barchart><br><br>

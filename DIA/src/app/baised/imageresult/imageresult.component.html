@@ -1,0 +1,180 @@
+<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css'>
+
+<script src='https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/textfit/2.4.0/textFit.min.js'></script>
+
+<!-- TAB CONTROLLERS -->
+<input id="panel-1-ctrl"
+       class="panel-radios" type="radio" name="tab-radios" checked hidden="hidden">
+<input id="panel-2-ctrl"
+       class="panel-radios" type="radio" name="tab-radios" hidden="hidden">
+<input id="panel-3-ctrl"
+       class="panel-radios" type="radio" name="tab-radios" hidden="hidden">
+<input id="nav-ctrl"
+       class="panel-radios" type="checkbox" name="nav-checkbox" hidden="hidden">
+<header id="introduction">
+  <h1>Digital Inclusivity Auditor</h1>
+</header>
+
+<!-- TABS LIST -->
+<ul id="tabs-list">
+    <!-- MENU TOGGLE -->
+    <label id="open-nav-label" for="nav-ctrl"></label>
+    <li id="li-for-panel-1">
+      <label class="panel-label"
+             for="panel-1-ctrl">Image Text Results</label>
+    </li><!--INLINE-BLOCK FIX
+ --><li id="li-for-panel-2">
+      <label class="panel-label"
+             for="panel-2-ctrl">Image Results</label>
+    </li><!--INLINE-BLOCK FIX
+ --><li id="li-for-panel-3">
+      <label class="panel-label"
+             for="panel-3-ctrl">Summary</label>
+    </li>
+    <label id="close-nav-label" for="nav-ctrl">Close</label>
+</ul>
+
+
+<article id="panels">
+  <div class="container">
+    <section id="panel-1">
+      <div class="progress-container">
+        <div class="progress-bar" id="myBar"></div>
+      </div>
+      <main>
+        <h1>Image Text Results</h1>
+         <p>
+                                    <div class="result" *ngIf="image_biased_results.length>0">
+                                        <!--<h2>Text Results</h2>-->
+                                        <ul *ngFor="let result of image_biased_results;">
+                                            <li>
+                                              <a style="color: greenyellow;" href="{{ result[0] }}">{{ result[0] }}</a>
+                                            </li>
+                                            <ul>
+                                              <li> Male:  {{ result[1] }} </li>
+                                              <li> Female: {{ result[2] }} </li>
+                                              <li>  Gender Bias Confidence: {{ result[3] }} </li>
+                                              <li>  Skin Color: {{ result[4] }} </li>
+                                              <li> Dominant Race: {{ result[5] }} </li>
+                                             </ul>
+                                        </ul>
+                                    </div>
+                                    <div class="result" *ngIf="image_biased_results.length==0">
+                                        <p>No biased sentences found in the text.</p>
+                                    </div>
+      </main>
+    </section>
+    <section id="panel-2">
+      <main>
+        <h1>Image Results</h1>
+
+
+    <div class="swiper swiperCarousel">
+
+        <div class="swiper-wrapper" *ngFor="let img_result of image_biased_results;">
+            <div class="swiper-slide">
+                <div class="card">
+                    <img class="avatar" src="{{ img_result[0] }}" />
+                    <svg class="quote-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="125px" height="125px">
+              <path
+                d="M 16.482422 8.9921875 A 1.50015 1.50015 0 0 0 15.943359 9.1074219 C 15.943359 9.1074219 13.068414 10.279429 10.357422 13.464844 C 7.6464301 16.650259 5 21.927419 5 30 A 1.50015 1.50015 0 0 0 5.015625 30.21875 A 8.5 8.5 0 0 0 13.5 39 A 8.5 8.5 0 0 0 13.5 22 A 8.5 8.5 0 0 0 8.7089844 23.480469 C 9.5777265 19.777157 11.122152 17.196657 12.642578 15.410156 C 14.931586 12.720571 17.056641 11.892578 17.056641 11.892578 A 1.50015 1.50015 0 0 0 16.482422 8.9921875 z M 37.482422 8.9921875 A 1.50015 1.50015 0 0 0 36.943359 9.1074219 C 36.943359 9.1074219 34.068414 10.279429 31.357422 13.464844 C 28.64643 16.650259 26 21.927419 26 30 A 1.50015 1.50015 0 0 0 26.015625 30.21875 A 8.5 8.5 0 0 0 34.5 39 A 8.5 8.5 0 0 0 34.5 22 A 8.5 8.5 0 0 0 29.708984 23.480469 C 30.577727 19.777157 32.122152 17.196657 33.642578 15.410156 C 35.931586 12.720571 38.056641 11.892578 38.056641 11.892578 A 1.50015 1.50015 0 0 0 37.482422 8.9921875 z"
+              />
+            </svg>
+                    <div class="headercar">
+                        <h1 class="name">Image Details: </h1>
+                    </div>
+                    <div class="title">
+                        <h2 class="title"> Male:  {{ img_result[1] }} </h2>
+                        <h2 class="title"> Female: {{ img_result[2] }} </h2>
+                        <h2 class="title">  Gender Bias Confidence: {{ img_result[3] }} </h2>
+                        <h2 class="title">  Skin Color: {{ img_result[4] }} </h2>
+                        <h2 class="title"> Dominant Race: {{ img_result[5] }} </h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-pagination"></div>
+    </div>
+
+      </main>
+    </section>
+    <section id="panel-3">
+      <main>
+        <h1>Summary</h1>
+         <p>
+                                    <div class="result" *ngIf="image_results_tr.length>0">
+                                      <!--  <h2>Image Text Results</h2>-->
+                                        <ul>
+
+                                            <li>
+                                              <p>Total Gender Biased Count</p>
+                                                  <ul *ngFor="let txt_gender_count of image_results_tr;">
+                                                    <li>Male:  {{ txt_gender_count[0] }}</li>
+                                                    <li>Female:  {{ txt_gender_count[1] }}</li>
+                                                  </ul>
+                                            </li>
+
+                                        </ul>
+                                    </div>
+                                    <div class="result" *ngIf="image_results_tr.length==0">
+                                        <p>No biased image found.</p>
+                                    </div>
+      </main>
+    </section>
+  </div>
+</article>
+
+<br><app-barchart [contentType]="modelType" [image_results_tr]="image_results_tr"></app-barchart><br><br>
+
+<script>
+
+  /**
+  Swiper:
+  https://swiperjs.com/
+**/
+const swiper = new Swiper(".swiperCarousel", {
+  slidesPerView: 3,
+  centeredSlides: true,
+  spaceBetween: 10,
+  keyboard: {
+    enabled: true,
+  },
+  loop: true,
+  pagination: {
+    el: ".swiper-pagination",
+  },
+  navigation: {
+    nextEl: ".swiper-button-next",
+    prevEl: ".swiper-button-prev",
+  },
+});
+
+const slides = document.getElementsByClassName("swiper-slide");
+for (const slide of slides) {
+  slide.addEventListener("click", () => {
+    const { className } = slide;
+    if (className.includes("swiper-slide-next")) {
+      swiper.slideNext();
+    } else if (className.includes("swiper-slide-prev")) {
+      swiper.slidePrev();
+    }
+  });
+}
+
+function resizeTextToFit() {
+  const quoteEls = document.getElementsByClassName('quote');
+  for (const el of quoteEls) {
+    el.style.width = el.offsetWidth;
+    el.style.height = el.offsetHeight;
+  }
+  textFit(quoteEls, { maxFontSize: 14 });
+}
+resizeTextToFit();
+addEventListener("resize", (event) => {
+  resizeTextToFit();
+});
+</script>
