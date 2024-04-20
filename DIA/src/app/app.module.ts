@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import {FormsModule} from '@angular/forms';
-import { AppRoutingModule } from './app-routing.module';
+import { AppRoutingModule, routingComponents } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BaisedComponent } from './baised/baised.component';
 import { FileComponent } from './fileupload/file/file.component';
@@ -11,9 +11,10 @@ import { HeaderComponent } from './header/header.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import {APP_BASE_HREF} from '@angular/common';
+import { BarchartComponent } from './barchart/barchart.component';
 
 const routes : Routes = [
-{ path: '', component: BaisedComponent},
+{ path: 'home', component: BaisedComponent},
 { path: 'fileupload/file', component: FileComponent},
 { path: "**", component: BaisedComponent}
 ];
@@ -23,7 +24,9 @@ const routes : Routes = [
     AppComponent,
     BaisedComponent,
     FileComponent,
-    HeaderComponent
+    HeaderComponent,
+    BarchartComponent,
+    routingComponents
   ],
   imports: [
     BrowserModule,
@@ -34,7 +37,7 @@ const routes : Routes = [
     HttpClientModule,
     RouterModule.forRoot(routes)
   ],
-  providers: [{provide: APP_BASE_HREF, useValue: '/dia/home'}],
+  providers: [{provide: APP_BASE_HREF, useValue: '/dia/'}],
   bootstrap: [AppComponent],
   exports: [RouterModule]
 })

@@ -56,18 +56,28 @@ export class BaisedComponent implements OnInit {
          this.spinnerService.show();
           this.loader = true;
           const data = new HttpParams()
-
-
           .set('urlName', this.name)
           .set('Text', this.checkBoxText)
           .set('Image',this.checkBoxImage);
 
+          let self = this;
           function loadTo(Page: any): void {
-            if (Page['file'] == 'output.html') {
-              window.location.assign('/output');
+            if (Page['file'] == 'Text') {
+              self.router.navigate(['biased/textresult'], {state: { modelType: Page['file'],
+              biased_txt_results: Page['txt_results'], biased_alt_results: Page['alt_results'],
+              biased_img_results: Page['txt_img_results'], total_biased_text: Page['total_biased_text'],
+              total_biased_alt_text: Page['total_biased_alt_text'],
+              total_biased_img_results: Page['total_biased_img_results'],
+              text_results_tr_Gender_Count: Page['text_results_tr_Gender_Count'],
+              alt_text_results_tr_Gender_Count: Page['alt_text_results_tr_Gender_Count'],
+              img_text_results_tr_Gender_Count: Page['img_text_results_tr_Gender_Count']}});
+              //window.location.assign('/output');
             }
-            else if (Page['file'] == 'imageOp.html') {
-              window.location.assign('/imageOp');
+            else if (Page['file'] == 'Image') {
+              //alert(Page['image_results_tr']);
+              self.router.navigate(['biased/imageresult'], {state: {modelType: Page['file'],
+              image_biased_results: Page['image_results'], image_results_tr: Page['image_results_tr']}});
+              //window.location.assign('/imageOp');
             }
             else {
               window.location.assign('/parallelexec');

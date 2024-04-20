@@ -113,7 +113,7 @@ def detect_gender_biased_sentences(textip):
         trimmed_sentence = ' '.join(words[start:end])
         # trimmed_sentence = re.sub(r'\b' + re.escape(words[i]) + r'\b', '\033[91m' + words[i] + '\033[0m',
         # trimmed_sentence)
-        trimmed_sentence = re.sub(r'\b' + re.escape(words[i]) + r'\b', r'<span style="color:orangered">\g<0></span>',
+        trimmed_sentence = re.sub(r'\b' + re.escape(words[i]) + r'\b', r'<span class="wordcolor">\g<0></span>',
                                   trimmed_sentence, flags=re.IGNORECASE)
         biased_sentences.append(trimmed_sentence)
         biased_words.append(words[i])
@@ -154,7 +154,7 @@ def detect_gender_biased_sentences_img(textip, image_link):
         start = max(0, i - 5)
         end = min(i + 6, len(words))
         trimmed_sentence = ' '.join(words[start:end])
-        trimmed_sentence = re.sub(r'\b' + re.escape(words[i]) + r'\b', r'<span style="color:orangered">\g<0></span>',
+        trimmed_sentence = re.sub(r'\b' + re.escape(words[i]) + r'\b', r'<span class="wordcolor">\g<0></span>',
                                   trimmed_sentence, flags=re.IGNORECASE)
         biased_sentences.append(trimmed_sentence)
         biased_words.append(words[i])
@@ -210,24 +210,31 @@ def extract_text_from_images(url:str):
 
 
 def highlight_biased_word(sentence, word):
-  highlighted_sentence = re.sub(r'\b' + word + r'\b', '<span style="color:orangered">{}</span>'.format(word), sentence,
+  highlighted_sentence = re.sub(r'\b' + word + r'\b', '<span class="wordcolor">{}</span>'.format(word), sentence,
                                 flags=re.IGNORECASE)
   return highlighted_sentence
 
 
 @app.route('/')
-@app.route('/static/')
+@app.route('/home')
+@app.route('/dia/')
 def hello_world():
   return render_template('index.html')
 
 
-@app.route('/output')
+@app.route('/output', methods=['POST', 'GET'])
 def output():
   biased_txt_results = txt_results
   biased_alt_results = alt_results
   biased_img_results = txt_img_results
   total_biased_text, total_biased_alt_text, total_biased_img_results, text_results_tr_Gender_Count, alt_text_results_tr_Gender_Count, img_text_results_tr_Gender_Count = diadb.textsummaryresult()
-  return render_template('output.html', **locals())
+  if request.method == "GET":
+    return {'total_biased_text': total_biased_text, 'total_biased_alt_text': total_biased_alt_text,
+            'total_biased_img_results': total_biased_img_results,
+            'text_results_tr_Gender_Count': text_results_tr_Gender_Count,
+            'alt_text_results_tr_Gender_Count': alt_text_results_tr_Gender_Count,
+            'img_text_results_tr_Gender_Count': img_text_results_tr_Gender_Count}
+  #return render_template('output.html', **locals())
 
 
 @app.route('/imageOp')
@@ -297,15 +304,24 @@ def result():
 
   elif modeltypetextcontent:
     txt_results, alt_results, txt_img_results = text(url)
+    total_biased_text, total_biased_alt_text, total_biased_img_results, text_results_tr_Gender_Count, alt_text_results_tr_Gender_Count, img_text_results_tr_Gender_Count = diadb.textsummaryresult()
     # return render_template('output.html', **locals())
     #print(session['biased_txt_results'], session['biased_alt_results'], session['biased_img_results'])
-    return {"file": "output.html"}
+    return {"file": "Text", "txt_results": txt_results, "alt_results": alt_results, "txt_img_results": txt_img_results,
+            "total_biased_text": total_biased_text, "total_biased_alt_text": total_biased_alt_text,
+            "total_biased_img_results": total_biased_img_results,
+            "text_results_tr_Gender_Count": text_results_tr_Gender_Count,
+            "alt_text_results_tr_Gender_Count": alt_text_results_tr_Gender_Count,
+            "img_text_results_tr_Gender_Count": img_text_results_tr_Gender_Count
+            }
+    #return {"file": "output.html"}
 
   elif modeltypeimagecontent:
     image_results = imageMode.main(url)
+    image_results_tr = diadb.imagesummaryresult()
     # print(biased_alt_results)
     # return render_template('imageOp.html', **locals())
-    return {"file": "imageOp.html"}
+    return {"file": "Image", "image_results": image_results, "image_results_tr": image_results_tr}
   else:
     pass
 
