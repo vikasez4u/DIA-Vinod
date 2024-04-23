@@ -221,11 +221,11 @@ createChart(textLabel:any[], textData:any[], altLabel:any[], altData:any[], imgL
             }
           });
     }
-    alert(this.modelTextFlag);
-    alert(this.modelImgFlag);
-    alert(this.textChart);
-    alert(this.textChart.length);
-    alert(this.textChart.size);
+    //alert(this.modelTextFlag);
+    //alert(this.modelImgFlag);
+    //alert(this.textChart);
+    //alert(this.textChart.length);
+    //alert(this.textChart.size);
   }
 
   createImageChart(imageLabel:any[], imageData:any[]){

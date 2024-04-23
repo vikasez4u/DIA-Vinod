@@ -1,4 +1,4 @@
-<div>
+<div class="tabs {{modelTextFlag? '': 'invisible'}}">
   <div class="chart-container">
         <canvas id="TextChart" style="width:100%;max-width:675px;height:100%;max-height:675px">{{ textChart }}</canvas>
         <canvas id="AltChart" style="width:100%;max-width:675px;height:100%;max-height:675px">{{ textAltChart }}</canvas>
@@ -9,7 +9,7 @@
   </div>
 </div>
 
-<div>
+<div class="tabs {{modelImgFlag? '': 'invisible'}}">
   <div class="chart-container">
         <canvas id="ImgGenChart" style="width:100%;max-width:675px;height:100%;max-height:675px">{{ imageGenderChart }}</canvas>
   </div>
