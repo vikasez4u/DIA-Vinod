@@ -124,7 +124,8 @@ label.panel-label:hover {
   border: 1px solid black;
   border-collapse: separate;
   border-spacing: 0px;
-  margin-left: 190px;
+  margin-left: -130px;
+  width: 137%;
   max-height: 0px;
 }
 
@@ -257,7 +258,9 @@ label.panel-label:hover {
   }
   #panel-1-ctrl:checked ~ #tabs-list #li-for-panel-1 label.panel-label {
     background-color: white;
-    color: #2f4f4f;
+    color: #c0392b;
+    background-color: #c0392b;
+    color: white;
   }
 
   #panel-2-ctrl:checked ~ #tabs-list #li-for-panel-2 {
@@ -763,4 +766,7 @@ bodycar {
     transform: translate(-50px, -50px);
   }
 }
-
+.result{
+  max-height: 200px;
+  color: white;
+}
