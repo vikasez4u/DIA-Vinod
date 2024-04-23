@@ -76,8 +76,9 @@ if(modelTextFlag){
 }
 
 if(modelImgFlag){
+  imageLabel.push('Male','Female');
   for(var key of this.image_results_tr){
-    imageLabel.push(key[0]);
+    imageData.push(key[0]);
     imageData.push(key[1]);
   }
 }
