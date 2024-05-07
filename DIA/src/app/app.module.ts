@@ -12,6 +12,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import {APP_BASE_HREF} from '@angular/common';
 import { BarchartComponent } from './barchart/barchart.component';
+import { TextresultComponent } from './baised/textresult/textresult.component';
+import { ImageresultComponent } from './baised/imageresult/imageresult.component';
 
 const routes : Routes = [
 { path: 'home', component: BaisedComponent},
@@ -26,6 +28,8 @@ const routes : Routes = [
     FileComponent,
     HeaderComponent,
     BarchartComponent,
+    TextresultComponent,
+    ImageresultComponent,
     routingComponents
   ],
   imports: [

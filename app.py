@@ -299,8 +299,18 @@ def result():
     txt_img_results = parllelexecresult[0]['output'][2]
     image_results = parllelexecresult[1]['output']
 
+    total_biased_text, total_biased_alt_text, total_biased_img_results, text_results_tr_Gender_Count, alt_text_results_tr_Gender_Count, img_text_results_tr_Gender_Count = diadb.textsummaryresult()
+    image_results_tr = diadb.imagesummaryresult()
+
     # render_template('parallelexec.html', **locals())
-    return {"file": "parallelexec.html"}
+    return {"file": "parallelexec", "txt_results": txt_results, "alt_results": alt_results, "txt_img_results": txt_img_results,
+            "total_biased_text": total_biased_text, "total_biased_alt_text": total_biased_alt_text,
+            "total_biased_img_results": total_biased_img_results,
+            "text_results_tr_Gender_Count": text_results_tr_Gender_Count,
+            "alt_text_results_tr_Gender_Count": alt_text_results_tr_Gender_Count,
+            "img_text_results_tr_Gender_Count": img_text_results_tr_Gender_Count,
+            "image_results": image_results, "image_results_tr": image_results_tr
+            }
 
   elif modeltypetextcontent:
     txt_results, alt_results, txt_img_results = text(url)

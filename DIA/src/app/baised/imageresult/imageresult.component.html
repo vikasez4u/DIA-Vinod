@@ -1,48 +1,48 @@
-<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css'>
+<!--<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css'>
 
 <script src='https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js'></script>
-<script src='https://cdnjs.cloudflare.com/ajax/libs/textfit/2.4.0/textFit.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/textfit/2.4.0/textFit.min.js'></script>!-->
 
 <!-- TAB CONTROLLERS -->
-<input id="panel-1-ctrl"
-       class="panel-radios" type="radio" name="tab-radios" checked hidden="hidden">
-<input id="panel-2-ctrl"
-       class="panel-radios" type="radio" name="tab-radios" hidden="hidden">
-<input id="panel-3-ctrl"
-       class="panel-radios" type="radio" name="tab-radios" hidden="hidden">
-<input id="nav-ctrl"
-       class="panel-radios" type="checkbox" name="nav-checkbox" hidden="hidden">
+<input id="img-panel-1-ctrl"
+       class="img-panel-radios" type="radio" name="img-tab-radios" checked hidden="hidden">
+<input id="img-panel-2-ctrl"
+       class="img-panel-radios" type="radio" name="img-tab-radios" hidden="hidden">
+<input id="img-panel-3-ctrl"
+       class="img-panel-radios" type="radio" name="img-tab-radios" hidden="hidden">
+<input id="img-nav-ctrl"
+       class="img-panel-radios" type="checkbox" name="img-nav-checkbox" hidden="hidden">
 
 <!-- TABS LIST -->
-<ul id="tabs-list">
+<ul id="img-tabs-list">
     <!-- MENU TOGGLE -->
-    <label id="open-nav-label" for="nav-ctrl"></label>
-    <li id="li-for-panel-1">
-      <label class="panel-label"
-             for="panel-1-ctrl">Image Text Results</label>
+    <label id="img-open-nav-label" for="img-nav-ctrl"></label>
+    <li id="img-li-for-panel-1">
+      <label class="img-panel-label"
+             for="img-panel-1-ctrl">Image Text Results</label>
     </li><!--INLINE-BLOCK FIX
- --><li id="li-for-panel-2">
-      <label class="panel-label"
-             for="panel-2-ctrl">Image Results</label>
+ --><li id="img-li-for-panel-2">
+      <label class="img-panel-label"
+             for="img-panel-2-ctrl">Image Results</label>
     </li><!--INLINE-BLOCK FIX
- --><li id="li-for-panel-3">
-      <label class="panel-label"
-             for="panel-3-ctrl">Summary</label>
+ --><li id="img-li-for-panel-3">
+      <label class="img-panel-label"
+             for="img-panel-3-ctrl">Summary</label>
     </li>
-    <label id="close-nav-label" for="nav-ctrl">Close</label>
+    <label id="img-close-nav-label" for="img-nav-ctrl">Close</label>
 </ul>
 
 
-<article id="panels">
-  <div class="container">
-    <section id="panel-1">
-      <div class="progress-container">
-        <div class="progress-bar" id="myBar"></div>
+<article id="img-panels">
+  <div class="img-container">
+    <section id="img-panel-1">
+      <div class="img-progress-container">
+        <div class="img-progress-bar" id="img-myBar"></div>
       </div>
       <main>
         <h1>Image Text Results</h1>
          <p>
-                                    <div class="result" *ngIf="image_biased_results.length>0">
+                                    <div class="img-result" *ngIf="image_biased_results.length>0">
                                         <!--<h2>Text Results</h2>-->
                                         <ul *ngFor="let result of image_biased_results;">
                                             <li>
@@ -57,20 +57,20 @@
                                              </ul>
                                         </ul>
                                     </div>
-                                    <div class="result" *ngIf="image_biased_results.length==0">
+                                    <div class="img-result" *ngIf="image_biased_results.length==0">
                                         <p>No biased sentences found in the text.</p>
                                     </div>
       </main>
     </section>
-    <section id="panel-2">
+    <section id="img-panel-2">
       <main>
         <h1>Image Results</h1>
 
 
     <div class="swiper swiperCarousel">
 
-        <div class="swiper-wrapper" *ngFor="let img_result of image_biased_results;">
-            <div class="swiper-slide">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide" *ngFor="let img_result of image_biased_results">
                 <div class="card">
                     <img class="avatar" src="{{ img_result[0] }}" />
                     <svg class="quote-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="125px" height="125px">
@@ -99,11 +99,11 @@
 
       </main>
     </section>
-    <section id="panel-3">
+    <section id="img-panel-3">
       <main>
         <h1>Summary</h1>
          <p>
-                                    <div class="result" *ngIf="image_results_tr.length>0">
+                                    <div class="img-result" *ngIf="image_results_tr.length>0">
                                       <!--  <h2>Image Text Results</h2>-->
                                         <ul>
 
@@ -117,7 +117,7 @@
 
                                         </ul>
                                     </div>
-                                    <div class="result" *ngIf="image_results_tr.length==0">
+                                    <div class="img-result" *ngIf="image_results_tr.length==0">
                                         <p>No biased image found.</p>
                                     </div>
       </main>
@@ -126,52 +126,3 @@
 </article>
 
 <br><app-barchart [contentType]="modelType" [image_results_tr]="image_results_tr"></app-barchart><br><br>
-
-<script>
-
-  /**
-  Swiper:
-  https://swiperjs.com/
-**/
-const swiper = new Swiper(".swiperCarousel", {
-  slidesPerView: 3,
-  centeredSlides: true,
-  spaceBetween: 10,
-  keyboard: {
-    enabled: true,
-  },
-  loop: true,
-  pagination: {
-    el: ".swiper-pagination",
-  },
-  navigation: {
-    nextEl: ".swiper-button-next",
-    prevEl: ".swiper-button-prev",
-  },
-});
-
-const slides = document.getElementsByClassName("swiper-slide");
-for (const slide of slides) {
-  slide.addEventListener("click", () => {
-    const { className } = slide;
-    if (className.includes("swiper-slide-next")) {
-      swiper.slideNext();
-    } else if (className.includes("swiper-slide-prev")) {
-      swiper.slidePrev();
-    }
-  });
-}
-
-function resizeTextToFit() {
-  const quoteEls = document.getElementsByClassName('quote');
-  for (const el of quoteEls) {
-    el.style.width = el.offsetWidth;
-    el.style.height = el.offsetHeight;
-  }
-  textFit(quoteEls, { maxFontSize: 14 });
-}
-resizeTextToFit();
-addEventListener("resize", (event) => {
-  resizeTextToFit();
-});
-</script>

@@ -85,57 +85,6 @@ if(modelImgFlag){
 
 this.createChart(textLabel, textData, altLabel, altData, imgLabel, imgData, imageLabel, imageData, modelTextFlag, modelImgFlag);
 
-/*const fetchRes = fetch('/output', { "method": "GET"})
-
-    fetchRes
-    .then((res: Response) => res.json())
-    .then((d: any) => {
-      //this.textGenderCount = d['text_results_tr_Gender_Count'];
-      //this.altGenderCount = d['alt_text_results_tr_Gender_Count'];
-      //this.imgGenderCount = d['img_text_results_tr_Gender_Count'];
-      var textLabel: any = [];
-      var textData: any = [];
-      var altLabel: any = [];
-      var altData: any = [];
-      var imgLabel: any = [];
-      var imgData: any = [];
-
-      for(var key of d['text_results_tr_Gender_Count']){
-        textLabel.push(key[0]);
-        textData.push(key[1]);
-      }
-
-      for(var key of d['alt_text_results_tr_Gender_Count']){
-        altLabel.push(key[0]);
-        altData.push(key[1]);
-      }
-
-      for(var key of d['img_text_results_tr_Gender_Count']){
-        imgLabel.push(key[0]);
-        imgData.push(key[1]);
-      }
-
-      this.createChart(textLabel, textData, altLabel, altData, imgLabel, imgData);
-    },
-    err => {
-      alert("error while getting initial data :::  " + err.message);
-      console.log("error while getting initial data" + err.message);
-    });*/
-}
-
-getImageData() {
-alert("In getImageData method");
-var imageLabel: any = [];
-var imageData: any = [];
-
-for(var key of this.image_results_tr){
-  imageLabel.push(key[0]);
-  imageData.push(key[1]);
-}
-alert(imageLabel);
-alert(imageData);
-this.createImageChart(imageLabel, imageData);
-
 }
 
 createChart(textLabel:any[], textData:any[], altLabel:any[], altData:any[], imgLabel:any[], imgData:any[], imageLabel:any[], imageData:any[], modelTextFlag: boolean, modelImgFlag:boolean){
@@ -199,8 +148,6 @@ createChart(textLabel:any[], textData:any[], altLabel:any[], altData:any[], imgL
           }
 
         });
-
-        this.imageGenderChart = '';
     }
     if(modelImgFlag){
       this.imageGenderChart = new Chart("ImgGenChart", {
@@ -222,36 +169,5 @@ createChart(textLabel:any[], textData:any[], altLabel:any[], altData:any[], imgL
             }
           });
     }
-    //alert(this.modelTextFlag);
-    //alert(this.modelImgFlag);
-    //alert(this.textChart);
-    //alert(this.textChart.length);
-    //alert(this.textChart.size);
   }
-
-  createImageChart(imageLabel:any[], imageData:any[]){
-    alert("In createImageChart method")
-    alert(imageLabel);
-    alert(imageData);
-
-    this.imageGenderChart = new Chart("ImgGenChart", {
-      type: 'bar', //this denotes tha type of chart
-
-      data: {// values on X-Axis
-        labels: imageLabel,
-	       datasets: [
-          {
-            label: "Image Results",
-            data: imageData,
-            backgroundColor: '#FF6961',
-            barThickness: 40,
-            borderRadius: 3,
-            inflateAmount: 'auto',
-            pointStyle: 'circle',
-          }
-        ]
-      }
-    });
-  }
-
 }

@@ -63,8 +63,7 @@ export class BaisedComponent implements OnInit {
           let self = this;
           function loadTo(Page: any): void {
             if (Page['file'] == 'Text') {
-              self.router.navigate(['biased/textresult'], {state: { modelType: Page['file'],
-              biased_txt_results: Page['txt_results'], biased_alt_results: Page['alt_results'],
+              self.router.navigate(['biased/textresult'], {state: { biased_txt_results: Page['txt_results'], biased_alt_results: Page['alt_results'],
               biased_img_results: Page['txt_img_results'], total_biased_text: Page['total_biased_text'],
               total_biased_alt_text: Page['total_biased_alt_text'],
               total_biased_img_results: Page['total_biased_img_results'],
@@ -75,12 +74,19 @@ export class BaisedComponent implements OnInit {
             }
             else if (Page['file'] == 'Image') {
               //alert(Page['image_results_tr']);
-              self.router.navigate(['biased/imageresult'], {state: {modelType: Page['file'],
-              image_biased_results: Page['image_results'], image_results_tr: Page['image_results_tr']}});
+              self.router.navigate(['biased/imageresult'], {state: {image_biased_results: Page['image_results'], image_results_tr: Page['image_results_tr']}});
               //window.location.assign('/imageOp');
             }
             else {
-              window.location.assign('/parallelexec');
+              self.router.navigate(['biased/parallelexec'], {state: { biased_txt_results: Page['txt_results'], biased_alt_results: Page['alt_results'],
+              biased_img_results: Page['txt_img_results'], total_biased_text: Page['total_biased_text'],
+              total_biased_alt_text: Page['total_biased_alt_text'],
+              total_biased_img_results: Page['total_biased_img_results'],
+              text_results_tr_Gender_Count: Page['text_results_tr_Gender_Count'],
+              alt_text_results_tr_Gender_Count: Page['alt_text_results_tr_Gender_Count'],
+              img_text_results_tr_Gender_Count: Page['img_text_results_tr_Gender_Count'],
+              image_biased_results: Page['image_results'], image_results_tr: Page['image_results_tr']}});
+              //window.location.assign('/parallelexec');
             }
           }
 

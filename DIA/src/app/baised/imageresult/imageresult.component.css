@@ -1,10 +1,10 @@
-.progress-container {
+.img-progress-container {
   width: 81+%;
   height: 0px;
   background: #ccc;
 }
 
-.progress-bar {
+.img-progress-bar {
   height: 8px;
   background: #04AA6D;
   width: 0%;
@@ -79,7 +79,7 @@
 }
 /*-- Page Loader--*/
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400|Inconsolata);
-ul#tabs-list {
+ul#img-tabs-list {
   list-style: none;
   text-align: center;
   border-bottom: 1px solid darkslategray;
@@ -87,7 +87,7 @@ ul#tabs-list {
   padding: 0;
 }
 
-label.panel-label {
+label.img-panel-label {
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;
@@ -100,22 +100,22 @@ label.panel-label {
   transition-property: background-color, color;
   transition-duration: 200ms;
 }
-label.panel-label:hover {
+label.img-panel-label:hover {
   color: #c0392b;
 }
 
-#panels {
+#img-panels {
   background-color: #2f4f4f;
 }
-#panels .container {
+#img-panels .img-container {
   margin: 0 auto;
   width: 94%;
 }
-#panels section header label.panel-label {
+#img-panels section header label.img-panel-label {
   padding: 12px 24px;
   box-sizing: border-box;
 }
-#panels section main {
+#img-panels section main {
   box-sizing: border-box;
   opacity: 0;
   transition: opacity 600ms;
@@ -124,68 +124,68 @@ label.panel-label:hover {
   border: 1px solid black;
   border-collapse: separate;
   border-spacing: 0px;
-  margin-left: -130px;
-  width: 137%;
+  margin-left: 182px;
+  width: 72%;
   max-height: 0px;
 }
 
-#panel-1-ctrl:checked ~ #panels #panel-1 main {
+#img-panel-1-ctrl:checked ~ #img-panels #img-panel-1 main {
   max-height: initial;
   opacity: 1;
   padding: 48px 24px;
 }
 
-#panel-2-ctrl:checked ~ #panels #panel-2 main {
+#img-panel-2-ctrl:checked ~ #img-panels #img-panel-2 main {
   max-height: initial;
   opacity: 1;
   padding: 48px 24px;
 }
 
-#panel-3-ctrl:checked ~ #panels #panel-3 main {
+#img-panel-3-ctrl:checked ~ #img-panels #img-panel-3 main {
   max-height: initial;
   opacity: 1;
   padding: 48px 24px;
 }
 
-#panel-4-ctrl:checked ~ #panels #panel-4 main {
+#img-panel-4-ctrl:checked ~ #img-panels #img-panel-4 main {
   max-height: initial;
   opacity: 1;
   padding: 48px 24px;
 }
 
-#panel-5-ctrl:checked ~ #panels #panel-5 main {
+#img-panel-5-ctrl:checked ~ #img-panels #img-panel-5 main {
   max-height: initial;
   opacity: 1;
   padding: 48px 24px;
 }
 
 @media all and (max-width: 767px) {
-  #nav-ctrl:checked ~ #tabs-list #li-for-panel-1 {
+  #img-nav-ctrl:checked ~ #img-tabs-list #img-li-for-panel-1 {
     max-height: 46px;
     opacity: 1;
   }
 
-  #nav-ctrl:checked ~ #tabs-list #li-for-panel-2 {
+  #img-nav-ctrl:checked ~ #img-tabs-list #img-li-for-panel-2 {
     max-height: 46px;
     opacity: 1;
   }
 
-  #nav-ctrl:checked ~ #tabs-list #li-for-panel-3 {
+  #img-nav-ctrl:checked ~ #img-tabs-list #img-li-for-panel-3 {
     max-height: 46px;
     opacity: 1;
   }
 
-  #nav-ctrl:checked ~ #tabs-list #li-for-panel-4 {
+  #img-nav-ctrl:checked ~ #img-tabs-list #img-li-for-panel-4 {
     max-height: 46px;
     opacity: 1;
   }
 
-  #nav-ctrl:checked ~ #tabs-list #li-for-panel-5 {
+  #img-nav-ctrl:checked ~ #img-tabs-list #img-li-for-panel-5 {
     max-height: 46px;
     opacity: 1;
   }
 
-  #open-nav-label {
+  #img-open-nav-label {
     display: block;
     position: absolute;
     top: 0;
@@ -195,11 +195,11 @@ label.panel-label:hover {
     cursor: pointer;
   }
 
-  #nav-ctrl:checked ~ #tabs-list #open-nav-label {
+  #img-nav-ctrl:checked ~ #img-tabs-list #img-open-nav-label {
     display: none;
   }
 
-  #close-nav-label {
+  #img-close-nav-label {
     display: block;
     max-height: 0;
     overflow-y: hidden;
@@ -214,222 +214,222 @@ label.panel-label:hover {
     letter-spacing: 1px;
   }
 
-  #nav-ctrl:checked ~ #tabs-list #close-nav-label {
+  #img-nav-ctrl:checked ~ #img-tabs-list #img-close-nav-label {
     max-height: 36px;
     opacity: 1;
     padding: 12px 24px;
   }
 
-  #tabs-list {
+  #img-tabs-list {
     position: relative;
   }
-  #tabs-list label.panel-label {
+  #img-tabs-list label.img-panel-label {
     padding: 12px 0;
   }
-  #tabs-list #li-for-panel-1 {
+  #img-tabs-list #img-li-for-panel-1 {
     max-height: 0;
     overflow-y: hidden;
     transition: max-height 200ms;
   }
-  #tabs-list #li-for-panel-2 {
+  #img-tabs-list #img-li-for-panel-2 {
     max-height: 0;
     overflow-y: hidden;
     transition: max-height 200ms;
   }
-  #tabs-list #li-for-panel-3 {
+  #img-tabs-list #img-li-for-panel-3 {
     max-height: 0;
     overflow-y: hidden;
     transition: max-height 200ms;
   }
-  #tabs-list #li-for-panel-4 {
+  #img-tabs-list #img-li-for-panel-4 {
     max-height: 0;
     overflow-y: hidden;
     transition: max-height 200ms;
   }
-  #tabs-list #li-for-panel-5 {
+  #img-tabs-list #img-li-for-panel-5 {
     max-height: 0;
     overflow-y: hidden;
     transition: max-height 200ms;
   }
 
-  #panel-1-ctrl:checked ~ #tabs-list #li-for-panel-1 {
+  #img-panel-1-ctrl:checked ~ #img-tabs-list #img-li-for-panel-1 {
     max-height: 46px;
     opacity: 1;
   }
-  #panel-1-ctrl:checked ~ #tabs-list #li-for-panel-1 label.panel-label {
+  #img-panel-1-ctrl:checked ~ #img-tabs-list #img-li-for-panel-1 label.img-panel-label {
     background-color: white;
     color: #c0392b;
     background-color: #c0392b;
     color: white;
   }
 
-  #panel-2-ctrl:checked ~ #tabs-list #li-for-panel-2 {
+  #img-panel-2-ctrl:checked ~ #img-tabs-list #img-li-for-panel-2 {
     max-height: 46px;
     opacity: 1;
   }
-  #panel-2-ctrl:checked ~ #tabs-list #li-for-panel-2 label.panel-label {
+  #img-panel-2-ctrl:checked ~ #img-tabs-list #img-li-for-panel-2 label.img-panel-label {
     background-color: white;
     color: #c0392b;
     background-color: #c0392b;
     color: white;
   }
 
-  #panel-3-ctrl:checked ~ #tabs-list #li-for-panel-3 {
+  #img-panel-3-ctrl:checked ~ #img-tabs-list #img-li-for-panel-3 {
     max-height: 46px;
     opacity: 1;
   }
-  #panel-3-ctrl:checked ~ #tabs-list #li-for-panel-3 label.panel-label {
+  #img-panel-3-ctrl:checked ~ #img-tabs-list #img-li-for-panel-3 label.img-panel-label {
     background-color: white;
     color: #c0392b;
     background-color: #c0392b;
     color: white;
   }
 
-  #panel-4-ctrl:checked ~ #tabs-list #li-for-panel-4 {
+  #img-panel-4-ctrl:checked ~ #img-tabs-list #img-li-for-panel-4 {
     max-height: 46px;
     opacity: 1;
   }
-  #panel-4-ctrl:checked ~ #tabs-list #li-for-panel-4 label.panel-label {
+  #img-panel-4-ctrl:checked ~ #img-tabs-list #img-li-for-panel-4 label.img-panel-label {
     background-color: white;
     color: #c0392b;
     background-color: #c0392b;
     color: white;
   }
 
-  #panel-5-ctrl:checked ~ #tabs-list #li-for-panel-5 {
+  #img-panel-5-ctrl:checked ~ #img-tabs-list #img-li-for-panel-5 {
     max-height: 46px;
     opacity: 1;
   }
-  #panel-5-ctrl:checked ~ #tabs-list #li-for-panel-5 label.panel-label {
+  #img-panel-5-ctrl:checked ~ #img-tabs-list #img-li-for-panel-5 label.img-panel-label {
     background-color: white;
     color: #c0392b;
     background-color: #c0392b;
     color: white;
   }
 
-  #panels .container {
+  #img-panels .img-container {
     width: 100%;
   }
-  #panels section header {
+  #img-panels section header {
     display: block;
   }
 }
 @media all and (min-width: 768px) {
-  #panel-1-ctrl:checked ~ #tabs-list #li-for-panel-1 {
+  #img-panel-1-ctrl:checked ~ #img-tabs-list #img-li-for-panel-1 {
     pointer-events: none;
     cursor: default;
     transform: translate3d(0, 1px, 0);
     box-shadow: none;
     border-right: none;
   }
-  #panel-1-ctrl:checked ~ #tabs-list #li-for-panel-1.last {
+  #img-panel-1-ctrl:checked ~ #img-tabs-list #img-li-for-panel-1.last {
     border-right: 1px solid transparent;
   }
-  #panel-1-ctrl:checked ~ #tabs-list #li-for-panel-1 + li {
+  #img-panel-1-ctrl:checked ~ #img-tabs-list #img-li-for-panel-1 + li {
     border-left: 1px solid #dfdfdf;
   }
-  #panel-1-ctrl:checked ~ #tabs-list #li-for-panel-1 label.panel-label {
+  #img-panel-1-ctrl:checked ~ #img-tabs-list #img-li-for-panel-1 label.img-panel-label {
     background-color: white;
     color: #2f4f4f;
     padding-top: 26px;
   }
-  #panel-1-ctrl:checked ~ #tabs-list #li-for-panel-1 label.panel-label::after {
+  #img-panel-1-ctrl:checked ~ #img-tabs-list #img-li-for-panel-1 label.img-panel-label::after {
     height: 6px;
   }
 
-  #panel-2-ctrl:checked ~ #tabs-list #li-for-panel-2 {
+  #img-panel-2-ctrl:checked ~ #img-tabs-list #img-li-for-panel-2 {
     pointer-events: none;
     cursor: default;
     transform: translate3d(0, 1px, 0);
     box-shadow: none;
     border-right: none;
   }
-  #panel-2-ctrl:checked ~ #tabs-list #li-for-panel-2.last {
+  #img-panel-2-ctrl:checked ~ #img-tabs-list #img-li-for-panel-2.last {
     border-right: 1px solid transparent;
   }
-  #panel-2-ctrl:checked ~ #tabs-list #li-for-panel-2 + li {
+  #img-panel-2-ctrl:checked ~ #img-tabs-list #img-li-for-panel-2 + li {
     border-left: 1px solid #dfdfdf;
   }
-  #panel-2-ctrl:checked ~ #tabs-list #li-for-panel-2 label.panel-label {
+  #img-panel-2-ctrl:checked ~ #img-tabs-list #img-li-for-panel-2 label.img-panel-label {
     background-color: white;
     color: #c0392b;
     padding-top: 26px;
   }
-  #panel-2-ctrl:checked ~ #tabs-list #li-for-panel-2 label.panel-label::after {
+  #img-panel-2-ctrl:checked ~ #img-tabs-list #img-li-for-panel-2 label.img-panel-label::after {
     height: 6px;
   }
 
-  #panel-3-ctrl:checked ~ #tabs-list #li-for-panel-3 {
+  #img-panel-3-ctrl:checked ~ #img-tabs-list #img-li-for-panel-3 {
     pointer-events: none;
     cursor: default;
     transform: translate3d(0, 1px, 0);
     box-shadow: none;
     border-right: none;
   }
-  #panel-3-ctrl:checked ~ #tabs-list #li-for-panel-3.last {
+  #img-panel-3-ctrl:checked ~ #img-tabs-list #img-li-for-panel-3.last {
     border-right: 1px solid transparent;
   }
-  #panel-3-ctrl:checked ~ #tabs-list #li-for-panel-3 + li {
+  #img-panel-3-ctrl:checked ~ #img-tabs-list #img-li-for-panel-3 + li {
     border-left: 1px solid #dfdfdf;
   }
-  #panel-3-ctrl:checked ~ #tabs-list #li-for-panel-3 label.panel-label {
+  #img-panel-3-ctrl:checked ~ #img-tabs-list #img-li-for-panel-3 label.img-panel-label {
     background-color: white;
     color: #c0392b;
     padding-top: 26px;
   }
-  #panel-3-ctrl:checked ~ #tabs-list #li-for-panel-3 label.panel-label::after {
+  #img-panel-3-ctrl:checked ~ #img-tabs-list #img-li-for-panel-3 label.img-panel-label::after {
     height: 6px;
   }
 
-  #panel-4-ctrl:checked ~ #tabs-list #li-for-panel-4 {
+  #img-panel-4-ctrl:checked ~ #img-tabs-list #img-li-for-panel-4 {
     pointer-events: none;
     cursor: default;
     transform: translate3d(0, 1px, 0);
     box-shadow: none;
     border-right: none;
   }
-  #panel-4-ctrl:checked ~ #tabs-list #li-for-panel-4.last {
+  #img-panel-4-ctrl:checked ~ #img-tabs-list #img-li-for-panel-4.last {
     border-right: 1px solid transparent;
   }
-  #panel-4-ctrl:checked ~ #tabs-list #li-for-panel-4 + li {
+  #img-panel-4-ctrl:checked ~ #img-tabs-list #img-li-for-panel-4 + li {
     border-left: 1px solid #dfdfdf;
   }
-  #panel-4-ctrl:checked ~ #tabs-list #li-for-panel-4 label.panel-label {
+  #img-panel-4-ctrl:checked ~ #img-tabs-list #img-li-for-panel-4 label.img-panel-label {
     background-color: white;
     color: #c0392b;
     padding-top: 26px;
   }
-  #panel-4-ctrl:checked ~ #tabs-list #li-for-panel-4 label.panel-label::after {
+  #img-panel-4-ctrl:checked ~ #img-tabs-list #img-li-for-panel-4 label.img-panel-label::after {
     height: 6px;
   }
 
-  #panel-5-ctrl:checked ~ #tabs-list #li-for-panel-5 {
+  #img-panel-5-ctrl:checked ~ #img-tabs-list #img-li-for-panel-5 {
     pointer-events: none;
     cursor: default;
     transform: translate3d(0, 1px, 0);
     box-shadow: none;
     border-right: none;
   }
-  #panel-5-ctrl:checked ~ #tabs-list #li-for-panel-5.last {
+  #img-panel-5-ctrl:checked ~ #img-tabs-list #img-li-for-panel-5.last {
     border-right: 1px solid transparent;
   }
-  #panel-5-ctrl:checked ~ #tabs-list #li-for-panel-5 + li {
+  #img-panel-5-ctrl:checked ~ #img-tabs-list #img-li-for-panel-5 + li {
     border-left: 1px solid #dfdfdf;
   }
-  #panel-5-ctrl:checked ~ #tabs-list #li-for-panel-5 label.panel-label {
+  #img-panel-5-ctrl:checked ~ #img-tabs-list #img-li-for-panel-5 label.img-panel-label {
     background-color: white;
     color: #c0392b;
     padding-top: 26px;
   }
-  #panel-5-ctrl:checked ~ #tabs-list #li-for-panel-5 label.panel-label::after {
+  #img-panel-5-ctrl:checked ~ #img-tabs-list #img-li-for-panel-5 label.img-panel-label::after {
     height: 6px;
   }
 
-  ul#tabs-list {
+  ul#img-tabs-list {
     text-align: center;
     border-bottom: 0px solid #dfdfdf;
   }
-  ul#tabs-list li {
+  ul#img-tabs-list li {
     display: inline-block;
     text-align: center;
     font-size: 0.875em;
@@ -438,21 +438,21 @@ label.panel-label:hover {
     border-right: 1px solid #dfdfdf;
     position: relative;
   }
-  ul#tabs-list li:hover {
+  ul#img-tabs-list li:hover {
     transition: none;
     border-right: none;
   }
-  ul#tabs-list li:hover.last {
+  ul#img-tabs-list li:hover.last {
     border-right: 1px solid transparent;
   }
-  ul#tabs-list li:hover + li {
+  ul#img-tabs-list li:hover + li {
     border-left: 1px solid #dfdfdf;
   }
-  ul#tabs-list li label.panel-label {
+  ul#img-tabs-list li label.img-panel-label {
     position: relative;
     padding: 24px 0px;
   }
-  ul#tabs-list li label.panel-label::after {
+  ul#img-tabs-list li label.img-panel-label::after {
     content: "";
     position: absolute;
     width: 100%;
@@ -463,19 +463,19 @@ label.panel-label:hover {
     transition-property: height;
     transition-duration: 200ms;
   }
-  ul#tabs-list li label.panel-label:hover {
+  ul#img-tabs-list li label.img-panel-label:hover {
     padding-top: 25px;
   }
-  ul#tabs-list li label.panel-label:hover::after {
+  ul#img-tabs-list li label.img-panel-label:hover::after {
     height: 6px;
   }
 
-  #open-nav-label,
-#close-nav-label {
+  #img-open-nav-label,
+#img-close-nav-label {
     display: none;
   }
 
-  #nav-ctrl {
+  #img-nav-ctrl {
     display: none;
   }
 }
@@ -485,7 +485,7 @@ label.panel-label:hover {
     margin: 0 auto;
   }
 }
-.panel-radios {
+.img-panel-radios {
   position: fixed;
   left: 50%;
   top: 10px;
@@ -493,22 +493,22 @@ label.panel-label:hover {
   opacity: 0.5;
   z-index: 99;
 }
-.panel-radios:nth-child(1) {
+.img-panel-radios:nth-child(1) {
   transform: translateX(-50px);
 }
-.panel-radios:nth-child(2) {
+.img-panel-radios:nth-child(2) {
   transform: translateX(-30px);
 }
-.panel-radios:nth-child(3) {
+.img-panel-radios:nth-child(3) {
   transform: translateX(-10px);
 }
-.panel-radios:nth-child(4) {
+.img-panel-radios:nth-child(4) {
   transform: translateX(10px);
 }
-.panel-radios:nth-child(5) {
+.img-panel-radios:nth-child(5) {
   transform: translateX(30px);
 }
-.panel-radios:nth-child(6) {
+.img-panel-radios:nth-child(6) {
   top: 30px;
   transform: translateX(-10px);
   display: block;
@@ -545,7 +545,7 @@ main hr {
   border-top: 1px solid #dfdfdf;
 }
 
-label.demo-label {
+label.img-demo-label {
   background-color: #c0392b;
   color: white;
   padding: 4px 8px;
@@ -557,20 +557,20 @@ label.demo-label {
       -ms-user-select: none;
           user-select: none;
 }
-label.demo-label:hover {
+label.img-demo-label:hover {
   background-color: #e74c3c;
 }
 
-#demo-child-toggle {
+#img-demo-child-toggle {
   display: none;
 }
-#demo-child-toggle:checked ~ #demo-parent #demo-child {
+#img-demo-child-toggle:checked ~ #img-demo-parent #img-demo-child {
   color: #c0392b;
   font-weight: bold;
   text-transform: uppercase;
 }
 
-#demo-parent {
+#img-demo-parent {
   margin-top: 8px;
 }
 
@@ -596,7 +596,7 @@ pre strong {
   font-weight: normal;
 }
 
-.result{
+.img-result{
   max-height: 200px;
 }
 
@@ -642,7 +642,7 @@ bodycar {
   justify-content: center;
   align-items: left;
   position: relative;
-  padding: 40px 0px 0 40px;
+  padding: 300px 0px 0 0px;
   transition: transform 400ms;
   opacity: 0.5;
   box-shadow: none;
@@ -667,6 +667,8 @@ bodycar {
   left: 20%;
   transform: translate(-90px, 10px);
   z-index: 1;
+  margin-top: 70px;
+  margin-left:10px;
 }
 
 .headercar {
@@ -679,9 +681,9 @@ bodycar {
   font-family: "Hammersmith One", sans-serif;
   text-transform: uppercase;
   font-size: 14px;
-  margin: 3px;
+  margin: 10px;
   padding: 0 5px;
-  color: black;
+  background-color: black;
 }
 
 .title {
@@ -736,6 +738,7 @@ bodycar {
 .swiper {
   margin-left: auto;
   margin-right: auto;
+  padding-bottom: 120px;
 }
 
 .swiper-button-next:focus,
@@ -766,7 +769,7 @@ bodycar {
     transform: translate(-50px, -50px);
   }
 }
-.result{
+.img-result{
   max-height: 200px;
   color: white;
 }
