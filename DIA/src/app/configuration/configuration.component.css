@@ -1,0 +1,23 @@
+.form-header{
+  flex-direction: row;
+  box-sizing: border-box;
+  background-color: #ADBDB6;
+  color: #061A1E;
+  height: 100%;
+  margin-top: 100px;
+  margin-left: 200px;
+  margin-right: -300px;
+  padding-left: 0px;
+  line-height: 50px;
+  vertical-align: middle;
+  font-size: 16px;
+  font-family: Segoe UI;
+  outline: 1px solid #ADBDB6;
+
+}
+
+.popup .modal-dialog {
+  max-width: 800px;
+  background-color: #ADBDB6;
+}
+

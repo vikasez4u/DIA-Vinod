@@ -6,7 +6,7 @@ import { FileUploadRoutingModule } from './fileupload-routing. module';
 import { RouterModule, Routes } from '@angular/router';
 import { BaisedComponent } from './baised/baised.component';
 const routes: Routes = [
-  { path: 'file', component: FileComponent, outlet: 'file'}
+  { path: 'file', component: FileComponent, outlet: 'file'},
   { path: 'home', component: BaisedComponent, outlet: 'home'}
 ];
 

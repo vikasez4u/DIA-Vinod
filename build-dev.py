@@ -8,12 +8,13 @@ directories = os.listdir(CURRENT_DIRECTORY)
 NON_ANGULAR_DIRS = ['resources','static', 'templates', 'weights', 'venv', 'env', '__pycache__','uploads']
 ANGULAR_PROJECT_PATH = ""
 DIST_PATH = ""
+DIST_ASSETS_PATH = ""
 
 for directory in directories:
     if "." not in directory and directory not in NON_ANGULAR_DIRS:
         ANGULAR_PROJECT_PATH = os.path.join(CURRENT_DIRECTORY, directory)
         DIST_PATH = os.path.join(ANGULAR_PROJECT_PATH, 'dist', directory)
-
+        DIST_ASSETS_PATH = os.path.join(DIST_PATH, 'assets')
 FLASK_STATIC_PATH = os.path.join(CURRENT_DIRECTORY, 'static')
 FLASK_TEMPLATES_PATH = os.path.join(CURRENT_DIRECTORY, 'templates')
 
@@ -43,6 +44,15 @@ if dir_exists:
                 (shutil.move(DIST_PATH + '\\' + html_files, FLASK_TEMPLATES_PATH + '\\' + html_files))
                 if os.path.exists(DIST_PATH + '\\' + html_files):
                   os.remove(DIST_PATH + '\\' + html_files)
+
+        files = os.listdir(DIST_ASSETS_PATH)
+        for file in files:
+          if '.js' in file:
+            static_files = file
+            print(DIST_ASSETS_PATH + '\\' + static_files, FLASK_STATIC_PATH + '\\' + static_files)
+            (shutil.move(DIST_ASSETS_PATH + '\\' + static_files, FLASK_STATIC_PATH + '\\' + static_files))
+            if os.path.exists(DIST_ASSETS_PATH + '\\' + static_files):
+              os.remove(DIST_ASSETS_PATH + '\\' + static_files)
     except Exception as e:
         dir_exists = False
         print(e)

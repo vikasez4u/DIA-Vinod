@@ -14,10 +14,18 @@ import {APP_BASE_HREF} from '@angular/common';
 import { BarchartComponent } from './barchart/barchart.component';
 import { TextresultComponent } from './baised/textresult/textresult.component';
 import { ImageresultComponent } from './baised/imageresult/imageresult.component';
+import { ConfigurationComponent } from './configuration/configuration.component';
+import { PanelMenuModule } from 'primeng/panelmenu';
+import { GenderComponent } from './configuration/gender/gender.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { BaisedwordsComponent } from './configuration/baisedwords/baisedwords.component';
 
 const routes : Routes = [
 { path: 'home', component: BaisedComponent},
 { path: 'fileupload/file', component: FileComponent},
+{ path: 'config', component: ConfigurationComponent},
+{ path: 'gender', component: GenderComponent},
+{ path: 'baisedwords', component: BaisedwordsComponent},
 { path: "**", component: BaisedComponent}
 ];
 
@@ -30,7 +38,10 @@ const routes : Routes = [
     BarchartComponent,
     TextresultComponent,
     ImageresultComponent,
-    routingComponents
+    routingComponents,
+    ConfigurationComponent,
+    GenderComponent,
+    BaisedwordsComponent
   ],
   imports: [
     BrowserModule,
@@ -39,6 +50,8 @@ const routes : Routes = [
     BrowserAnimationsModule,
     NgxSpinnerModule,
     HttpClientModule,
+    PanelMenuModule,
+    NgbModule,
     RouterModule.forRoot(routes)
   ],
   providers: [{provide: APP_BASE_HREF, useValue: '/dia/'}],

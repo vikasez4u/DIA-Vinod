@@ -34,25 +34,29 @@
 
             <tbody>
               <tr>
-                <th scope="col">S.No</th>
+                <th scope="col" style="width: 20px;">S.No</th>
+                <th scope="col" style="width: 40px;">Gender Name</th>
                 <th scope="col">Default Biased Words</th>
 
               </tr>
             <tr *ngFor="let u of defaultwords;  let i =index">
                     <td>{{i+1}}</td>
-                    <td>{{u.Words}}</td>
+                    <td>{{u.GenderName}}</td>
+                    <td>{{u.BaisedWord}}</td>
             </tr>
             </tbody>
 </table>
 
-<table  class = bg *ngIf="users.length>0" style="float: left;">
+<table  class = bg *ngIf="users.length>0" style="float: left;margin-left: 10px;">
             <tbody>
               <tr>
-                 <th scope="col">S.No</th>
-                  <th scope="col">Biased Words</th>
+                  <th scope="col" style="width: 20px;">S.No</th>
+                  <th scope="col" style="width: 40px;">Gender Name</th>
+                  <th scope="col">Uploaded Biased Words</th>
               </tr>
                 <tr *ngFor="let u of users;  let i =index">
                     <td>{{i+1}}</td>
+                    <td>{{u.Gender}}</td>
                     <td>{{u.Words}}</td>
                 </tr>
 
@@ -62,6 +66,7 @@
       <table class="table" #table style="display:none">
             <tbody>
               <tr>
+                <th scope="col">Gender</th>
                 <th scope="col">Words</th>
               </tr>
             </tbody>

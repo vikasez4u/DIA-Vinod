@@ -1,55 +1,22 @@
+.editable-row-operations a {
+        margin-right: 8px;
+      }
+
 .form-header{
-  flex-direction: row;
-  box-sizing: border-box;
-  background-color: #ADBDB6;
-  color: #061A1E;
-  height: 70px;
-  margin-top: 100px;
-  margin-left: 200px;
-  margin-right: -300px;
-  padding-left: 0px;
-  line-height: 50px;
-  vertical-align: middle;
-  font-size: 16px;
-  font-family: Segoe UI;
-  outline: 1px solid #ADBDB6;
-
-}
-.form-file-upload{
-  flex-direction: row;
-  background-color: #ADBDB6;
-  color: #061A1E;
-  height: 0px;
-  margin-top: 0px;
-  margin-left: 10px;
-  margin-right: -10px;
-  padding-left: 100px;
-  padding-right: 175px;
-  line-height: 17px;
-  vertical-align: middle;
-  font-size: 16px;
-  font-family: Segoe UI;
-  outline: 0px solid #ADBDB6;
-  text-align: left;
-}
-
-.form-file-details{
   flex-direction: row;
   box-sizing: border-box;
   background-color: #ADBDB6;
   color: #061A1E;
   height: 100%;
   margin-top: 0px;
-  margin-left: 200px;
-  margin-right: -300px;
+  margin-left: 0px;
+  margin-right: 0px;
   padding-left: 0px;
- padding-bottom: 15px;
   line-height: 20px;
   vertical-align: middle;
   font-size: 16px;
   font-family: Segoe UI;
   outline: 1px solid #ADBDB6;
-  text-align: left;
 
 }
 
@@ -60,9 +27,9 @@
   color: #061A1E;
   height: 100%;
   margin-top: 10px;
-  margin-left: 200px;
-  margin-right: -300px;
-  padding-left: 15px;
+  margin-left: 20px;
+  margin-right: 20px;
+  padding-left: 10px;
   line-height: 20px;
   vertical-align: middle;
   font-size: 16px;
@@ -88,10 +55,12 @@ th{
 }
 
 .table-wrapper{
-  max-height: 300px;
-  overflow-y: scroll;
-  overflow-x: hidden;
-  margin:20px;
+  /*max-height: 300px;*/
+  /*overflow-x: hidden;
+  overflow-y: scroll;*/
+  margin:20px 0px 10px 0px;
+  height: 232px;
+  /*width: 430px;*/
 }
 
 th, td{

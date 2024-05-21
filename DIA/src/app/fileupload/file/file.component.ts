@@ -16,7 +16,7 @@ export class FileComponent implements OnInit {
   users: any[] = [];
   defaultwords: any[] = [];
   constructor(private http: HttpClient, route:ActivatedRoute) {
-    route.params.subscribe(val => {
+    /* route.params.subscribe(val => {
       this.http.get('assets/defaultwords.xlsx', { responseType: 'blob' })
           .subscribe((data: any) => {
            // alert(data);
@@ -34,32 +34,29 @@ export class FileComponent implements OnInit {
               }
             };
           });
-    });
+    }); */
 
   }
 
   filename='';
   ngOnInit(){
-      this.http.get('assets/defaultwords.xlsx', { responseType: 'blob' })
+      this.http.get('/baisedwordresults', { responseType: 'json' })
           .subscribe((data: any) => {
+           // alert(JSON.stringify(data));
+            this.defaultwords = data['baisedword_results'];
            // alert(data);
-            const reader: FileReader = new FileReader();
-            reader.readAsArrayBuffer(data);
-            reader.onload = (event: any) => {
-            //alert(event);
-              const wb =read(event.target.result);
-              const sheets = wb.SheetNames;
-
-              if(sheets.length){
-                const rows = utils.sheet_to_json(wb.Sheets[sheets[0]]);
-                this.defaultwords =rows;
-                //alert("called");
-              }
-            };
           });
-
+    this.readexcel();
   }
 
+ readexcel(){
+  this.http.get('/readExcel', { responseType: 'json' })
+          .subscribe((data: any) => {
+           // alert(JSON.stringify(data));
+            this.users = data['excel_data'];
+           // alert(data);
+          });
+}
   // On file Select
   onChange(event: any) {
     const files = event.target.files;

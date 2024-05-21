@@ -15,6 +15,7 @@ from pexecute.thread import ThreadLoom
 import db as diadb
 from datetime import datetime
 import pytesseract
+import json
 
 pytesseract.pytesseract.tesseract_cmd = "C:\\Program Files\\Tesseract-OCR\\tesseract.exe"
 
@@ -94,10 +95,37 @@ def process_image(image_url,url):
     print(f'Error processing image for text extraction : {image_url}: {str(e)}')
     return None
 
+def wordcollections():
+      df = pd.read_excel('./uploads/gender_biased_words.xlsx', sheet_name='Words', usecols="A:B")
+      #print(df)
+      gender_keywords = df['Words'].tolist()
+      gender_list = df['Gender'].tolist()
+      dict1 = "";
+      mapGB = [];
+      for count, ele in enumerate(gender_keywords):
+        #print(ele , gender_list[count])
+        dict1 = ele+":"+gender_list[count]
+        #dict.update(ele,gender_list[count])
+        mapGB.append(dict1)
+        #print(mapGB)
+        with app.app_context():
+          baisedword_results = diadb.baisedwordresult()
+        break
+
+      for baisedword_result in baisedword_results:
+          dict1 = baisedword_result[1]+":"+baisedword_result[0]
+          mapGB.append(dict1)
+          gender_keywords.append(baisedword_result[1]);
+      gender_keywords = list(dict.fromkeys(gender_keywords))
+      print(gender_keywords)
+      #mapGB = [dict(y) for y in set(tuple(x.items()) for x in mapGB)]
+      mapGB = list(dict.fromkeys(mapGB))
+      print(mapGB)
+      #print(dict.fromkeys(mapGB))
+      return gender_keywords
 
 def detect_gender_biased_sentences(textip):
-  df = pd.read_excel('E:/Projects/DIAWorkspace/DIA/uploads/gender_biased_words.xlsx', sheet_name='word')
-  gender_keywords = df['word'].tolist()
+  gender_keywords = wordcollections()
   sentences = re.split(r'(?<!\w\.\w.)(?<![A-Z][a-z]\.)(?<=\.|\?)\s', textip)  # Split text into sentences
   biased_sentences = []
   biased_words = []
@@ -124,8 +152,8 @@ def detect_gender_biased_sentences(textip):
 
 
 def detect_gender_biased_sentences_img(textip, image_link):
-  df = pd.read_excel('E:/Projects/DIAWorkspace/DIA/uploads/gender_biased_words.xlsx', sheet_name='word')
-  gender_keywords = df['word'].tolist()
+  #df = pd.read_excel('E:/Projects/DIAWorkspace/DIA/uploads/gender_biased_words.xlsx', sheet_name='Words', usecols="B")
+  gender_keywords = wordcollections()
   sentences = re.split(r'(?<!\w\.\w.)(?<![A-Z][a-z]\.)(?<=\.|\?)\s', textip)  # Split text into sentences
   biased_sentences = []
   biased_words = []
@@ -168,8 +196,7 @@ def detect_gender_biased_sentences_img(textip, image_link):
 
 
 def detect_gender_biased_alt_texts(alt_texts):
-  df = pd.read_excel('E:/Projects/DIAWorkspace/DIA/uploads/gender_biased_words.xlsx', sheet_name='word')
-  gender_keywords = df['word'].tolist()
+  gender_keywords = wordcollections()
   biased_alt_texts = []
   biased_words = []
   with app.app_context():
@@ -219,7 +246,8 @@ def highlight_biased_word(sentence, word):
 @app.route('/home')
 @app.route('/dia/')
 def hello_world():
-  return render_template('index.html')
+    diadb.create_table("Biased_Words")
+    return render_template('index.html')
 
 
 @app.route('/output', methods=['POST', 'GET'])
@@ -227,7 +255,7 @@ def output():
   biased_txt_results = txt_results
   biased_alt_results = alt_results
   biased_img_results = txt_img_results
-  total_biased_text, total_biased_alt_text, total_biased_img_results, text_results_tr_Gender_Count, alt_text_results_tr_Gender_Count, img_text_results_tr_Gender_Count = diadb.textsummaryresult()
+  total_biased_text, total_biased_alt_text, total_biased_img_results, text_results_tr_Gender_Count, alt_text_results_tr_Gender_Count, img_text_results_tr_Gender_Count = diadb.textsummaryresult(transaction_id)
   if request.method == "GET":
     return {'total_biased_text': total_biased_text, 'total_biased_alt_text': total_biased_alt_text,
             'total_biased_img_results': total_biased_img_results,
@@ -299,8 +327,8 @@ def result():
     txt_img_results = parllelexecresult[0]['output'][2]
     image_results = parllelexecresult[1]['output']
 
-    total_biased_text, total_biased_alt_text, total_biased_img_results, text_results_tr_Gender_Count, alt_text_results_tr_Gender_Count, img_text_results_tr_Gender_Count = diadb.textsummaryresult()
-    image_results_tr = diadb.imagesummaryresult()
+    total_biased_text, total_biased_alt_text, total_biased_img_results, text_results_tr_Gender_Count, alt_text_results_tr_Gender_Count, img_text_results_tr_Gender_Count = diadb.textsummaryresult(transaction_id)
+    image_results_tr = diadb.imagesummaryresult(transaction_id)
 
     # render_template('parallelexec.html', **locals())
     return {"file": "parallelexec", "txt_results": txt_results, "alt_results": alt_results, "txt_img_results": txt_img_results,
@@ -314,7 +342,7 @@ def result():
 
   elif modeltypetextcontent:
     txt_results, alt_results, txt_img_results = text(url)
-    total_biased_text, total_biased_alt_text, total_biased_img_results, text_results_tr_Gender_Count, alt_text_results_tr_Gender_Count, img_text_results_tr_Gender_Count = diadb.textsummaryresult()
+    total_biased_text, total_biased_alt_text, total_biased_img_results, text_results_tr_Gender_Count, alt_text_results_tr_Gender_Count, img_text_results_tr_Gender_Count = diadb.textsummaryresult(transaction_id)
     # return render_template('output.html', **locals())
     #print(session['biased_txt_results'], session['biased_alt_results'], session['biased_img_results'])
     return {"file": "Text", "txt_results": txt_results, "alt_results": alt_results, "txt_img_results": txt_img_results,
@@ -328,7 +356,7 @@ def result():
 
   elif modeltypeimagecontent:
     image_results = imageMode.main(url)
-    image_results_tr = diadb.imagesummaryresult()
+    image_results_tr = diadb.imagesummaryresult(transaction_id)
     # print(biased_alt_results)
     # return render_template('imageOp.html', **locals())
     return {"file": "Image", "image_results": image_results, "image_results_tr": image_results_tr}
@@ -384,6 +412,90 @@ def index():
 def close_database_connection(exception=None):
   diadb.close_db(exception)
 
+@app.route('/genderresults', methods=["GET"])
+def genderresults():
+    gender_results = diadb.genderresult()
+    gen_res = []
+    for gender_result in gender_results:
+        dict = {"id":str(gender_result[0]),"GenderName":gender_result[1]}
+        #print(dict)
+        gen_res.append(dict)
+    #print(gen_res)
+    return {"genderresults":gen_res}
+
+@app.route('/gendersave' , methods=["POST"])
+def gendersave():
+    data = request.get_json()
+    name = data["updates"][0]["value"]
+    result = diadb.gendersave(name)
+    return {'result':result}
+
+@app.route('/genderupdate' , methods=["POST"])
+def genderupdate():
+    data = request.get_json()
+    id = data["updates"][0]["value"]
+    name = data["updates"][1]["value"]
+    result = diadb.genderupdate(id, name)
+    return {'result':result}
+
+@app.route('/genderdelete' , methods=["POST"])
+def genderdelete():
+    data = request.get_json()
+    id = data["updates"][0]["value"]
+    result = diadb.genderdelete(id)
+    return {'result':result}
+
+@app.route('/baisedwordresults' , methods=["GET"])
+def baisedwordresults():
+    baisedword_results = diadb.baisedwordresult()
+    gen_res = []
+    for baisedword_result in baisedword_results:
+      dict = {"GenderName": str(baisedword_result[0]), "BaisedWord": baisedword_result[1],"id":str(baisedword_result[2])}
+      #print(dict)
+      gen_res.append(dict)
+    #print(gen_res)
+    return {'baisedword_results':gen_res}
+
+
+@app.route('/baisedwordsave' , methods=["POST"])
+def baisedwordsave():
+    data = request.get_json()
+    name = data["updates"][0]["value"]
+    genderId = data["updates"][1]["value"]
+    result = diadb.baisedwordsave(genderId, name)
+    return {'result':result}
+
+@app.route('/baisedwordupdate' , methods=["POST"])
+def baisedwordupdate():
+    data = request.get_json()
+    id = data["updates"][0]["value"]
+    word = data["updates"][1]["value"]
+    result = diadb.baisedwordupdate(id, word)
+    return {'result':result}
+
+@app.route('/baisedworddelete' , methods=["POST"])
+def baisedworddelete():
+    data = request.get_json()
+    id = data["updates"][0]["value"]
+    result = diadb.baisedworddelete(id)
+    return {'result':result}
+
+
+@app.route('/readExcel', methods =["GET"])
+def readExcel():
+  df = pd.read_excel('E:/Projects/DIAWorkspace/DIA/uploads/gender_biased_words.xlsx', sheet_name='Words', usecols="A:B")
+  #print(df)
+  gender_keywords = df['Words'].tolist()
+  gender_list = df['Gender'].tolist()
+  count = 0
+  exceldata = [];
+  for baisedword_result in gender_keywords:
+    dict = {"Gender": str(gender_list[count]), "Words": gender_keywords[count]}
+    count += 1
+    #print(dict)
+    exceldata.append(dict)
+  print(exceldata)
+  return {'excel_data': exceldata}
 
 if __name__ == '__main__':
     app.run(debug=True)
