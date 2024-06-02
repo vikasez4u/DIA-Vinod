@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Input, ElementRef, ViewChild } from '@angular/core';
 import Chart from 'chart.js/auto';
 
 @Component({
@@ -6,7 +6,9 @@ import Chart from 'chart.js/auto';
   templateUrl: './barchart.component.html',
   styleUrls: ['./barchart.component.css']
 })
-export class BarchartComponent implements OnInit {
+
+export class BarchartComponent implements OnInit, AfterViewInit {
+@ViewChild('ImgGenChart') canvasRef !: ElementRef;
 
 modelTextFlag : boolean = false;
 modelImgFlag : boolean = false;
@@ -29,8 +31,9 @@ constructor() {
       this.modelImgFlag = false;
  }
 
-ngOnInit(): void {
+ngOnInit(): void {}
 
+ngAfterViewInit(){
     if(this.contentType == "Text"){
       this.modelTextFlag = true;
       this.modelImgFlag = false;
@@ -46,7 +49,7 @@ ngOnInit(): void {
       //this.getImageData();
     }
     this.getData(this.modelTextFlag,this.modelImgFlag);
-  }
+}
 
 getData(modelTextFlag: boolean,modelImgFlag : boolean) {
 var textLabel: any = [];
@@ -150,7 +153,7 @@ createChart(textLabel:any[], textData:any[], altLabel:any[], altData:any[], imgL
         });
     }
     if(modelImgFlag){
-      this.imageGenderChart = new Chart("ImgGenChart", {
+      this.imageGenderChart = new Chart(this.canvasRef.nativeElement.getContext('2d'), {
             type: 'bar', //this denotes tha type of chart
 
             data: {// values on X-Axis
@@ -167,7 +170,7 @@ createChart(textLabel:any[], textData:any[], altLabel:any[], altData:any[], imgL
                 }
               ]
             }
-          });
+      });
     }
   }
 }

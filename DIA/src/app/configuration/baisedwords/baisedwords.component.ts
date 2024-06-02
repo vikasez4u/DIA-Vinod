@@ -6,7 +6,7 @@ import { FormsModule } from "@angular/forms";
 @Component({
   selector: 'app-baisedwords',
   templateUrl: './baisedwords.component.html',
-  styleUrl: './baisedwords.component.css'
+  styleUrls: ['./baisedwords.component.css']
 })
 export class BaisedwordsComponent implements OnInit{
 
