@@ -21,7 +21,7 @@ const swiper = new Swiper(".swiperCarousel", {
 });
 
 const slides = document.getElementsByClassName("swiper-slide");
-alert(slides);
+console.log(slides);
 for (const slide of slides) {
   console.log(slide);
   slide.addEventListener("click", () => {

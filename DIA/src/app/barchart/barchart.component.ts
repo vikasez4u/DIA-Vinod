@@ -8,7 +8,10 @@ import Chart from 'chart.js/auto';
 })
 
 export class BarchartComponent implements OnInit, AfterViewInit {
-@ViewChild('ImgGenChart') canvasRef !: ElementRef;
+@ViewChild('ImgGenChart') imgGenChartRef !: ElementRef;
+@ViewChild('TextChart') txtChartRef !: ElementRef;
+@ViewChild('AltChart') altChartRef !: ElementRef;
+@ViewChild('ImgChart') imgChartRef !: ElementRef;
 
 modelTextFlag : boolean = false;
 modelImgFlag : boolean = false;
@@ -90,11 +93,46 @@ this.createChart(textLabel, textData, altLabel, altData, imgLabel, imgData, imag
 
 }
 
+calculatePoint(i: number, intervalSize: any, colorRangeInfo: any) {
+  var { colorStart, colorEnd, useEndAsStart } = colorRangeInfo;
+  return (useEndAsStart
+    ? (colorEnd - (i * intervalSize))
+    : (colorStart + (i * intervalSize)));
+}
+
+interpolateColors(dataLength: number, colorScale: any, colorRangeInfo: any) {
+  var { colorStart, colorEnd } = colorRangeInfo;
+  var colorRange = colorEnd - colorStart;
+  var intervalSize = colorRange / dataLength;
+  var i, colorPoint;
+  var colorArray = [];
+
+  for (i = 0; i < dataLength; i++) {
+    colorPoint = this.calculatePoint(i, intervalSize, colorRangeInfo);
+    colorArray.push(colorScale(colorPoint));
+  }
+
+  return colorArray;
+}
+
 createChart(textLabel:any[], textData:any[], altLabel:any[], altData:any[], imgLabel:any[], imgData:any[], imageLabel:any[], imageData:any[], modelTextFlag: boolean, modelImgFlag:boolean){
+var d3 = require("d3-scale-chromatic");
+const colorScale = d3.interpolateInferno;
+
+const colorRangeInfo = {
+  colorStart: 0.2,
+  colorEnd: 1,
+  useEndAsStart: false,
+};
+
+var txtColor = this.interpolateColors(textData.length, colorScale, colorRangeInfo);
+var altColor = this.interpolateColors(altData.length, colorScale, colorRangeInfo);
+var imgColor = this.interpolateColors(imgData.length, colorScale, colorRangeInfo);
+var imageColor = this.interpolateColors(imageData.length, colorScale, colorRangeInfo);
 
     if(modelTextFlag){
-        this.textChart = new Chart("TextChart", {
-          type: 'bar', //this denotes tha type of chart
+        this.textChart = new Chart(this.txtChartRef.nativeElement.getContext('2d'), {
+          type: 'pie', //this denotes tha type of chart
 
           data: {// values on X-Axis
             labels: textLabel,
@@ -102,18 +140,28 @@ createChart(textLabel:any[], textData:any[], altLabel:any[], altData:any[], imgL
               {
                 label: "Text Results",
                 data: textData,
-                backgroundColor: '#FF6961',
-                barThickness: 40,
-                borderRadius: 3,
-                inflateAmount: 'auto',
-                pointStyle: 'circle',
+                backgroundColor: txtColor,
+                hoverBackgroundColor: txtColor,
+                //barThickness: 40,
+                //borderRadius: 3,
+                //inflateAmount: 'auto',
+                //pointStyle: 'circle',
+                hoverOffset: 4,
               }
             ]
+          },
+          options: {
+            plugins: {
+              title: {
+                display: true,
+                text: 'Text Results'
+              }
+            }
           }
         });
 
-      this.textAltChart = new Chart("AltChart", {
-          type: 'bar', //this denotes tha type of chart
+      this.textAltChart = new Chart(this.altChartRef.nativeElement.getContext('2d'), {
+          type: 'pie', //this denotes tha type of chart
 
           data: {// values on X-Axis
             labels: altLabel,
@@ -121,19 +169,28 @@ createChart(textLabel:any[], textData:any[], altLabel:any[], altData:any[], imgL
               {
                 label: "Alt Text Results",
                 data: altData,
-                backgroundColor: '#836953',
-                barThickness: 40,
-                borderRadius: 3,
-                inflateAmount: 'auto',
-                pointStyle: 'circle',
+                backgroundColor: altColor,
+                hoverBackgroundColor: altColor,
+                //barThickness: 40,
+                //borderRadius: 3,
+                //inflateAmount: 'auto',
+                //pointStyle: 'circle',
+                hoverOffset: 4,
               }
             ]
+          },
+          options: {
+            plugins: {
+              title: {
+                display: true,
+                text: 'Alt Text Results'
+              }
+            }
           }
-
         });
 
-      this.textImgChart = new Chart("ImgChart", {
-          type: 'bar', //this denotes tha type of chart
+      this.textImgChart = new Chart(this.imgChartRef.nativeElement.getContext('2d'), {
+          type: 'pie', //this denotes tha type of chart
 
           data: {// values on X-Axis
             labels: imgLabel,
@@ -141,20 +198,29 @@ createChart(textLabel:any[], textData:any[], altLabel:any[], altData:any[], imgL
               {
                 label: "Image Text Results",
                 data: imgData,
-                backgroundColor: 'Orange',
-                barThickness: 40,
-                borderRadius: 3,
-                inflateAmount: 'auto',
-                pointStyle: 'circle',
+                backgroundColor: imgColor,
+                hoverBackgroundColor: imgColor,
+                //barThickness: 40,
+                //borderRadius: 3,
+                //inflateAmount: 'auto',
+                //pointStyle: 'circle',
+                hoverOffset: 4,
               }
             ]
+          },
+          options: {
+            plugins: {
+              title: {
+                display: true,
+                text: 'Image Text Results'
+              }
+            }
           }
-
         });
     }
     if(modelImgFlag){
-      this.imageGenderChart = new Chart(this.canvasRef.nativeElement.getContext('2d'), {
-            type: 'bar', //this denotes tha type of chart
+      this.imageGenderChart = new Chart(this.imgGenChartRef.nativeElement.getContext('2d'), {
+            type: 'pie', //this denotes tha type of chart
 
             data: {// values on X-Axis
               labels: imageLabel,
@@ -162,14 +228,24 @@ createChart(textLabel:any[], textData:any[], altLabel:any[], altData:any[], imgL
                 {
                   label: "Image Results",
                   data: imageData,
-                  backgroundColor: '#FF6961',
-                  barThickness: 40,
-                  borderRadius: 3,
-                  inflateAmount: 'auto',
-                  pointStyle: 'circle',
+                  backgroundColor: imageColor,
+                  hoverBackgroundColor: imageColor,
+                  //barThickness: 40,
+                  //borderRadius: 3,
+                  //inflateAmount: 'auto',
+                  //pointStyle: 'circle',
+                  hoverOffset: 4,
                 }
               ]
-            }
+            },
+            options: {
+              plugins: {
+                title: {
+                  display: true,
+                  text: 'Image Results'
+                }
+              }
+          }
       });
     }
   }

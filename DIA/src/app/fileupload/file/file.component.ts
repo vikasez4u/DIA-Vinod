@@ -1,4 +1,5 @@
 import { Component, OnInit, ElementRef, ViewChild } from "@angular/core";
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClient } from "@angular/common/http";
 import { throwError } from "rxjs";
 const uploadURL = "http://localhost:3000/upload_files";
@@ -15,7 +16,7 @@ export class FileComponent implements OnInit {
   file: File | null = null; // Variable to store file
   users: any[] = [];
   defaultwords: any[] = [];
-  constructor(private http: HttpClient, route:ActivatedRoute) {
+  constructor(private modalService: NgbModal, private http: HttpClient, route:ActivatedRoute) {
     /* route.params.subscribe(val => {
       this.http.get('assets/defaultwords.xlsx', { responseType: 'blob' })
           .subscribe((data: any) => {

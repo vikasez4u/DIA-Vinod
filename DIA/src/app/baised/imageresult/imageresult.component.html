@@ -17,30 +17,54 @@
 <ul id="img-tabs-list">
     <!-- MENU TOGGLE -->
     <label id="img-open-nav-label" for="img-nav-ctrl"></label>
-    <li id="img-li-for-panel-1">
+  <li id="img-li-for-panel-1">
       <label class="img-panel-label"
-             for="img-panel-1-ctrl">Image Text Results</label>
-    </li><!--INLINE-BLOCK FIX
- --><li id="img-li-for-panel-2">
+             for="img-panel-1-ctrl">Summary</label>
+    </li>
+    <li id="img-li-for-panel-2">
       <label class="img-panel-label"
-             for="img-panel-2-ctrl">Image Results</label>
+             for="img-panel-2-ctrl">Detected Image List</label>
     </li><!--INLINE-BLOCK FIX
  --><li id="img-li-for-panel-3">
       <label class="img-panel-label"
-             for="img-panel-3-ctrl">Summary</label>
-    </li>
+             for="img-panel-3-ctrl">Image Results</label>
+    </li><!--INLINE-BLOCK FIX
+ -->
     <label id="img-close-nav-label" for="img-nav-ctrl">Close</label>
 </ul>
 
 
 <article id="img-panels">
   <div class="img-container">
-    <section id="img-panel-1">
+     <section id="img-panel-1">
+      <main>
+        <h1>Summary</h1>
+         <p>
+                                    <div class="img-result" *ngIf="image_results_tr.length>0">
+                                      <!--  <h2>Image Text Results</h2>-->
+                                        <ul>
+
+                                            <li>
+                                              <p>Total Gender Biased Count</p>
+                                                  <ul *ngFor="let txt_gender_count of image_results_tr;">
+                                                    <li>Male:  {{ txt_gender_count[0] }}</li>
+                                                    <li>Female:  {{ txt_gender_count[1] }}</li>
+                                                  </ul>
+                                            </li>
+
+                                        </ul>
+                                    </div>
+                                    <div class="img-result" *ngIf="image_results_tr.length==0">
+                                        <p>No biased image found.</p>
+                                    </div>
+      </main>
+    </section>
+    <section id="img-panel-2">
       <div class="img-progress-container">
         <div class="img-progress-bar" id="img-myBar"></div>
       </div>
       <main>
-        <h1>Image Text Results</h1>
+        <h1>Detected Image List</h1>
          <p>
                                     <div class="img-result" *ngIf="image_biased_results.length>0">
                                         <!--<h2>Text Results</h2>-->
@@ -62,7 +86,7 @@
                                     </div>
       </main>
     </section>
-    <section id="img-panel-2">
+    <section id="img-panel-3">
       <main>
         <h1>Image Results</h1>
 
@@ -99,29 +123,7 @@
 
       </main>
     </section>
-    <section id="img-panel-3">
-      <main>
-        <h1>Summary</h1>
-         <p>
-                                    <div class="img-result" *ngIf="image_results_tr.length>0">
-                                      <!--  <h2>Image Text Results</h2>-->
-                                        <ul>
 
-                                            <li>
-                                              <p>Total Gender Biased Count</p>
-                                                  <ul *ngFor="let txt_gender_count of image_results_tr;">
-                                                    <li>Male:  {{ txt_gender_count[0] }}</li>
-                                                    <li>Female:  {{ txt_gender_count[1] }}</li>
-                                                  </ul>
-                                            </li>
-
-                                        </ul>
-                                    </div>
-                                    <div class="img-result" *ngIf="image_results_tr.length==0">
-                                        <p>No biased image found.</p>
-                                    </div>
-      </main>
-    </section>
   </div>
 </article>
 

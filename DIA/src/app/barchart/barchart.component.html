@@ -1,11 +1,11 @@
 <div class="tabs {{modelTextFlag? '': 'invisible'}}">
   <div class="chart-container">
-        <canvas id="TextChart" style="width:100%;max-width:675px;height:100%;max-height:385px">{{ textChart }}</canvas>
-        <canvas id="AltChart" style="width:100%;max-width:675px;height:100%;max-height:385px">{{ textAltChart }}</canvas>
+        <canvas id="TextChart" #TextChart style="width:100%;max-width:675px;height:100%;max-height:385px">{{ textChart }}</canvas>
+        <canvas id="AltChart" #AltChart style="width:100%;max-width:675px;height:100%;max-height:385px">{{ textAltChart }}</canvas>
   </div>
 
   <div class="chart-container">
-        <canvas id="ImgChart" style="width:100%;max-width:675px;height:100%;max-height:385px">{{ textImgChart }}</canvas>
+        <canvas id="ImgChart" #ImgChart style="width:100%;max-width:675px;height:100%;max-height:385px">{{ textImgChart }}</canvas>
   </div>
 </div>
 

@@ -1,14 +1,18 @@
+.editable-row-operations a {
+        margin-right: 8px;
+      }
+
 .form-header{
   flex-direction: row;
   box-sizing: border-box;
   background-color: #ADBDB6;
   color: #061A1E;
-  height: 70px;
-  margin-top: 100px;
-  margin-left: 200px;
-  margin-right: -300px;
+  height: 100%;
+  margin-top: 0px;
+  margin-left: 0px;
+  margin-right: -243px;
   padding-left: 0px;
-  line-height: 50px;
+  line-height: 20px;
   vertical-align: middle;
   font-size: 16px;
   font-family: Segoe UI;
@@ -19,12 +23,12 @@
   flex-direction: row;
   background-color: #ADBDB6;
   color: #061A1E;
-  height: 0px;
+  height: 50px;
   margin-top: 0px;
-  margin-left: 10px;
-  margin-right: -10px;
-  padding-left: 100px;
-  padding-right: 175px;
+  margin-left: 100px;
+  margin-right: 0px;
+  padding-left: 10px;
+  padding-right: 0px;
   line-height: 17px;
   vertical-align: middle;
   font-size: 16px;
@@ -40,16 +44,14 @@
   color: #061A1E;
   height: 100%;
   margin-top: 0px;
-  margin-left: 200px;
-  margin-right: -300px;
+  margin-left: 0px;
+  margin-right: -243px;
   padding-left: 0px;
- padding-bottom: 15px;
   line-height: 20px;
   vertical-align: middle;
   font-size: 16px;
   font-family: Segoe UI;
   outline: 1px solid #ADBDB6;
-  text-align: left;
 
 }
 
@@ -59,10 +61,10 @@
   background-color: #ADBDB6;
   color: #061A1E;
   height: 100%;
-  margin-top: 10px;
-  margin-left: 200px;
-  margin-right: -300px;
-  padding-left: 15px;
+  margin-top: 0px;
+  margin-left: 0px;
+  margin-right: -243px;
+  padding-left: 10px;
   line-height: 20px;
   vertical-align: middle;
   font-size: 16px;
@@ -108,4 +110,9 @@ th, td{
 .btn-primary{
   background-color: #0073cf;
   color: white;
+}
+
+section p{
+  margin-bottom: 0;
+  padding-bottom: 5px;
 }

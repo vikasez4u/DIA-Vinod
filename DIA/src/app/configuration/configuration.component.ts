@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { GenderComponent } from './gender/gender.component';
 import { BaisedwordsComponent } from './baisedwords/baisedwords.component';
+import { FileComponent } from '../fileupload/file/file.component';
 import {  HttpClient, HttpParams, HttpHeaders } from "@angular/common/http";
 
 @Component({
@@ -39,6 +40,11 @@ gfg: MenuItem[] = [];
             label: 'Default Biased Word Configuration',
             icon: 'pi pi-server',
             id: 'biasedwordconfigid'
+          },
+          {
+            label: 'Upload File',
+            icon: 'pi pi-server',
+            id: 'uploadfileconfigid'
           }
         ]
       }
@@ -49,10 +55,12 @@ activeMenu(event:any) {
 //alert(event.target['id']);
 if(event.target['id'] == 'genderconfigid')
   this.modalService.open(GenderComponent);
-else{
+else if(event.target['id'] == 'biasedwordconfigid'){
   const modalRef = this.modalService.open(BaisedwordsComponent, {windowClass :"popup"});
  // alert("configdata:"+this.gName);
  // modalRef.componentInstance.GName = this.gName;
+}else {
+  this.modalService.open(FileComponent);
 }
 }
 /*alert("Entered Active Menu");
