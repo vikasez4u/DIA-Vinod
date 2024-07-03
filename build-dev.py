@@ -30,7 +30,7 @@ if dir_exists:
         static_files = ""
         html_files = ""
         for file in files:
-            if '.js' in file or '.js.map' in file or '.ico' in file or '.css' in file or '.jpg' in file or '.woff' in file or '.woff2' in file:
+            if '.js' in file or '.js.map' in file or '.ico' in file or '.css' in file or '.jpg' in file or '.woff' in file or '.woff2' in file :
                 static_files = file
                 print(DIST_PATH + '\\' + static_files, FLASK_STATIC_PATH + '\\' + static_files)
                 (shutil.move(DIST_PATH + '\\' + static_files, FLASK_STATIC_PATH + '\\' + static_files))
@@ -47,7 +47,7 @@ if dir_exists:
 
         files = os.listdir(DIST_ASSETS_PATH)
         for file in files:
-          if '.js' in file:
+          if '.js' in file or '.png' in file:
             static_files = file
             print(DIST_ASSETS_PATH + '\\' + static_files, FLASK_STATIC_PATH + '\\' + static_files)
             (shutil.move(DIST_ASSETS_PATH + '\\' + static_files, FLASK_STATIC_PATH + '\\' + static_files))
