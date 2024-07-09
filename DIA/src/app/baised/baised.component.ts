@@ -26,6 +26,7 @@ export class BaisedComponent implements OnInit {
     checkBoxText: any;
     checkBoxImage: any;
     category: any;
+    showForm:boolean = false;
 
     constructor(private router: Router, private http: HttpClient, private spinnerService: NgxSpinnerService) {
               this.name='';
@@ -127,5 +128,15 @@ export class BaisedComponent implements OnInit {
         this.router.navigate(['fileupload/file']);
       }
 
+    getStartedWithForm(){
+      this.showForm = true;
+      }
+
+    startVideo(){
+      this.showForm =false}
+
+  navigateTo(route: string) {
+    this.router.navigate([route]);
+  }
 }
 

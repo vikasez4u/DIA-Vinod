@@ -1,17 +1,17 @@
-<div ng-app="myapp">
-	<div ng-controller="MainCtrl">
-    <div class="form-header">
-       <h2>Evaluate Your Digital Content</h2>
-    </div>
+<!--<div ng-app="myapp">-->
+<!--	<div ng-controller="MainCtrl">-->
+<!--    <div class="form-header">-->
+<!--       <h2>Evaluate Your Digital Content</h2>-->
+<!--    </div>-->
     <!--<ngx-spinner
       bdColor = "rgba(51, 51, 51, 0.8)"
       size = "large"
       color = "#934d4d"
       type = "square-jelly-box"></ngx-spinner>!-->
-    <div class="form-outline">
-      <form class="grid" method="POST"> <!--action="/result"-->
-        <label class="required-field">URL</label>
-        <input type="text" [(ngModel)]="name" style="width: auto;" id="urlNameId" name="urlName" placeholder={{url}} required>
+<!--    <div class="form-outline">-->
+<!--      <form class="grid" method="POST"> &lt;!&ndash;action="/result"&ndash;&gt;-->
+<!--        <label class="required-field">URL</label>-->
+<!--        <input type="text" [(ngModel)]="name" style="width: auto;" id="urlNameId" name="urlName" placeholder={{url}} required>-->
         <!--<label class="required-field">Model</label>
         <select [(ngModel)]="selectedElement" id="selectedElement" name="selectedElement" required>
           <ng-container *ngFor="let type of types">
@@ -20,42 +20,165 @@
           </ng-container>
         </select>-->
 
-        <label class="required-field input-group" ><strong>Type of Content </strong></label>
+<!--        <label class="required-field input-group" ><strong>Type of Content </strong></label>-->
+
+<!--        <div class="required-field row">-->
+
+<!--            <div class="col">-->
+<!--              <div >-->
+<!--                <input type="checkbox" [(ngModel)]="checkBoxText" id="Text" value="Text" name="Text" />-->
+<!--                <label >Text</label>-->
+<!--              </div>-->
+<!--            </div>-->
+
+<!--            <div class="col">-->
+<!--              <div >-->
+<!--                <input type="checkbox" [(ngModel)]="checkBoxImage" id="Image" value="Image" name="Image" />-->
+<!--                <label >Image</label>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="panel-footer">-->
+<!--           <div class="pull-right">-->
+<!--             <input (click)="onSubmit()" class="btn btn-success float-right" type="Submit" value="Submit"/>-->
+<!--             <ngx-spinner type="ball-scale-multiple" size="medium" *ngIf="loader" >-->
+<!--               <div class = "loader"></div>-->
+<!--               <div class="loadertext"> <br><p> Please wait while we work on your content biased data. <br><br> Appreciate your patience</p>-->
+<!--               </div>-->
+<!--             </ngx-spinner>-->
+
+<!--          </div>-->
+<!--          <input (click)="handleClear()" class="btn btn-primary" type="button" value="Reset"/>-->
+<!--          <p class="note">Note: If you have a biased file you can Navigate to "Biased File Upload" page to upload your biased file before entering above details.</p>-->
+<!--        </div>-->
+<!--      </form>-->
+<!--    </div>-->
+<!--  </div>-->
+
+  <!--div class="body-footer">
+    <span class="body-footer-text">© 2023 Accenture. All Rights Reserved.</span>
+  </div-->
+<!--</div>-->
+
+
+
+<div>
+  <section id="content">
+    <div class="row">
+      <div class="col">
+        <div class="leftContent">
+        <form>
+       <h1 style="color:white">Digital Inclusivity Auditor</h1>
+      <p style="color:white" class="text-wrap">
+        A Digital Inclusivity Auditor is a professional who assesses and ensures that digital products, services, and environments are accessible to all users, including those with disabilities. Their role is crucial in promoting digital inclusivity, which aims to eliminate barriers that prevent people from accessing and using digital technologies effectively.
+      </p>
+          <br/>
+          <p style="color:white" class="text-wrap">
+      Overall, Digital Inclusivity Auditors play a critical role in fostering a more inclusive digital environment where everyone, regardless of ability, can participate fully and equally in the digital world. Their work contributes to both ethical considerations and legal requirements surrounding accessibility in digital spaces.
+      </p>
+          <div>
+            <span class="startBtn">
+                 <button type="button" class="btn btn-light" (click)="getStartedWithForm()">Let's Get Started
+                 <i class="bi bi-arrow-up-right"></i></button>
+            </span>
+
+            <span class="videoBtn" (click)="startVideo()">
+              <i class="bi bi-play-circle" style="margin-right:5px"></i>Watch Video
+            </span>
+          </div>
+          </form>
+          </div>
+        </div>
+      <div class="col">
+        <div class="rightContent">
+          <form class="grid" *ngIf="!showForm">
+            <div>
+              <video width="540pxpx" height="300px" controls>
+                  <source src="movie.mp4" type="video/mp4">
+              </video>
+            </div>
+
+          </form>
+           <form class="grid" method="POST" *ngIf="showForm"> <!--action="/result"-->
+        <label class="required-field"><b>URL</b></label>
+        <input type="text" [(ngModel)]="name" style="width: auto;" id="urlNameId" name="urlName" placeholder={{url}} required>
+
+        <label class="required-field input-group" ><strong>Type of Content  </strong></label>
 
         <div class="required-field row">
 
             <div class="col">
-              <div >
-                <input type="checkbox" [(ngModel)]="checkBoxText" id="Text" value="Text" name="Text" />
-                <label >Text</label>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" [(ngModel)]="checkBoxText" id="Text" value="Text" name="Text" />
+                <label class="form-check-label" >Text</label>
               </div>
             </div>
 
             <div class="col">
-              <div >
-                <input type="checkbox" [(ngModel)]="checkBoxImage" id="Image" value="Image" name="Image" />
-                <label >Image</label>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" [(ngModel)]="checkBoxImage" id="Image" value="Image" name="Image" />
+                <label class="form-check-label" >Image</label>
               </div>
             </div>
         </div>
         <div class="panel-footer">
-           <div class="pull-right">
-             <input (click)="onSubmit()" class="btn btn-success float-right" type="Submit" value="Submit"/>
+          <span class="successBtn">
+             <button (click)="onSubmit()" class="btn btn-primary">Submit</button>
+          </span>
              <ngx-spinner type="ball-scale-multiple" size="medium" *ngIf="loader" >
                <div class = "loader"></div>
                <div class="loadertext"> <br><p> Please wait while we work on your content biased data. <br><br> Appreciate your patience</p>
                </div>
              </ngx-spinner>
-
-          </div>
-          <input (click)="handleClear()" class="btn btn-primary" type="button" value="Reset"/>
-          <p class="note">Note: If you have a biased file you can Navigate to "Biased File Upload" page to upload your biased file before entering above details.</p>
+          <span class="resetBtn">
+              <button (click)="handleClear()" type="button" class="btn reset">Reset</button>
+          </span>
         </div>
+             <div>
+               <div class="alert alert-primary" role="alert">
+                    <h4 class="alert-heading">Well done!</h4>
+                    <p>Note: If you have a biased file you can Navigate to "Biased File Upload" page to upload your biased file before entering above details.</p>
+                  <button type="button" class="btn btn-primary"  routerLink="/fileupload/file">Biased File Upload</button>
+                  </div>
+             </div>
       </form>
+          </div>
+      </div>
     </div>
-  </div>
+  </section>
 
-  <!--div class="body-footer">
-    <span class="body-footer-text">© 2023 Accenture. All Rights Reserved.</span>
-  </div-->
+<!--Cards section-->
+  <section id="subContent">
+    <div class="subCategory" style="text-align:center">
+      <h2> We Provide Our Best Services</h2>
+      <p>"Our greatest asset is the Customer! Treat each Customer as if they are the only one!"</p>
+    </div>
+    <div class="card-container">
+      <div class="card" (click)="navigateTo('/config')">
+        <img src="config.png" class="card-img-top" alt="Configuration">
+        <div class="card-header">Configuration</div>
+        <div class="card-body">Details about configuration</div>
+      </div>
+      <div class="card" (click)="navigateTo('/faq')">
+        <img src="faq.png" class="card-img-top" alt="faq">
+        <div class="card-header">Help & FAQ</div>
+        <div class="card-body">Details about help & FAQ</div>
+      </div>
+      <div class="card" (click)="navigateTo('/report')">
+        <img src="report.png" class="card-img-top" alt="report">
+        <div class="card-header">Sample Results</div>
+        <div class="card-body">Details about sample results</div>
+      </div>
+      <div class="card" (click)="navigateTo('/user-count')">
+        <img src="counts.png" class="card-img-top" alt="User Count">
+        <div class="card-header">User Count</div>
+        <div class="card-body">Details about user count</div>
+      </div>
+      <div class="card" (click)="navigateTo('/contact-us')">
+        <img src="contact.png" class="card-img-top" alt="Contact Us">
+        <div class="card-header">Contact Us</div>
+        <div class="card-body">Details about contacting us</div>
+      </div>
+    </div>
+  </section>
 </div>
