@@ -5,23 +5,25 @@
 .form-header{
   flex-direction: row;
   box-sizing: border-box;
-  background-color: #ADBDB6;
+  /*background-color: #ADBDB6;*/
+  background-color:#fff;
   color: #061A1E;
-  height: 100%;
-  margin-top: 0px;
-  margin-left: 0px;
-  margin-right: -243px;
+     height: 50%;
+    margin-right: 100px;
+    margin-left: 100px;
+  /*margin-right: -243px;*/
   padding-left: 0px;
   line-height: 20px;
   vertical-align: middle;
   font-size: 16px;
   font-family: Segoe UI;
-  outline: 1px solid #ADBDB6;
+  border-radius:10px;
+ /* outline: 1px solid #ADBDB6;*/
 
 }
 .form-file-upload{
   flex-direction: row;
-  background-color: #ADBDB6;
+ /* background-color: #ADBDB6;*/
   color: #061A1E;
   height: 50px;
   margin-top: 0px;
@@ -33,44 +35,46 @@
   vertical-align: middle;
   font-size: 16px;
   font-family: Segoe UI;
-  outline: 0px solid #ADBDB6;
+  /*outline: 0px solid #ADBDB6;*/
   text-align: left;
 }
 
 .form-file-details{
   flex-direction: row;
   box-sizing: border-box;
-  background-color: #ADBDB6;
+ /* background-color: #ADBDB6;*/
   color: #061A1E;
   height: 100%;
   margin-top: 0px;
   margin-left: 0px;
-  margin-right: -243px;
+ /* margin-right: -243px;*/
   padding-left: 0px;
   line-height: 20px;
   vertical-align: middle;
   font-size: 16px;
   font-family: Segoe UI;
-  outline: 1px solid #ADBDB6;
+ /* outline: 1px solid #ADBDB6;*/
 
 }
 
 .form-excel-data{
   flex-direction: row;
   box-sizing: border-box;
-  background-color: #ADBDB6;
+  background-color:#fff;
+ /* background-color: #ADBDB6;*/
   color: #061A1E;
-  height: 100%;
-  margin-top: 0px;
-  margin-left: 0px;
-  margin-right: -243px;
+ height: 200px;
+    margin-top: 40px;
+    margin-left: 100px;
+    margin-right: 100px;
   padding-left: 10px;
   line-height: 20px;
   vertical-align: middle;
   font-size: 16px;
   font-family: Segoe UI;
-  outline: 1px solid #ADBDB6;
+  /*outline: 1px solid #ADBDB6;*/
   text-align: left;
+  border-radius: 10px;
 }
 
 .bg{
@@ -81,17 +85,19 @@ table{
   border: 1px solid black;
   border-collapse: separate;
   border-spacing: 0px;
+  width: 95%;
+    margin: 20px;
 }
 
 th{
   position: sticky;
   top:0px;
-  background-color: burlywood;
+ /* background-color: burlywood;*/
 }
 
 .table-wrapper{
-  max-height: 300px;
-  overflow-y: scroll;
+  max-height: 400px;
+  overflow-y: hidden;
   overflow-x: hidden;
   margin:20px;
 }
@@ -115,4 +121,32 @@ th, td{
 section p{
   margin-bottom: 0;
   padding-bottom: 5px;
+}
+
+
+/*New code*/
+#fileContent{
+    height: 700px;
+    background-color: purple;
+    background-image: linear-gradient(to right, rebeccapurple, purple);
+}
+
+.fileSelectContent{
+background-color:purple;
+ background-image: linear-gradient(to right, rebeccapurple, purple);
+}
+
+.formContent{
+    margin-top: 100px;
+    height: 500px;
+}
+
+.form-control[type=file] {
+    width: 90%;
+    margin-top: 75px;
+    }
+
+.table-striped > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th {
+      background-color: #0070bb;
+    color: #fff;
 }
