@@ -6,5 +6,14 @@ import { Component } from '@angular/core';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent {
+btnActive: string = 'one';
+
+constructor() {}
+
+ngOnInit() {}
+
+activeBtn(btnActive: string) {
+  this.btnActive = btnActive;
+}
 
 }

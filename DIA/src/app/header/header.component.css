@@ -47,10 +47,61 @@
     position: absolute;
     content: "";
     left: 0;
-    height: 65%;
+    height: 150%;
     width: 0;
     border-left: 1.5px solid #5a5a5a;
 }
+
+.navbar {
+  right: 0;
+  display: inline-flex;
+  align-items: center;
+  margin-left: auto;
+  white-space: normal;
+  position: fixed;
+  height: 51px;
+  z-index: 1;
+}
+
+.navbar .nav-btn {
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: .24px;
+  padding: 10px 15px 7px;
+  float: left;
+  margin: 0 10px;
+  cursor: pointer;
+  box-sizing: border-box;
+  position: relative;
+  font-family: Graphik Medium, Graphik;
+  text-decoration: none;
+}
+
+.navbar .nav-btn{
+  color: #575757;
+}
+
+.nav-tab .nav-btn:hover {
+  background: #eed4fd;
+}
+
+.navbar .nav-tab .active {
+  color: white;
+  background-color: #981fae;
+  font-weight: bold;
+}
+
+.nav-tab .active{
+  padding: 10px 15px 7px;
+}
+
+@media screen and (max-width: 500px) {
+  .navbar a {
+    float: none;
+    display: block;
+  }
+}
+
 .footer{
   position: fixed;
   bottom: 0;
@@ -78,64 +129,4 @@
   text-align: right;
 }
 
-ul li{
-    list-style: none;
-}
 
-ul li a{
-  text-decoration: none;
-}
-
-ul{
-    display: flex;
-    justify-content: flex-start;
-    background-color: darkslategray;
-    height: 40px;
-}
-
-a{
-  line-height: 40px;
-  color: white;
-  margin: 0 20px;
-  padding: 10px 10px;
-}
-
-li{
-  background-color: Black;
-}
-
-
-.active{
-  background-color: #ADBDB6;
-}
-
-.apptitlecontainer{
-  color:black;
-  padding-left: 20px;
-  font-size: 36px;
-  font-weight: 700;
-  line-height: 2;
-  font-family: Segoe UI;
-  text-align: center;
-}
-
-
-#leftbox {
-    float:left;
-    width:25%;
-    height:100px;
-    padding-top:15px;
-}
-#middlebox{
-    float:left;
-    width:50%;
-    height:100px;
-    padding-left:85px;
-}
-#rightbox{
-    float:right;
-    width:25%;
-    height:100px;
-    padding-top:15px;
-    padding-left:65px;
-}
