@@ -1,8 +1,9 @@
 import { Component, OnInit, Injectable } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, NavigationStart, NavigationEnd } from '@angular/router';
 import { HttpClient, HttpParams, HttpHeaders } from "@angular/common/http";
 import { throwError } from "rxjs";
 import { NgxSpinnerService } from 'ngx-spinner';
+import { Location, PopStateEvent } from "@angular/common";
 const uploadURL = "http://localhost:5000/output/";
 
 @Component({
@@ -27,14 +28,49 @@ export class BaisedComponent implements OnInit {
     checkBoxImage: any;
     category: any;
     showForm:boolean = false;
-
-    constructor(private router: Router, private http: HttpClient, private spinnerService: NgxSpinnerService) {
+    sectionScroll: any = '';
+    lastPoppedUrl: any;
+    constructor(private router: Router, private http: HttpClient, private spinnerService: NgxSpinnerService, private location: Location) {
               this.name='';
              this.checkBoxText='';
              this.checkBoxImage='';
+
     }
 
-    ngOnInit(): void {}
+    ngOnInit() {
+      this.location.subscribe((ev:PopStateEvent) => {
+            this.lastPoppedUrl = ev.url;
+        });
+      this.router.events.subscribe((evt:any) => {
+         // if (evt instanceof NavigationStart) {
+                    if(evt.url == '/home#subContent')
+                    {
+                        this.sectionScroll = 'subContent';
+                        this.doScroll();
+                        this.sectionScroll= null;
+                    }
+          //  }
+        /* if (!(evt instanceof NavigationEnd)) {
+          return;
+        } */
+
+      });
+    }
+
+    doScroll() {
+
+      if (!this.sectionScroll) {
+        return;
+      }
+      try {
+        var elements = document.getElementById(this.sectionScroll);
+            if(elements != null)
+            elements.scrollIntoView();
+      }
+      finally{
+        this.sectionScroll = null;
+      }
+    }
 
     handleClear(){
     this.name='';

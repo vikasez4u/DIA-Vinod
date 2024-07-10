@@ -17,7 +17,7 @@
   (click)="activeBtn('two')">
           <i class=""></i> Configurations
         </a>
-        <a class="nav-btn" href="/home" [class]="btnActive === 'three' ? 'active' : ''"
+        <a class="nav-btn" [routerLink]="['/home']" fragment="subContent" [class]="btnActive === 'three' ? 'active' : ''"
   (click)="activeBtn('three')">
           <i class=""></i> About Us
         </a>
