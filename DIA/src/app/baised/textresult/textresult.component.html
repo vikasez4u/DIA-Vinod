@@ -58,7 +58,7 @@
   <div class="container">
     <section id="panel-1">
       <main>
-        <h1>Summary</h1>
+        <!--<h1>Summary</h1>-->
         <p>
           <div class="result" >
             <ul>
@@ -89,7 +89,7 @@
         <div class="progress-bar" id="myBar"></div>
       </div>
       <main>
-        <h1>Text Results</h1>
+        <!--<h1>Text Results</h1>-->
         <p>
           <div class="result" *ngIf="biased_txt_results.length>0">
             <ul>
@@ -106,14 +106,14 @@
     </section>
     <section id="panel-3">
       <main>
-        <h1>Alt Text Results</h1>
+        <!--<h1>Alt Text Results</h1>-->
         <p>
           <div class="result" *ngIf="biased_alt_results.length>0">
             <ul *ngFor="let result of biased_alt_results;">
               <li>
                 {{ result[0] }}: <span [innerHTML]="result[1]"></span>
               </li>
-              <li><a style="color: greenyellow;" href="{{ result[2] }}">{{ result[2] }}</a></li>
+              <li><a href="{{ result[2] }}">{{ result[2] }}</a></li>
             </ul>
           </div>
 
@@ -124,14 +124,14 @@
     </section>
     <section id="panel-4">
       <main>
-        <h1>Image Text Results</h1>
+        <!--<h1>Image Text Results</h1>-->
         <p>
           <div class="result" *ngIf="biased_img_results.length>0">
             <ul *ngFor="let result of biased_img_results;">
               <li>
                 {{ result[0] }}: <span [innerHTML]="result[1]"></span>
               </li>
-              <li><a style="color: greenyellow;" href="{{ result[2] }}">{{ result[2] }}</a></li>
+              <li><a href="{{ result[2] }}">{{ result[2] }}</a></li>
             </ul>
           </div>
 

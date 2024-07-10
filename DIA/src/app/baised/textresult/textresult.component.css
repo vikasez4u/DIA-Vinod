@@ -103,11 +103,11 @@ label.panel-label {
   transition-duration: 200ms;
 }
 label.panel-label:hover {
-  color: #c0392b;
+  color: #981fae;
 }
 
 #panels {
-  background-color: #2f4f4f;
+  background-color: white;
 }
 #panels .container {
   margin: 0 auto;
@@ -134,31 +134,31 @@ label.panel-label:hover {
 #panel-1-ctrl:checked ~ #panels #panel-1 main {
   max-height: initial;
   opacity: 1;
-  padding: 48px 24px;
+  padding: 1rem 1.5rem;
 }
 
 #panel-2-ctrl:checked ~ #panels #panel-2 main {
   max-height: initial;
   opacity: 1;
-  padding: 48px 24px;
+  padding: 1rem 1.5rem;
 }
 
 #panel-3-ctrl:checked ~ #panels #panel-3 main {
   max-height: initial;
   opacity: 1;
-  padding: 48px 24px;
+  padding: 1rem 1.5rem;
 }
 
 #panel-4-ctrl:checked ~ #panels #panel-4 main {
   max-height: initial;
   opacity: 1;
-  padding: 48px 24px;
+  padding: 1rem 1.5rem;
 }
 
 #panel-5-ctrl:checked ~ #panels #panel-5 main {
   max-height: initial;
   opacity: 1;
-  padding: 48px 24px;
+  padding: 1rem 1.5rem;
 }
 
 @media all and (max-width: 767px) {
@@ -260,7 +260,7 @@ label.panel-label:hover {
   }
   #panel-1-ctrl:checked ~ #tabs-list #li-for-panel-1 label.panel-label {
     background-color: white;
-    color: #2f4f4f;
+    color: #981fae;
   }
 
   #panel-2-ctrl:checked ~ #tabs-list #li-for-panel-2 {
@@ -269,8 +269,8 @@ label.panel-label:hover {
   }
   #panel-2-ctrl:checked ~ #tabs-list #li-for-panel-2 label.panel-label {
     background-color: white;
-    color: #c0392b;
-    background-color: #c0392b;
+    color: #981fae;
+    background-color: #981fae;
     color: white;
   }
 
@@ -280,8 +280,8 @@ label.panel-label:hover {
   }
   #panel-3-ctrl:checked ~ #tabs-list #li-for-panel-3 label.panel-label {
     background-color: white;
-    color: #c0392b;
-    background-color: #c0392b;
+    color: #981fae;
+    background-color: #981fae;
     color: white;
   }
 
@@ -291,8 +291,8 @@ label.panel-label:hover {
   }
   #panel-4-ctrl:checked ~ #tabs-list #li-for-panel-4 label.panel-label {
     background-color: white;
-    color: #c0392b;
-    background-color: #c0392b;
+    color: #981fae;
+    background-color: #981fae;
     color: white;
   }
 
@@ -302,8 +302,8 @@ label.panel-label:hover {
   }
   #panel-5-ctrl:checked ~ #tabs-list #li-for-panel-5 label.panel-label {
     background-color: white;
-    color: #c0392b;
-    background-color: #c0392b;
+    color: #981fae;
+    background-color: #981fae;
     color: white;
   }
 
@@ -330,7 +330,7 @@ label.panel-label:hover {
   }
   #panel-1-ctrl:checked ~ #tabs-list #li-for-panel-1 label.panel-label {
     background-color: white;
-    color: #2f4f4f;
+    color: #981fae;
     padding-top: 26px;
   }
   #panel-1-ctrl:checked ~ #tabs-list #li-for-panel-1 label.panel-label::after {
@@ -352,7 +352,7 @@ label.panel-label:hover {
   }
   #panel-2-ctrl:checked ~ #tabs-list #li-for-panel-2 label.panel-label {
     background-color: white;
-    color: #c0392b;
+    color: #981fae;
     padding-top: 26px;
   }
   #panel-2-ctrl:checked ~ #tabs-list #li-for-panel-2 label.panel-label::after {
@@ -374,7 +374,7 @@ label.panel-label:hover {
   }
   #panel-3-ctrl:checked ~ #tabs-list #li-for-panel-3 label.panel-label {
     background-color: white;
-    color: #c0392b;
+    color: #981fae;
     padding-top: 26px;
   }
   #panel-3-ctrl:checked ~ #tabs-list #li-for-panel-3 label.panel-label::after {
@@ -396,7 +396,7 @@ label.panel-label:hover {
   }
   #panel-4-ctrl:checked ~ #tabs-list #li-for-panel-4 label.panel-label {
     background-color: white;
-    color: #c0392b;
+    color: #981fae;
     padding-top: 26px;
   }
   #panel-4-ctrl:checked ~ #tabs-list #li-for-panel-4 label.panel-label::after {
@@ -418,7 +418,7 @@ label.panel-label:hover {
   }
   #panel-5-ctrl:checked ~ #tabs-list #li-for-panel-5 label.panel-label {
     background-color: white;
-    color: #c0392b;
+    color: #981fae;
     padding-top: 26px;
   }
   #panel-5-ctrl:checked ~ #tabs-list #li-for-panel-5 label.panel-label::after {
@@ -458,7 +458,7 @@ label.panel-label:hover {
     width: 100%;
     left: 0;
     bottom: 100%;
-    background-color: #c0392b;
+    background-color: #981fae;
     height: 0;
     transition-property: height;
     transition-duration: 200ms;
@@ -469,6 +469,11 @@ label.panel-label:hover {
   ul#tabs-list li label.panel-label:hover::after {
     height: 6px;
   }
+
+ul#tabs-list {
+    height: 74px;
+    margin-top: 70px;
+}
 
   #open-nav-label,
 #close-nav-label {
@@ -517,7 +522,7 @@ label.panel-label:hover {
 main h1 {
   margin-top: -40px;
   font-weight: 300;
-  color: white;
+  color: black;
 }
 main p {
   line-height: 1.8;
@@ -528,7 +533,7 @@ main hr {
 }
 
 label.demo-label {
-  background-color: #c0392b;
+  background-color: #981fae;
   color: white;
   padding: 4px 8px;
   border-radius: 2px;
@@ -547,7 +552,7 @@ label.demo-label:hover {
   display: none;
 }
 #demo-child-toggle:checked ~ #demo-parent #demo-child {
-  color: #c0392b;
+  color: #981fae;
   font-weight: bold;
   text-transform: uppercase;
 }
@@ -558,7 +563,7 @@ label.demo-label:hover {
 
 code,
 pre {
-  color: #c0392b;
+  color: #981fae;
   font-family: Inconsolata, "Andale Mono", Andale, monowidth;
   background-color: #ecf0f1;
   border: 1px solid #dfdfdf;
@@ -580,5 +585,10 @@ pre strong {
 
 .result{
   max-height: 200px;
-  color: white;
+  color: black;
+}
+
+a{
+color: rgba(var(--bs-link-color-rgb), var(--bs-link-opacity, 1));
+    text-decoration: underline;
 }

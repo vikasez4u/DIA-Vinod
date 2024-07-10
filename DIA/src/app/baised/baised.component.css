@@ -130,7 +130,7 @@ html,body{
 .grid{
     display: grid;
     grid-gap: 1vmax;
-    padding: 55px;
+    padding: 2.5rem;
 }
 
 .box2{
@@ -349,7 +349,7 @@ color:white;
 }
 
 #content{
-    height: 700px;
+    height: 33rem;
     background-color: purple;
     background-image: linear-gradient(to right, rebeccapurple, purple);
 }
@@ -361,14 +361,14 @@ color:white;
 
 .rightContent{
   background-color: #fff;
-  margin-top: 80px;
+  margin-top: 3rem;
   margin-right: 50px;
   height:85%;
   border-radius: 15px;
 }
 
 .leftContent{
-  margin-top: 100px;
+  margin-top: 3rem;
   margin-left: 150px;
   margin-right:50px;
 }

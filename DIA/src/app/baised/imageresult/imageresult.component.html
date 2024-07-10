@@ -38,7 +38,7 @@
   <div class="img-container">
      <section id="img-panel-1">
       <main>
-        <h1>Summary</h1>
+        <!--<h1>Summary</h1>-->
          <p>
                                     <div class="img-result" *ngIf="image_results_tr.length>0">
                                       <!--  <h2>Image Text Results</h2>-->
@@ -64,13 +64,13 @@
         <div class="img-progress-bar" id="img-myBar"></div>
       </div>
       <main>
-        <h1>Detected Image List</h1>
+        <!--<h1>Detected Image List</h1>-->
          <p>
                                     <div class="img-result" *ngIf="image_biased_results.length>0">
                                         <!--<h2>Text Results</h2>-->
                                         <ul *ngFor="let result of image_biased_results;">
                                             <li>
-                                              <a style="color: greenyellow;" href="{{ result[0] }}">{{ result[0] }}</a>
+                                              <a href="{{ result[0] }}">{{ result[0] }}</a>
                                             </li>
                                             <ul>
                                               <li> Male:  {{ result[1] }} </li>
@@ -88,7 +88,7 @@
     </section>
     <section id="img-panel-3">
       <main>
-        <h1>Image Results</h1>
+       <!-- <h1>Image Results</h1>-->
 
 
     <div class="swiper swiperCarousel">
