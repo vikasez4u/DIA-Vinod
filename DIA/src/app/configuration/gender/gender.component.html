@@ -1,22 +1,81 @@
+<!--<div ng-app="myapp">-->
+<!--	<div class="form-header" ng-controller="MainCtrl">-->
+<!--    <div>-->
+<!--       <h3>Gender Configuration</h3>-->
+<!--    </div>-->
+<!--    <div class="form-outline">-->
+<!--      <form class="grid" method="POST"> &lt;!&ndash;action="/result"&ndash;&gt;-->
+<!--        <label class="required-field" style="font-weight: 600; margin-right: 15px;">Gender Name: </label>-->
+<!--        <input type="text" [(ngModel)]="name" style="width: 25%;margin-right:10px;" id="genderNameId" name="genderName" placeholder={{gename}} required>-->
+<!--        <button (click)="gendersave(name)" style="margin-right:10px;">Add</button>-->
+<!--      </form>-->
+<!--    </div>-->
+<!--    <div class="row form-excel-data">-->
+<!--      <div class="col-sm-12 table-wrapper" >-->
+<!--          <table class= "bg" >-->
+<!--              <thead>-->
+<!--                <tr>-->
+<!--                  <th nzWidth="25%">S.No</th>-->
+<!--                  <th nzWidth="55%">Gender Name</th>-->
+<!--                  <th>Action</th>-->
+<!--                </tr>-->
+<!--              </thead>-->
+<!--              <tbody>-->
+<!--                <tr *ngFor="let data of gName; let i =index">-->
+<!--                  <td>{{i+1}}</td>-->
+<!--                  <td>-->
+<!--                    <ng-container *ngIf="!editCache[data.id].edit; else addressInputTpl">-->
+<!--                      {{ data.GenderName }}-->
+<!--                    </ng-container>-->
+<!--                    <ng-template #addressInputTpl>-->
+<!--                      <input style="width: 100%;" type="text" nz-input [(ngModel)]="editCache[data.id].data.GenderName" />-->
+<!--                    </ng-template>-->
+<!--                  </td>-->
+<!--                  <td>-->
+<!--                    <div class="editable-row-operations">-->
+<!--                      <ng-container *ngIf="!editCache[data.id].edit; else saveTpl">-->
+<!--                        <a (click)="startEdit(data.id)">Edit</a>-->
+<!--                        <a (click)="delete(data.id)">Delete</a>-->
+<!--                      </ng-container>-->
+<!--                      <ng-template #saveTpl>-->
+<!--                        <a (click)="saveEdit(data.id)">Update</a>-->
+<!--                        <a (click)="cancelEdit(data.id)">Cancel</a>-->
+<!--                      </ng-template>-->
+<!--                    </div>-->
+<!--                  </td>-->
+<!--                </tr>-->
+<!--              </tbody>-->
+<!--        </table>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+
+<!--New code-->
 <div ng-app="myapp">
 	<div class="form-header" ng-controller="MainCtrl">
     <div>
-       <h3>Gender Configuration</h3>
+       <h2>Gender Configuration</h2>
     </div>
     <div class="form-outline">
-      <form class="grid" method="POST"> <!--action="/result"-->
-        <label class="required-field" style="font-weight: 600; margin-right: 15px;">Gender Name: </label>
-        <input type="text" [(ngModel)]="name" style="width: 25%;margin-right:10px;" id="genderNameId" name="genderName" placeholder={{gename}} required>
-        <button (click)="gendersave(name)" style="margin-right:10px;">Add</button>
+
+      <form>
+  <div class="form-group row">
+    <label class="col-sm-2 col-form-label"><strong>Gender Name : </strong></label>
+    <div class="col-sm-6">
+      <input type="text"  [(ngModel)]="name" class="form-control"  id="genderNameId" name="genderName" placeholder={{gename}} required/>
+    </div>
+    <button (click)="gendersave(name)" class="col-sm-2 btn btn-primary" style="margin-right:10px;">Add</button>
+  </div>
       </form>
     </div>
     <div class="row form-excel-data">
       <div class="col-sm-12 table-wrapper" >
-          <table class= "bg" >
-              <thead>
+          <table class= "table" >
+              <thead class="thead-light">
                 <tr>
-                  <th nzWidth="25%">S.No</th>
-                  <th nzWidth="55%">Gender Name</th>
+                  <th>S.No</th>
+                  <th>Gender Name</th>
                   <th>Action</th>
                 </tr>
               </thead>
@@ -28,7 +87,7 @@
                       {{ data.GenderName }}
                     </ng-container>
                     <ng-template #addressInputTpl>
-                      <input style="width: 100%;" type="text" nz-input [(ngModel)]="editCache[data.id].data.GenderName" />
+                      <input type="text" nz-input [(ngModel)]="editCache[data.id].data.GenderName" />
                     </ng-template>
                   </td>
                   <td>

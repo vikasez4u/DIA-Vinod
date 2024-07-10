@@ -21,3 +21,43 @@
   background-color: #ADBDB6;
 }
 
+
+.configuration-page {
+  display: flex;
+  height: 100vh;
+}
+
+.sidebar {
+  width: 16.7rem;
+  background: #f4f4f4;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar button {
+  background: none;
+  border: none;
+  padding: 10px;
+  text-align: left;
+  cursor: pointer;
+  width: 100%;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+.sidebar button.active {
+  background: #981fae;
+  color: white;
+}
+
+.sidebar button:hover:not(.active) {
+  background: #f4e1f3;
+}
+
+.content {
+  flex: 1;
+  padding: 20px;
+  background: #fff;
+}
+
+

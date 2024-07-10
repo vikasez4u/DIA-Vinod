@@ -77,25 +77,20 @@
 
 
 <!--New Code-->
-<div>
-  <section id="fileContent">
-    <div class="fileSelectContent">
-      <div class="row">
-          <div ng-app="myapp" class="formContent">
+<div ng-app="myapp">
   <div class="form-header" ng-controller="MainCtrl">
-    <div style="margin-top:20px">
-        <h1 class="text-primary text-center">File Upload</h1>
+  <h2>File Upload</h2>
+
+      <form class="form-file-upload">
+    <div class="row">
+  <input class="form-control col-sm-4" type="file" id="formFileMultiple" multiple [(ngModel)]="filename"  (change)="onChange($event);"  accept=".xlsx" #fileUpload />
+  <button type="button" class="downloadBtn btn btn-primary col-sm-2" (click)="onDownload()">Download Template Biased File</button>
+    </div>
+  </form>
     </div>
 
 
-  <div class="form-file-upload">
-    <div class="mb-3">
-  <input class="form-control" type="file" id="formFileMultiple" multiple [(ngModel)]="filename"  (change)="onChange($event);"  accept=".xlsx" #fileUpload />
-  <button type="button" class="btn btn-primary" style="margin-top:20px" (click)="onDownload()">Template Biased File Upload</button>
-    </div>
-  </div>
-    </div>
-  <div class="text-center form-file-details" *ngIf="file">
+  <div class="form-file-details" *ngIf="file">
     File details:
     <section class="file-info">
 
@@ -115,19 +110,19 @@
       <p *ngSwitchDefault>😶 Waiting to upload...</p>
     </section>
   </div>
+  <div class="row form-excel-data">
+        <div class="col-sm-12 table-wrapper" >
+      <table class= "table"  *ngIf="defaultwords.length>0" style="float: left;">
 
-
-    <div class="form-excel-data">
-    <div class="col-sm-12 table-wrapper" >
-      <table class= "table table-striped"  *ngIf="defaultwords.length>0" style="float: left;">
-
-            <tbody>
+            <thead class="thead-light">
               <tr>
                 <th scope="col">S.No</th>
                 <th scope="col">Gender Name</th>
                 <th scope="col">Default Biased Words</th>
 
               </tr>
+            </thead>
+        <tbody>
             <tr *ngFor="let u of defaultwords;  let i =index">
                     <td>{{i+1}}</td>
                     <td>{{u.GenderName}}</td>
@@ -136,40 +131,34 @@
             </tbody>
 </table>
 
-<table  class = "bg" *ngIf="users.length>0" style="float: left;margin-left: 10px;">
-            <tbody>
+<table  class = "table" *ngIf="users.length>0" style="float: left;margin-left: 10px;">
+           <thead class="thead-light">
               <tr>
-                  <th scope="col" style="width: 20px;">S.No</th>
-                  <th scope="col" style="width: 40px;">Gender Name</th>
+                  <th scope="col">S.No</th>
+                  <th scope="col">Gender Name</th>
                   <th scope="col">Uploaded Biased Words</th>
               </tr>
+            </thead>
+            <tbody>
                 <tr *ngFor="let u of users;  let i =index">
                     <td>{{i+1}}</td>
                     <td>{{u.Gender}}</td>
                     <td>{{u.Words}}</td>
                 </tr>
-
             </tbody>
       </table>
 
       <table class="table" #table style="display:none">
-            <tbody>
+             <thead class="thead-light">
               <tr>
                 <th scope="col">Gender</th>
                 <th scope="col">Words</th>
               </tr>
-            </tbody>
+            </thead>
+        <tbody></tbody>
       </table>
 
     </div>
   </div>
-
-
 </div>
-      </div>
 
-
-
-    </div>
-  </section>
-</div>

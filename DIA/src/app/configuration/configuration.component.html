@@ -1,18 +1,36 @@
-<div class="container m-5 ">
- <div class="form-header">
+<!--<div class="container m-5 ">-->
+<!-- <div class="form-header">-->
 
-<p-panelMenu [multiple]='false' [model]="gfg" >
-  <ng-template pTemplate="item" let-item>
-        <ng-container >
-            <a class="flex align-items-center cursor-pointer text-color px-3 py-2">
-                <span [class]="item.icon"></span>
-                <span class="ml-2 text-color" (click)="activeMenu($event)" id="{{item.id}}">{{ item.label }} </span>
-            </a>
-        </ng-container>
-  </ng-template>
-</p-panelMenu>
+<!--<p-panelMenu [multiple]='false' [model]="gfg" >-->
+<!--  <ng-template pTemplate="item" let-item>-->
+<!--        <ng-container >-->
+<!--            <a class="flex align-items-center cursor-pointer text-color px-3 py-2">-->
+<!--                <span [class]="item.icon"></span>-->
+<!--                <span class="ml-2 text-color" (click)="activeMenu($event)" id="{{item.id}}">{{ item.label }} </span>-->
+<!--            </a>-->
+<!--        </ng-container>-->
+<!--  </ng-template>-->
+<!--</p-panelMenu>-->
 
- </div>
+<!-- </div>-->
+<!--</div>-->
+
+
+<div class="configuration-page">
+  <div class="sidebar">
+    <button (click)="selectSection('gender')" [class.active]="selectedSection === 'gender'">
+      Gender Configuration
+    </button>
+    <button (click)="selectSection('biased')" [class.active]="selectedSection === 'biased'">
+      Default Biased Word Configuration
+    </button>
+    <button (click)="selectSection('upload')" [class.active]="selectedSection === 'upload'">
+      Upload File
+    </button>
+  </div>
+  <div class="content">
+    <app-gender *ngIf="selectedSection === 'gender'"></app-gender>
+    <app-baisedwords *ngIf="selectedSection === 'biased'"></app-baisedwords>
+    <app-file *ngIf="selectedSection === 'upload'"></app-file>
+  </div>
 </div>
-
-

@@ -8,26 +8,26 @@
   /*background-color: #ADBDB6;*/
   background-color:#fff;
   color: #061A1E;
-     height: 50%;
-    margin-right: 100px;
-    margin-left: 100px;
-  /*margin-right: -243px;*/
+  height: 100%;
+  margin-top: 0px;
+  margin-left: 0px;
+  margin-right: -243px;
   padding-left: 0px;
   line-height: 20px;
   vertical-align: middle;
   font-size: 16px;
   font-family: Segoe UI;
-  border-radius:10px;
  /* outline: 1px solid #ADBDB6;*/
 
 }
 .form-file-upload{
   flex-direction: row;
- /* background-color: #ADBDB6;*/
+  /*background-color: #ADBDB6;*/
+  background-color:#fff;
   color: #061A1E;
   height: 50px;
-  margin-top: 0px;
-  margin-left: 100px;
+  margin-top: 55px;
+  margin-left: 0px;
   margin-right: 0px;
   padding-left: 10px;
   padding-right: 0px;
@@ -35,19 +35,20 @@
   vertical-align: middle;
   font-size: 16px;
   font-family: Segoe UI;
-  /*outline: 0px solid #ADBDB6;*/
+ /* outline: 0px solid #ADBDB6;*/
   text-align: left;
 }
 
 .form-file-details{
   flex-direction: row;
   box-sizing: border-box;
+   background-color:#fff;
  /* background-color: #ADBDB6;*/
   color: #061A1E;
   height: 100%;
   margin-top: 0px;
   margin-left: 0px;
- /* margin-right: -243px;*/
+  margin-right: -243px;
   padding-left: 0px;
   line-height: 20px;
   vertical-align: middle;
@@ -60,13 +61,13 @@
 .form-excel-data{
   flex-direction: row;
   box-sizing: border-box;
-  background-color:#fff;
- /* background-color: #ADBDB6;*/
+   background-color:#fff;
+  /*background-color: #ADBDB6;*/
   color: #061A1E;
- height: 200px;
-    margin-top: 40px;
-    margin-left: 100px;
-    margin-right: 100px;
+  height: 100%;
+  margin-top: 0px;
+  margin-left: 0px;
+  margin-right: -243px;
   padding-left: 10px;
   line-height: 20px;
   vertical-align: middle;
@@ -74,7 +75,6 @@
   font-family: Segoe UI;
   /*outline: 1px solid #ADBDB6;*/
   text-align: left;
-  border-radius: 10px;
 }
 
 .bg{
@@ -85,19 +85,18 @@ table{
   border: 1px solid black;
   border-collapse: separate;
   border-spacing: 0px;
-  width: 95%;
-    margin: 20px;
+  width: 40%;
 }
 
 th{
   position: sticky;
   top:0px;
- /* background-color: burlywood;*/
+  /*background-color: burlywood;*/
 }
 
 .table-wrapper{
-  max-height: 400px;
-  overflow-y: hidden;
+  max-height: 300px;
+  overflow-y: scroll;
   overflow-x: hidden;
   margin:20px;
 }
@@ -114,7 +113,7 @@ th, td{
 }
 
 .btn-primary{
-  background-color: #0073cf;
+ /* background-color: #0073cf;*/
   color: white;
 }
 
@@ -123,30 +122,15 @@ section p{
   padding-bottom: 5px;
 }
 
-
-/*New code*/
-#fileContent{
-    height: 700px;
-    background-color: purple;
-    background-image: linear-gradient(to right, rebeccapurple, purple);
+input#formFileMultiple {
+    width: 40%;
+    margin-right: 20px;
 }
 
-.fileSelectContent{
-background-color:purple;
- background-image: linear-gradient(to right, rebeccapurple, purple);
+form{
+    margin-top: 55px;
 }
 
-.formContent{
-    margin-top: 100px;
-    height: 500px;
-}
-
-.form-control[type=file] {
-    width: 90%;
-    margin-top: 75px;
-    }
-
-.table-striped > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th {
-      background-color: #0070bb;
-    color: #fff;
+.downloadBtn{
+width:20%;
 }

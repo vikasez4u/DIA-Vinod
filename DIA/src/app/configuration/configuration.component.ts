@@ -19,7 +19,7 @@ import {  HttpClient, HttpParams, HttpHeaders } from "@angular/common/http";
 })
 
 export class ConfigurationComponent implements OnInit{
-
+selectedSection: string = 'gender';
 constructor(private router: Router,private modalService: NgbModal,private http: HttpClient){}
 
 gfg: MenuItem[] = [];
@@ -79,4 +79,7 @@ for (let i = 0; i < menuitem.length; i++) {
 node.classList.add("active")
 }*/
 
+selectSection(section: string) {
+    this.selectedSection = section;
+  }
 }
