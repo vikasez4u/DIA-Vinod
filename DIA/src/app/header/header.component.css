@@ -31,7 +31,7 @@
     width: auto;
 }
 .app-header-title{
-    font-size: 15px;
+    font-size: .875rem;
     font-weight: 700;
     color: #222;
     display: inline-block;
@@ -42,8 +42,6 @@
     margin: 0 .625rem 0 1.625rem;
     text-decoration: none;
     background-color: transparent;
-    font-family: Graphik Medium, Graphik;
-    letter-spacing: .24px;
 }
 .app-header-title:before{
     position: absolute;
