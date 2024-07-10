@@ -5,7 +5,8 @@
 .form-header{
   flex-direction: row;
   box-sizing: border-box;
-  background-color: #ADBDB6;
+  /*background-color: #ADBDB6;*/
+  background-color:#fff;
   color: #061A1E;
   height: 100%;
   margin-top: 0px;
@@ -16,14 +17,15 @@
   vertical-align: middle;
   font-size: 16px;
   font-family: Segoe UI;
-  outline: 1px solid #ADBDB6;
+  /*outline: 1px solid #ADBDB6;*/
 
 }
 
 .form-excel-data{
   flex-direction: row;
   box-sizing: border-box;
-  background-color: #ADBDB6;
+ /* background-color: #ADBDB6;*/
+ background-color:#fff;
   color: #061A1E;
   height: 100%;
   margin-top: 10px;
@@ -34,7 +36,7 @@
   vertical-align: middle;
   font-size: 16px;
   font-family: Segoe UI;
-  outline: 1px solid #ADBDB6;
+  /*outline: 1px solid #ADBDB6;*/
   text-align: left;
 }
 
@@ -46,16 +48,17 @@ table{
   border: 1px solid black;
   border-collapse: separate;
   border-spacing: 0px;
+  width:80%;
 }
 
 th{
   position: sticky;
   top:0px;
-  background-color: burlywood;
+  /*background-color: burlywood;*/
 }
 
 .table-wrapper{
-  /*max-height: 300px;*/
+  max-height: 300px;
   overflow-x: hidden;
   overflow-y: scroll;
   margin:20px 0px 10px 0px;
@@ -75,6 +78,37 @@ th, td{
 }
 
 .btn-primary{
-  background-color: #0073cf;
+  /*background-color: #0073cf;*/
   color: white;
+}
+
+
+/*New code*/
+select#genName {
+    display: block;
+    width: 100%;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--bs-body-color);
+    background-color: var(--bs-body-bg);
+    background-clip: padding-box;
+    border: var(--bs-border-width) solid var(--bs-border-color);
+    border-radius: var(--bs-border-radius);
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+
+form{
+    margin-top: 55px;
+}
+
+::ng-deep  a {
+    color: rgba(var(--bs-link-color-rgb), var(--bs-link-opacity, 1));
+    text-decoration: underline;
+}
+
+::ng-deep a:not([href]):not([class]), a:not([href]):not([class]):hover {
+  color: rgba(var(--bs-link-color-rgb), var(--bs-link-opacity, 1));
+    text-decoration: underline;
 }

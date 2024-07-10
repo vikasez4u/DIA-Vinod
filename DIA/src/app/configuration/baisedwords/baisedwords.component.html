@@ -1,30 +1,102 @@
+<!--<div ng-app="myapp">-->
+<!--	<div class="form-header" ng-controller="MainCtrl">-->
+<!--    <div >-->
+<!--       <h3>Default Biased Words Configuration</h3>-->
+<!--    </div>-->
+<!--    <div class="form-outline">-->
+<!--      <form class="grid" method="POST"> -->
+<!--        <label class="required-field" style="font-weight: 600; margin-right: 5px;">Gender: </label>-->
+<!--       <select [(ngModel)]="genName" id="genName" name="genName" required>-->
+<!--      -->
+<!--            <option  *ngFor="let type of GName" id="model" name="model" value={{type.id}}>{{type.GenderName}}</option>-->
+<!--        -->
+<!--        </select>-->
+<!--        <label class="required-field" style="font-weight: 600; margin-left: 12px;-->
+<!--    margin-right: 5px;">Biased Word: </label>-->
+<!--        <input type="text" [(ngModel)]="bword" style="width: 30%;margin-right:10px;" id="bWordId" name="biasedWord" placeholder={{bWordname}} required/>-->
+<!--        <button (click)="baisedwordsave(bword, genName)" style="margin-right:10px;">Add</button>-->
+<!--      </form>-->
+<!--    </div>-->
+<!--    <div class="row form-excel-data">-->
+<!--      <div class="col-sm-12 table-wrapper" >-->
+<!--          <table class= "bg" >-->
+<!--              <thead>-->
+<!--                <tr>-->
+<!--                  <th nzWidth="25%">S.No</th>-->
+<!--                  <th nzWidth="15%">Gender Name</th>-->
+<!--                  <th nzWidth="40%">Biased Word</th>-->
+<!--                  <th>Action</th>-->
+<!--                </tr>-->
+<!--              </thead>-->
+<!--              <tbody>-->
+<!--                <tr *ngFor="let data of bWorddata; let i =index">-->
+<!--                  <td>{{i+1}}</td>-->
+<!--                  <td>-->
+<!--                    <ng-container>-->
+<!--                      {{ data.GenderName }}-->
+<!--                    </ng-container>-->
+<!--                  </td>-->
+<!--                  <td>-->
+<!--                    <ng-container *ngIf="!editCache[data.id].edit; else addressInputTpl">-->
+<!--                      {{ data.BaisedWord }}-->
+<!--                    </ng-container>-->
+<!--                    <ng-template #addressInputTpl>-->
+<!--                      <input style="width: 100%;" type="text" nz-input [(ngModel)]="editCache[data.id].data.BaisedWord" />-->
+<!--                    </ng-template>-->
+<!--                  </td>-->
+<!--                  <td>-->
+<!--                    <div class="editable-row-operations">-->
+<!--                      <ng-container *ngIf="!editCache[data.id].edit; else saveTpl">-->
+<!--                        <a (click)="startEdit(data.id)">Edit</a>-->
+<!--                        <a (click)="delete(data.id)">Delete</a>-->
+<!--                      </ng-container>-->
+<!--                      <ng-template #saveTpl>-->
+<!--                        <a (click)="saveEdit(data.id)">Update</a>-->
+<!--                        <a (click)="cancelEdit(data.id)">Cancel</a>-->
+<!--                      </ng-template>-->
+<!--                    </div>-->
+<!--                  </td>-->
+<!--                </tr>-->
+<!--              </tbody>-->
+<!--        </table>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+
+<!--New Code -->
 <div ng-app="myapp">
 	<div class="form-header" ng-controller="MainCtrl">
-    <div >
-       <h3>Default Biased Words Configuration</h3>
+    <div>
+       <h2>Default Biased Words Configuration</h2>
     </div>
     <div class="form-outline">
-      <form class="grid" method="POST"> <!--action="/result"-->
-        <label class="required-field" style="font-weight: 600; margin-right: 5px;">Gender: </label>
-       <select [(ngModel)]="genName" id="genName" name="genName" required>
-        <!--   <ng-container >-->
+
+      <form>
+        <div class="form-group row">
+    <label class="col-sm-1 col-form-label"><strong>Gender:</strong></label>
+    <div class="col-sm-3">
+     <select class="custom-select" [(ngModel)]="genName" id="genName" name="genName" required>
             <option  *ngFor="let type of GName" id="model" name="model" value={{type.id}}>{{type.GenderName}}</option>
-         <!-- </ng-container> -->
         </select>
-        <label class="required-field" style="font-weight: 600; margin-left: 12px;
-    margin-right: 5px;">Biased Word: </label>
-        <input type="text" [(ngModel)]="bword" style="width: 30%;margin-right:10px;" id="bWordId" name="biasedWord" placeholder={{bWordname}} required/>
-        <button (click)="baisedwordsave(bword, genName)" style="margin-right:10px;">Add</button>
+    </div>
+          <label class="col-sm-2 col-form-label"><strong>Biased Word:</strong></label>
+      <div class="col-sm-3">
+      <input type="text" class="form-control" [(ngModel)]="bword" id="bWordId" name="biasedWord" placeholder={{bWordname}} required/>
+        </div>
+              <button class="col-sm-2 btn btn-primary "(click)="baisedwordsave(bword, genName)">Add</button>
+        </div>
       </form>
+
     </div>
     <div class="row form-excel-data">
       <div class="col-sm-12 table-wrapper" >
-          <table class= "bg" >
-              <thead>
+          <table class= "table" >
+              <thead class="thead-light">
                 <tr>
-                  <th nzWidth="25%">S.No</th>
-                  <th nzWidth="15%">Gender Name</th>
-                  <th nzWidth="40%">Biased Word</th>
+                  <th>S.No</th>
+                  <th>Gender Name</th>
+                  <th>Biased Word</th>
                   <th>Action</th>
                 </tr>
               </thead>
@@ -41,7 +113,7 @@
                       {{ data.BaisedWord }}
                     </ng-container>
                     <ng-template #addressInputTpl>
-                      <input style="width: 100%;" type="text" nz-input [(ngModel)]="editCache[data.id].data.BaisedWord" />
+                      <input type="text" nz-input [(ngModel)]="editCache[data.id].data.BaisedWord" />
                     </ng-template>
                   </td>
                   <td>
