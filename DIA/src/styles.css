@@ -17,5 +17,6 @@ html, body{
  }
 
  .wordcolor{
- color:orangered;
+    color: #981fae;
+    font-weight: bold;
  }
