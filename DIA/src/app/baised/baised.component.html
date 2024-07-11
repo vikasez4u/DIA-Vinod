@@ -93,8 +93,8 @@
         <div class="rightContent">
           <form class="grid" *ngIf="!showForm">
             <div>
-              <video width="540pxpx" height="300px" controls>
-                  <source src="movie.mp4" type="video/mp4">
+              <video width="540px" height="300px" controls>
+                  <source src="movie.mov" type="video/mov">
               </video>
             </div>
 
@@ -136,7 +136,7 @@
         </div>
              <div>
                <div class="alert alert-primary" role="alert">
-                    <h4 class="alert-heading">Well done!</h4>
+                    <!--<h4 class="alert-heading">Well done!</h4>-->
                     <p>Note: If you have a biased file you can Navigate to "Biased File Upload" page to upload your biased file before entering above details.</p>
                   <button type="button" class="btn btn-primary"  routerLink="/fileupload/file">Upload File</button>
                   </div>
@@ -159,11 +159,6 @@
         <div class="card-header">Configuration</div>
         <div class="card-body">Details about configuration</div>
       </div>
-      <div class="card" (click)="navigateTo('/faq')">
-        <img src="faq.png" class="card-img-top" alt="faq">
-        <div class="card-header">Help & FAQ</div>
-        <div class="card-body">Details about help & FAQ</div>
-      </div>
       <div class="card" (click)="navigateTo('/report')">
         <img src="report.png" class="card-img-top" alt="report">
         <div class="card-header">Sample Results</div>
@@ -173,6 +168,11 @@
         <img src="counts.png" class="card-img-top" alt="User Count">
         <div class="card-header">User Count</div>
         <div class="card-body">Details about user count</div>
+      </div>
+      <div class="card" (click)="navigateTo('/faq')">
+        <img src="faq.png" class="card-img-top" alt="faq">
+        <div class="card-header">Help & FAQ</div>
+        <div class="card-body">Details about help & FAQ</div>
       </div>
       <div class="card" (click)="navigateTo('/contact-us')">
         <img src="contact.png" class="card-img-top" alt="Contact Us">

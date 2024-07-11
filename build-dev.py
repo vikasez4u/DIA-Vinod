@@ -5,7 +5,7 @@ import shutil
 
 CURRENT_DIRECTORY = os.getcwd()
 directories = os.listdir(CURRENT_DIRECTORY)
-NON_ANGULAR_DIRS = ['resources','static', 'templates', 'weights', 'venv', 'env', '__pycache__','uploads']
+NON_ANGULAR_DIRS = ['resources','static', 'templates', 'weights', 'venv', 'env', '__pycache__','uploads','DIA2']
 ANGULAR_PROJECT_PATH = ""
 DIST_PATH = ""
 DIST_ASSETS_PATH = ""
@@ -47,7 +47,7 @@ if dir_exists:
 
         files = os.listdir(DIST_ASSETS_PATH)
         for file in files:
-          if '.js' in file or '.png' in file:
+          if '.js' in file or '.png' in file or '.mp4' in file or '.mov' in file:
             static_files = file
             print(DIST_ASSETS_PATH + '\\' + static_files, FLASK_STATIC_PATH + '\\' + static_files)
             (shutil.move(DIST_ASSETS_PATH + '\\' + static_files, FLASK_STATIC_PATH + '\\' + static_files))
