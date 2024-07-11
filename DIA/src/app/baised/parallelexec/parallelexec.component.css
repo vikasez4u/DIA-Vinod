@@ -90,11 +90,11 @@ label.main-panel-label {
   transition-duration: 200ms;
 }
 label.main-panel-label:hover {
-  color: #c0392b;
+  color: #981fae;
 }
 
 #main-panels {
-  background-color: #2f4f4f;
+  background-color: white;
 }
 #main-panels .main-container {
   margin: 0 auto;
@@ -200,9 +200,9 @@ label.main-panel-label:hover {
     /**background-color: white;
     //color: #2f4f4f;**/
     background-color: white;
-    color: #c0392b;
-    background-color: #c0392b;
-    color: white;
+    color: #981fae;
+    /*background-color: #c0392b;
+    color: white;*/
   }
 
   #main-panel-2-ctrl:checked ~ #main-tabs-list #main-li-for-panel-2 {
@@ -211,9 +211,9 @@ label.main-panel-label:hover {
   }
   #main-panel-2-ctrl:checked ~ #main-tabs-list #main-li-for-panel-2 label.main-panel-label {
     background-color: white;
-    color: #c0392b;
-    background-color: #c0392b;
-    color: white;
+    color: #981fae;
+    /*background-color: #c0392b;
+    color: white;*/
   }
 
   #main-panels .main-container {
@@ -239,7 +239,7 @@ label.main-panel-label:hover {
   }
   #main-panel-1-ctrl:checked ~ #main-tabs-list #main-li-for-panel-1 label.main-panel-label {
     background-color: white;
-    color: #2f4f4f;
+    color: #981fae;
     padding-top: 26px;
   }
   #main-panel-1-ctrl:checked ~ #main-tabs-list #main-li-for-panel-1 label.main-panel-label::after {
@@ -261,7 +261,7 @@ label.main-panel-label:hover {
   }
   #main-panel-2-ctrl:checked ~ #main-tabs-list #main-li-for-panel-2 label.main-panel-label {
     background-color: white;
-    color: #c0392b;
+    color: #981fae;
     padding-top: 26px;
   }
   #main-panel-2-ctrl:checked ~ #main-tabs-list #main-li-for-panel-2 label.main-panel-label::after {
@@ -301,7 +301,7 @@ label.main-panel-label:hover {
     width: 100%;
     left: 0;
     bottom: 100%;
-    background-color: #c0392b;
+    background-color: #981fae;
     height: 0;
     transition-property: height;
     transition-duration: 200ms;
@@ -349,7 +349,7 @@ label.main-panel-label:hover {
 }
 
 body {
-  background: darkslategray;
+  background: white;
   color: white;
   font-family: "Open Sans", "Helvetica Neue", Helvetica, sans-serif;
 }
@@ -368,7 +368,7 @@ main hr {
 }
 
 label.main-demo-label {
-  background-color: #c0392b;
+  background-color: #981fae;
   color: white;
   padding: 4px 8px;
   border-radius: 2px;
@@ -387,11 +387,25 @@ label.main-demo-label:hover {
   display: none;
 }
 #main-demo-child-toggle:checked ~ #main-demo-parent #main-demo-child {
-  color: #c0392b;
+  color: #981fae;
   font-weight: bold;
   text-transform: uppercase;
 }
 
 #main-demo-parent {
   margin-top: 8px;
+}
+
+ul#main-tabs-list {
+    margin-top: 70px;
+    margin-bottom: -68px;
+}
+
+ul#tabs-list {
+    height: 74px;
+    margin-top: 70px;
+}
+
+ul#img-tabs-list {
+    height: 74px;
 }
