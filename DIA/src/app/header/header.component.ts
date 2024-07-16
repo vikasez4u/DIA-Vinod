@@ -22,5 +22,4 @@ activeBtn(btnActive: string) {
     this.router.navigate( ['home' ], {fragment: 'subContent'});
   }
 }
-
 }

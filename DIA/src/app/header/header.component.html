@@ -11,23 +11,33 @@
       <div class="nav-tab">
         <a class="nav-btn" href="/home" routerLink="/home" [class]="btnActive === 'one' ? 'active' : ''"
   (click)="activeBtn('one')">
-          <i class="" style="color: #663399;"></i>Home
+          <i class="fa-solid fa-house-chimney"
+          [ngStyle]="{'color': btnActive === 'one' ? '#FFFFFF' : '#575757', 'padding-right': '5px'}"></i>
+          Home
         </a>
         <a class="nav-btn" [routerLink]="['/home']" fragment="subContent" [class]="btnActive === 'three' ? 'active' : ''"
   (click)="activeBtn('three')">
-          <i class=""></i> About Us
+          <i class="fa-solid fa-people-group"
+          [ngStyle]="{'color': btnActive === 'three' ? '#FFFFFF' : '#575757', 'padding-right': '5px'}"></i>
+          About Us
         </a>
         <a class="nav-btn" href="/config" routerLink="/config" [class]="btnActive === 'two' ? 'active' : ''"
   (click)="activeBtn('two')">
-          <i class=""></i> Configurations
+          <i class="fa-solid fa-gears"
+          [ngStyle]="{'color': btnActive === 'two' ? '#FFFFFF' : '#575757', 'padding-right': '5px'}"></i>
+          Configurations
         </a>
         <a class="nav-btn" href="/home" [class]="btnActive === 'four' ? 'active' : ''"
   (click)="activeBtn('four')">
-          <i class=""></i> FAQ
+          <i class="fa-solid fa-circle-question"
+          [ngStyle]="{'color': btnActive === 'four' ? '#FFFFFF' : '#575757', 'padding-right': '5px'}"></i>
+          FAQ
         </a>
         <a class="nav-btn" href="/home" [class]="btnActive === 'five' ? 'active' : ''"
   (click)="activeBtn('five')">
-          <i class=""></i> Help
+          <i class="fa-solid fa-headset"
+          [ngStyle]="{'color': btnActive === 'five' ? '#FFFFFF' : '#575757', 'padding-right': '5px'}"></i>
+          Help
         </a>
       </div>
     </div>
