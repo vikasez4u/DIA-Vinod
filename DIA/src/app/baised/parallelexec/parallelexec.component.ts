@@ -25,6 +25,8 @@ alt_text_results_tr_Gender_Count: any;
 img_text_results_tr_Gender_Count: any;
 image_biased_results: any;
 image_results_tr: any;
+showTextResult:boolean = true;
+showImageResult:boolean = false;
 //parallelexecScript: HTMLScriptElement;
 
 constructor(private router: Router, private activatedRoute: ActivatedRoute){
@@ -52,4 +54,13 @@ constructor(private router: Router, private activatedRoute: ActivatedRoute){
 
 ngOnInit(): void {}
 
+selectTextModel(){
+  this.showTextResult = true;
+  this.showImageResult = false;
+  }
+
+selectImageModel(){
+   this.showTextResult = false;
+  this.showImageResult = true;
+  }
 }

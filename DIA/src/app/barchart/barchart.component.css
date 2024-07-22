@@ -1,5 +1,5 @@
 .chart-container{
-display: flex;
+    display: flex;
 }
 
 #TextChart{
@@ -7,6 +7,12 @@ background-color: white;
 display: center;
 margin-left: 25px;
 margin-top: 25px;
+width: 629px;
+max-width: 564px;
+height: 322px;
+max-height: 500px;
+border:1px solid black;
+padding: 30px;
 }
 
 #AltChart{
@@ -14,6 +20,12 @@ background-color: white;
 display: center;
 margin-left: 25px;
 margin-top: 25px;
+width: 629px;
+max-width: 564px;
+height: 322px;
+max-height: 500px;
+border:1px solid black;
+padding: 30px;
 }
 
 #ImgChart{
@@ -21,6 +33,12 @@ background-color: white;
 display: center;
 margin-left: 25px;
 margin-top: 25px;
+width: 629px;
+max-width: 564px;
+height: 322px;
+max-height: 500px;
+border:1px solid black;
+padding: 30px;
 }
 
 #ImgGenChart{
@@ -28,8 +46,18 @@ background-color: white;
 display: center;
 margin-left: 25px;
 margin-top: 25px;
+width: 629px;
+max-width: 564px;
+height: 322px;
+max-height: 500px;
+border:1px solid black;
+padding: 30px;
 }
 
 .invisible{
   display:none;
+}
+
+.content-container{
+height:55rem;
 }

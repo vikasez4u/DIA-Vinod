@@ -19,6 +19,11 @@ import { PanelMenuModule } from 'primeng/panelmenu';
 import { GenderComponent } from './configuration/gender/gender.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BaisedwordsComponent } from './configuration/baisedwords/baisedwords.component';
+import { ContactComponent } from './contact/contact.component';
+import { FaqComponent } from './faq/faq.component';
+import { HelpPageComponent } from './help-page/help-page.component';
+import { AccordionModule } from 'primeng/accordion';
+import { BadgeModule } from 'primeng/badge';
 
 const routes : Routes = [
 { path: 'home', component: BaisedComponent},
@@ -41,7 +46,10 @@ const routes : Routes = [
     routingComponents,
     ConfigurationComponent,
     GenderComponent,
-    BaisedwordsComponent
+    BaisedwordsComponent,
+    ContactComponent,
+    FaqComponent,
+    HelpPageComponent
   ],
   imports: [
     BrowserModule,
@@ -52,6 +60,8 @@ const routes : Routes = [
     HttpClientModule,
     PanelMenuModule,
     NgbModule,
+    AccordionModule,
+    BadgeModule,
     RouterModule.forRoot(routes)
   ],
   providers: [{provide: APP_BASE_HREF, useValue: '/dia/'}],

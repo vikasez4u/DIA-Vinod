@@ -27,13 +27,13 @@
           [ngStyle]="{'color': btnActive === 'two' ? '#FFFFFF' : '#575757', 'padding-right': '5px'}"></i>
           Configurations
         </a>
-        <a class="nav-btn" href="/home" [class]="btnActive === 'four' ? 'active' : ''"
+        <a class="nav-btn" href="/faq" routerLink="/faq" [class]="btnActive === 'four' ? 'active' : ''"
   (click)="activeBtn('four')">
           <i class="fa-solid fa-circle-question"
           [ngStyle]="{'color': btnActive === 'four' ? '#FFFFFF' : '#575757', 'padding-right': '5px'}"></i>
           FAQ
         </a>
-        <a class="nav-btn" href="/home" [class]="btnActive === 'five' ? 'active' : ''"
+        <a class="nav-btn" href="/help-page"  routerLink="/help-page" [class]="btnActive === 'five' ? 'active' : ''"
   (click)="activeBtn('five')">
           <i class="fa-solid fa-headset"
           [ngStyle]="{'color': btnActive === 'five' ? '#FFFFFF' : '#575757', 'padding-right': '5px'}"></i>
