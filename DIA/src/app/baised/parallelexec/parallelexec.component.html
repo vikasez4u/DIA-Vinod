@@ -10,10 +10,10 @@
 <ul id="main-tabs-list">
     <!-- MENU TOGGLE -->
     <label id="main-open-nav-label" for="main-nav-ctrl"></label>
-    <li id="main-li-for-panel-1" (click)="selectTextModel()">
+    <li id="main-li-for-panel-1">
       <label class="main-panel-label" for="main-panel-1-ctrl">Text Model Results</label>
     </li><!--INLINE-BLOCK FIX-->
-    <li id="main-li-for-panel-2" (click)="selectImageModel()">
+    <li id="main-li-for-panel-2">
       <label class="main-panel-label" for="main-panel-2-ctrl">Image Model Results</label>
     </li><!--INLINE-BLOCK FIX-->
     <label id="main-close-nav-label" for="main-nav-ctrl">Close</label>
@@ -22,12 +22,12 @@
 <!-- THE PANELS -->
 <article id="main-panels">
   <div class="main-container">
-    <section id="main-panel-1" *ngIf="showTextResult">
+    <section id="main-panel-1">
       <main>
         <app-textresult></app-textresult>
       </main>
     </section>
-    <section id="main-panel-2" *ngIf="showImageResult">
+    <section id="main-panel-2">
       <main>
         <app-imageresult></app-imageresult>
       </main>
