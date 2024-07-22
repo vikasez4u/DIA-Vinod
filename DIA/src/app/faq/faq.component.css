@@ -1,0 +1,16 @@
+img{
+width:100%;
+}
+
+div#accordionExample {
+    width: 95%;
+}
+
+::ng-deep .accordion-item {
+border: none;
+border-bottom: 1px solid gray;
+}
+
+.faqQuestions{
+margin-top:10%;
+}
