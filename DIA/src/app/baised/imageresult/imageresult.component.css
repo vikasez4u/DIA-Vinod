@@ -571,7 +571,7 @@ label.img-demo-label:hover {
 }
 
 #img-demo-parent {
-  margin-top: 8px;
+ margin-top: 8px;
 }
 
 code,
@@ -772,7 +772,7 @@ bodycar {
 
 ul#img-tabs-list {
     height: 74px;
-    margin-top: 70px;
+  /*  margin-top: 70px;*/
 }
 
 a{
