@@ -21,9 +21,10 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BaisedwordsComponent } from './configuration/baisedwords/baisedwords.component';
 import { ContactComponent } from './contact/contact.component';
 import { FaqComponent } from './faq/faq.component';
-import { HelpPageComponent } from './help-page/help-page.component';
 import { AccordionModule } from 'primeng/accordion';
 import { BadgeModule } from 'primeng/badge';
+import { AboutComponent } from './about/about.component';
+
 
 const routes : Routes = [
 { path: 'home', component: BaisedComponent},
@@ -31,6 +32,9 @@ const routes : Routes = [
 { path: 'config', component: ConfigurationComponent},
 { path: 'gender', component: GenderComponent},
 { path: 'baisedwords', component: BaisedwordsComponent},
+{ path: 'faq', component: FaqComponent},
+{ path: 'contact', component : ContactComponent},
+{ path: 'about', component : AboutComponent},
 { path: "**", component: BaisedComponent}
 ];
 
@@ -49,7 +53,7 @@ const routes : Routes = [
     BaisedwordsComponent,
     ContactComponent,
     FaqComponent,
-    HelpPageComponent
+    AboutComponent
   ],
   imports: [
     BrowserModule,

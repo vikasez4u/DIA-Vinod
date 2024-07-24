@@ -17,9 +17,22 @@ ngOnInit() {}
 
 activeBtn(btnActive: string) {
   this.btnActive = btnActive;
+    if(this.btnActive =='one'){
+    this.router.navigate( ['home']);
+    }
   if(this.btnActive =='three'){
-    this.sectionScroll='subContent';
-    this.router.navigate( ['home' ], {fragment: 'subContent'});
+    this.router.navigate( ['about']);
+   /* this.sectionScroll='subContent';
+    this.router.navigate( ['home' ], {fragment: 'subContent'});*/
+  }
+if(this.btnActive == 'two'){
+  this.router.navigate(['config']);
+  }
+if(this.btnActive == 'four'){
+  this.router.navigate(['faq']);
+  }
+if(this.btnActive == 'five'){
+  this.router.navigate(['contact']);
   }
 }
 }

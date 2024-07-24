@@ -9,35 +9,37 @@
 
     <div class="navbar">
       <div class="nav-tab">
-        <a class="nav-btn" href="/home" routerLink="/home" [class]="btnActive === 'one' ? 'active' : ''"
+        <a class="nav-btn" href="/home" [routerLink]="['/home']" routerLinkActive="active" [class]="btnActive === 'one' ? 'active' : ''"
   (click)="activeBtn('one')">
           <i class="fa-solid fa-house-chimney"
           [ngStyle]="{'color': btnActive === 'one' ? '#FFFFFF' : '#575757', 'padding-right': '5px'}"></i>
           Home
         </a>
-        <a class="nav-btn" [routerLink]="['/home']" fragment="subContent" [class]="btnActive === 'three' ? 'active' : ''"
+<!--        <a class="nav-btn" [routerLink]="['/about']" fragment="subContent" routerLinkActive="active" [class]="btnActive === 'three' ? 'active' : ''"-->
+<!--  (click)="activeBtn('three')">-->
+           <a class="nav-btn" href="/about" [routerLink]="['/about']" routerLinkActive="active" [class]="btnActive === 'three' ? 'active' : ''"
   (click)="activeBtn('three')">
           <i class="fa-solid fa-people-group"
           [ngStyle]="{'color': btnActive === 'three' ? '#FFFFFF' : '#575757', 'padding-right': '5px'}"></i>
           About Us
         </a>
-        <a class="nav-btn" href="/config" routerLink="/config" [class]="btnActive === 'two' ? 'active' : ''"
+        <a class="nav-btn" href="/config" [routerLink]="['/config']"  routerLinkActive="active" [class]="btnActive === 'two' ? 'active' : ''"
   (click)="activeBtn('two')">
           <i class="fa-solid fa-gears"
           [ngStyle]="{'color': btnActive === 'two' ? '#FFFFFF' : '#575757', 'padding-right': '5px'}"></i>
           Configurations
         </a>
-        <a class="nav-btn" href="/faq" routerLink="/faq" [class]="btnActive === 'four' ? 'active' : ''"
+        <a class="nav-btn" href="/faq" [routerLink]="['/faq']" routerLinkActive="active" [class]="btnActive === 'four' ? 'active' : ''"
   (click)="activeBtn('four')">
           <i class="fa-solid fa-circle-question"
           [ngStyle]="{'color': btnActive === 'four' ? '#FFFFFF' : '#575757', 'padding-right': '5px'}"></i>
           FAQ
         </a>
-        <a class="nav-btn" href="/help-page"  routerLink="/help-page" [class]="btnActive === 'five' ? 'active' : ''"
+        <a class="nav-btn" href="/contact"  [routerLink]="['/contact']" routerLinkActive="active"  [class]="btnActive === 'five' ? 'active' : ''"
   (click)="activeBtn('five')">
           <i class="fa-solid fa-headset"
           [ngStyle]="{'color': btnActive === 'five' ? '#FFFFFF' : '#575757', 'padding-right': '5px'}"></i>
-          Help
+          Contact
         </a>
       </div>
     </div>
