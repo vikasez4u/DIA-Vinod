@@ -173,6 +173,7 @@ export class BaisedComponent implements OnInit {
 
   navigateTo(route: string) {
     this.router.navigate([route]);
+
   }
 }
 
