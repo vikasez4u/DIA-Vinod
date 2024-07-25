@@ -62,6 +62,9 @@
   .subCategory{
     margin-top: calc(50% - 20px);
   }
+    cardTemplate{
+    height:60rem;
+  }
 }
 
 
@@ -73,6 +76,10 @@
   .subCategory{
     margin-top: calc(50% - 20px);
   }
+
+  cardTemplate{
+    height:60rem;
+  }
 }
 
 @media (max-width: 576px) {
@@ -83,5 +90,9 @@
 
   .subCategory{
     margin-top: calc(50% - 20px);
+  }
+
+    cardTemplate{
+    height:60rem;
   }
 }

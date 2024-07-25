@@ -470,4 +470,9 @@ margin-top:20px;
     .leftContent {
     text-align: center;
   }
+
+  #subContent{
+      height: 100rem;
+ }
+
 }
