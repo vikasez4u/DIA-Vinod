@@ -24,6 +24,7 @@ import { FaqComponent } from './faq/faq.component';
 import { AccordionModule } from 'primeng/accordion';
 import { BadgeModule } from 'primeng/badge';
 import { AboutComponent } from './about/about.component';
+import { FooterComponent } from './footer/footer.component';
 
 
 const routes : Routes = [
@@ -53,7 +54,8 @@ const routes : Routes = [
     BaisedwordsComponent,
     ContactComponent,
     FaqComponent,
-    AboutComponent
+    AboutComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,

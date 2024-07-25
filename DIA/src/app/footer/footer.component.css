@@ -1,0 +1,26 @@
+.footer{
+ /* position: absolute;*/
+  bottom: 0;
+  width: 100%;
+  text-align: right;
+  border-top: 2px solid #6c15b6;
+  display: flex;
+  z-index: 1001;
+  transition: transform .2s ease;
+  height: 51px;
+  background-color: #fff;
+}
+.footer-text{
+  font-size: .875rem;
+  font-weight: 500;
+  display: inline-block;
+  max-width: 55rem;
+  border: 0;
+  position: relative;
+  color: #222;
+  padding-right: 20px;
+  padding-left: 600px;
+  padding-top: 6px;
+  line-height: 40px;
+  text-align: right;
+}
