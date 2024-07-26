@@ -9,3 +9,74 @@ width:40%;
 margin-left: 31rem;
 }
 
+.headingContact{
+  z-index:1;
+  margin-top:10px;
+}
+
+.top-left {
+ /* position: absolute;
+  top: 50%;*/
+  left: 15%;
+}
+
+.centered {
+    position: absolute;
+    top: 12rem;
+    left: 20rem;
+    width: 100%;
+  transform: translate(-50%, -50%);
+}
+
+h1{
+font-size:50px;
+}
+
+.heading{
+color:#fff;
+}
+
+p{
+font-size:14px;
+}
+ .card {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+            width: 100%;
+        }
+        .icon {
+            font-size: 50px;
+            color: #007bff;
+            margin-bottom: 20px;
+        }
+        .title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .description {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 20px;
+        }
+        .phone-number {
+            font-size: 14px;
+            color: #555;
+            font-weight: bold;
+        }
+
+        .email{
+         font-size: 14px;
+            color: #555;
+            font-weight: bold;
+        }
+
+        .contactDetails{
+          position: absolute;
+            top: 20%;
+            left:6rem;
+
+        }
