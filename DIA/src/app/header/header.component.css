@@ -1,9 +1,8 @@
 .app-header{
-
     top: 0;
     left: 0;
     right: 0;
-    height: 51px;
+    height: 40px;
     background-color: #fff;
     border-bottom: 2px solid #6c15b6;
     display: flex;
@@ -11,7 +10,7 @@
     transition: transform .2s ease;
 }
 .app-container{
-    padding-left: 4.75rem;
+   padding-left: 4.75rem;
     padding-right: 4.75rem;
     width: 100%;
     max-width: 1280px;
@@ -47,18 +46,18 @@
     position: absolute;
     content: "";
     left: 0;
-    height: 150%;
+    height: 80%;
     width: 0;
     border-left: 1.5px solid #5a5a5a;
 }
 
 .navbar {
-  left: 300px;
+  left: 35px;
   display: inline-flex;
   align-items: center;
   margin-left: auto;
   white-space: normal;
-  height: 51px;
+  height: 40px;
   z-index: 1;
 }
 
@@ -71,7 +70,6 @@
   margin: 0 10px;
   cursor: pointer;
   box-sizing: border-box;
-
   font-family: Graphik Medium, Graphik;
   text-decoration: none;
   font-weight: bold;
@@ -102,12 +100,7 @@
   padding: 10px 15px 7px;
 }
 
-@media screen and (max-width: 500px) {
-  .navbar a {
-    float: none;
-    display: block;
-  }
-}
+
 
 .footer{
   position: fixed;
@@ -135,5 +128,112 @@
   line-height: 40px;
   text-align: right;
 }
+
+/*New css*/
+img{
+    height: 1.5rem;
+    width: auto;
+}
+
+.nav-item .active{
+  padding: 10px 15px 7px;
+}
+
+.navbar .nav-link{
+  color: #575757;
+}
+
+.nav-item .nav-link:hover {
+  background: #eed4fd;
+}
+
+.navbar .nav-item .active {
+  color: white;
+  background-color: #981fae;
+}
+
+
+.navbar .nav-link {
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: .24px;
+  padding: 10px 15px 7px;
+  float: left;
+  margin: 0 10px;
+  cursor: pointer;
+  box-sizing: border-box;
+
+  font-family: Graphik Medium, Graphik;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.navbar .nav-link{
+  color: #575757;
+}
+
+.nav-item .nav-link:hover {
+  background: #eed4fd;
+}
+
+.navbar .nav-item .active {
+  color: white;
+  background-color: #981fae;
+}
+
+ul.navbar-nav {
+    margin-left: 113px;
+}
+
+.navbar-toggler-icon {
+    width: 1.0em;
+    height: 1.0em;
+}
+
+
+@media (max-width: 576px) {
+  .nav-item a {
+    float: none;
+    display: block;
+    text-align: left;
+    background:#fff;
+    width:100%;
+  }
+  .app-header-title{
+        font-size:11.625px;
+  }
+
+  .app-header-title:before{
+          display:inline-block;
+    }
+
+.app-container{
+    padding-left: 0rem;
+    padding-right: 0rem;
+    width: 100%;
+    max-width: 576px;
+    margin-left: 0rem;
+    margin-right: 0rem;
+}
+
+.navbar .container-fluid {
+  width:100%;
+  left: 10px;
+}
+
+.navbar-toggler-icon{
+  display:inline-block;
+}
+
+.navbar{
+    left:0px;
+    display: inline-flex;
+    align-items: center;
+    margin-left: auto;
+    height: 40px;
+}
+  }
+
+
 
 
