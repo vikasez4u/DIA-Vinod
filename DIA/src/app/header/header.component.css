@@ -5,18 +5,18 @@
     height: 40px;
     background-color: #fff;
     border-bottom: 2px solid #6c15b6;
-    display: flex;
+    /*display: flex;*/
     z-index: 1001;
     transition: transform .2s ease;
 }
-.app-container{
+/*.app-container{
    padding-left: 4.75rem;
     padding-right: 4.75rem;
     width: 100%;
     max-width: 1280px;
     margin-left: auto;
     margin-right: auto;
-}
+}*/
 .app-header-main, .app-header-items{
     display: flex;
     align-items: center;
@@ -52,10 +52,11 @@
 }
 
 .navbar {
-  left: 35px;
+ /* left: 35px;
   display: inline-flex;
   align-items: center;
-  margin-left: auto;
+  margin-left: auto;*/
+  display:content;
   white-space: normal;
   height: 40px;
   z-index: 1;
@@ -182,7 +183,7 @@ img{
 }
 
 ul.navbar-nav {
-    margin-left: 113px;
+  /*  margin-left: 20rem;*/
 }
 
 .navbar-toggler-icon {
@@ -234,6 +235,8 @@ ul.navbar-nav {
 }
   }
 
-
+div#collapsibleNavbar {
+    justify-content: end;
+}
 
 

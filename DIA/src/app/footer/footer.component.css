@@ -2,7 +2,8 @@
  /* position: absolute;*/
   bottom: 0;
   width: 100%;
-  text-align: right;
+  justify-content: center;
+  /*text-align: right;*/
   border-top: 2px solid #6c15b6;
   display: flex;
   z-index: 1001;
@@ -18,8 +19,8 @@
   border: 0;
   position: relative;
   color: #222;
-  padding-right: 20px;
-  padding-left: 600px;
+  /*padding-right: 20px;
+  padding-left: 600px;*/
   padding-top: 6px;
   line-height: 40px;
   text-align: right;
@@ -27,7 +28,9 @@
 
 
 @media (max-width:597px){
-.footer-text{
+/*.footer-text{
 padding-left:150px;
-}
+}*/
+.footer{
+justify-content:center;}
 }
