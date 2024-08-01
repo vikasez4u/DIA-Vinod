@@ -355,7 +355,7 @@ color:white;
 }
 
 #subContent{
- height: 60rem;
+ height: auto;
  background-color: #fff;
 }
 
@@ -368,9 +368,10 @@ color:white;
 }
 
 .leftContent{
-  margin-top: 3rem;
-  margin-left: 150px;
-  margin-right:50px;
+    margin-top: 3rem;
+    margin-left: 5rem;
+    margin-right: 1rem;
+    margin-bottom: 3rem;
 }
 
 .startBtn{
@@ -454,7 +455,7 @@ margin-top:20px;
 
 
 .leftContent, .rightContent {
-  padding: 20px;
+ /* padding: 20px;*/
 }
 
 .startBtn, .videoBtn, .successBtn, .resetBtn {
@@ -472,7 +473,7 @@ margin-top:20px;
   }
 
   #subContent{
-      height: 100rem;
+      height: auto;
  }
 
 }
