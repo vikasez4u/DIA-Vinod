@@ -25,7 +25,7 @@ import { AccordionModule } from 'primeng/accordion';
 import { BadgeModule } from 'primeng/badge';
 import { AboutComponent } from './about/about.component';
 import { FooterComponent } from './footer/footer.component';
-
+import { SampleResultComponent } from '../sample-result/sample-result.component'
 
 const routes : Routes = [
 { path: 'home', component: BaisedComponent},
@@ -36,6 +36,7 @@ const routes : Routes = [
 { path: 'faq', component: FaqComponent},
 { path: 'contact', component : ContactComponent},
 { path: 'about', component : AboutComponent},
+{ path: 'report',component: SampleResultComponent},
 { path: "**", component: BaisedComponent}
 ];
 
@@ -55,7 +56,8 @@ const routes : Routes = [
     ContactComponent,
     FaqComponent,
     AboutComponent,
-    FooterComponent
+    FooterComponent,
+    SampleResultComponent
   ],
   imports: [
     BrowserModule,
