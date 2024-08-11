@@ -96,7 +96,7 @@ label.img-panel-label {
   width: 100%;
   cursor: pointer;
   background-color: #ecf0f1;
-  color: #bdc3c7;
+  color: #000000;
   transition-property: background-color, color;
   transition-duration: 200ms;
 }

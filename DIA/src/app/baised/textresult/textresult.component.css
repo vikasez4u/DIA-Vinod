@@ -96,7 +96,7 @@ label.panel-label {
           user-select: none;
   display: block;
   width: 100%;
-  color: #bdc3c7;
+  color: #000000;
   cursor: pointer;
   background-color: #ecf0f1;
   transition-property: background-color, color;
