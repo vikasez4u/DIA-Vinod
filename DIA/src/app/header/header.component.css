@@ -134,6 +134,8 @@
 img{
     height: 1.5rem;
     width: auto;
+    margin: 3px 3px 14px 10px;
+    padding: 0 15px;
 }
 
 .nav-item .active{
