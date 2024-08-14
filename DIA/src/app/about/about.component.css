@@ -1,8 +1,10 @@
 /* .subCategory remains unchanged */
 .subCategory {
-  margin-top: 20px;
+  padding-top: 4rem;
 }
-
+.cardTemplate {
+  height:88vh;
+}
 .card-container {
   display: flex;
   flex-wrap: wrap;
@@ -11,7 +13,7 @@
 }
 
 .card {
-  width: 21rem; /* Fixed width for larger screens */
+  width: 19rem; /* Fixed width for larger screens */
   max-width: calc(50% - 20px); /* Two cards per row with space around */
   height: 19rem;
   margin: 10px;
