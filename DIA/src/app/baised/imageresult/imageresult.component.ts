@@ -1,4 +1,4 @@
-import { Component, OnInit, Injectable } from '@angular/core';
+import { Component, OnInit, Injectable, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 declare function runImage(): void;
 
@@ -13,7 +13,7 @@ declare function runImage(): void;
 })
 
 export class ImageresultComponent implements OnInit{
-
+@Input() marginTop: string = '70px'; // Default value
 modelType: any;
 image_biased_results: any;
 image_results_tr: any[] = [];
