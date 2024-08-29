@@ -83,7 +83,7 @@ label.main-panel-label {
           user-select: none;
   display: block;
   width: 100%;
-  color: #bdc3c7;
+  color: #000000;
   cursor: pointer;
   background-color: #ecf0f1;
   transition-property: background-color, color;
@@ -401,11 +401,10 @@ ul#main-tabs-list {
    margin-bottom: -68px;
 }
 
+/*
 ul#tabs-list {
     height: 74px;
     margin-top: 70px;
-}
+}*/
 
-ul#img-tabs-list {
-    height: 74px;
-}
+

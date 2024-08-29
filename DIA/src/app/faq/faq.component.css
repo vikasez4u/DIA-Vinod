@@ -16,5 +16,31 @@ margin-top:10%;
 }
 
 ::ng-deep .mat-typography h2 {
-margin:0px;
+    font-size: 21px;
+    font-weight: 500;
+    margin:0px;
+    font-family: Roboto, sans-serif;
+    letter-spacing: .0125em;
+}
+
+.text{
+ color: #981fae;
+ text-weight:700;
+ }
+
+ ::ng-deep .accordion-button {
+    padding: 10px;
+}
+
+::ng-deep .accordion-button:focus {
+  box-shadow:none;
+}
+
+::ng-deep .accordion-button:not(.collapsed) {
+color: #fff;
+    background-color: purple;
+}
+
+.containerH {
+  height:88vh;
 }

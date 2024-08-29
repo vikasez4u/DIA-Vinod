@@ -84,6 +84,7 @@
       <form class="form-file-upload">
     <div class="row">
   <input class="form-control col-sm-4" type="file" id="formFileMultiple" multiple [(ngModel)]="filename"  (change)="onChange($event);"  accept=".xlsx" #fileUpload />
+  <button (click)="onUpload()" class="upload btn btn-primary">Upload the file</button>
   <button type="button" class="downloadBtn btn btn-primary col-sm-2" (click)="onDownload()">Download Template Biased File</button>
     </div>
   </form>
@@ -101,7 +102,7 @@
       </ul>
     </section>
 
-    <button (click)="onUpload()" class="btn btn-primary">Upload the file</button>
+<!--    <button (click)="onUpload()" class="btn btn-primary">Upload the file</button>-->
 
     <section [ngSwitch]="status">
       <p *ngSwitchCase="'uploading'">⏳ Uploading the file...</p>

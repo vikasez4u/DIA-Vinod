@@ -24,11 +24,11 @@
 
 .configuration-page {
   display: flex;
-  height: 100vh;
+  height: 88vh;
 }
 
 .sidebar {
-  width: 16.7rem;
+  width: 13.7rem;
   background: #f4f4f4;
   padding: 20px;
   display: flex;

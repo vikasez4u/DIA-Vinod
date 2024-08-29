@@ -8,6 +8,9 @@
   width: 100%;
 }
 
+.heading {
+    font-size:4rem;
+}
 .apptitlecontainer{
   color:black;
   padding-left: 20px;
@@ -349,28 +352,31 @@ color:white;
 }
 
 #content{
-    height: 33rem;
+    /*height: 33rem;*/
+    height: 100vh;
+    max-height: 45rem;
     background-color: purple;
     background-image: linear-gradient(to right, rebeccapurple, purple);
 }
 
 #subContent{
- height: 60rem;
+ height: auto;
  background-color: #fff;
 }
 
 .rightContent{
   background-color: #fff;
-  margin-top: 3rem;
+  margin-top: 8rem;
   margin-right: 50px;
-  height:85%;
+  /*height:85%;*/
   border-radius: 15px;
 }
 
 .leftContent{
-  margin-top: 3rem;
-  margin-left: 150px;
-  margin-right:50px;
+    margin-top: 8rem;
+    margin-left: 5rem;
+    margin-right: 1rem;
+    margin-bottom: 3rem;
 }
 
 .startBtn{
@@ -454,7 +460,7 @@ margin-top:20px;
 
 
 .leftContent, .rightContent {
-  padding: 20px;
+ /* padding: 20px;*/
 }
 
 .startBtn, .videoBtn, .successBtn, .resetBtn {
@@ -472,7 +478,7 @@ margin-top:20px;
   }
 
   #subContent{
-      height: 100rem;
+      height: auto;
  }
 
 }
