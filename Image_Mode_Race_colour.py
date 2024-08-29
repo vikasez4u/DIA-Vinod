@@ -1,128 +1,120 @@
-from collections import Counter
+import os
 import imghdr
-import numpy as np
 import cv2
 import requests
 from bs4 import BeautifulSoup
 from deepface import DeepFace
-from webcolors import CSS3_HEX_TO_NAMES, hex_to_rgb, rgb_to_name
 from mtcnn import MTCNN
+import webcolors
+from collections import Counter
 import db as diadb
 from app import app
 from datetime import datetime
+from urllib.parse import urljoin
+import numpy as np
+from PIL import Image, UnidentifiedImageError
+import pytesseract
+import cairosvg
+from io import BytesIO
+import logging
 
-# Download the image
+# Map CSS colors
+CSS3_HEX_TO_NAMES = webcolors.CSS3_HEX_TO_NAMES
+logging.basicConfig(level=logging.INFO)
+
 def download_image(url):
-    # Set the user-agent header
     headers = {"User-Agent": "Chrome/51.0.2704.103"}
-
-    # Send GET request
     response = requests.get(url, headers=headers)
-
-    # Save the image
     if response.status_code == 200:
         img_data = response.content
     else:
         print(f"Failed to download image: {response.status_code}")
         return None
-
-    # Check the image format
     img_format = imghdr.what(None, img_data)
-
-    # If the image format is not supported, exit
-    if img_format not in ["jpeg", "png", "jpg"]:
+    if img_format not in ["jpeg", "png", "jpg", "gif", "svg"]:
         print(f"Unsupported image format: {img_format}")
         return None
-
-    # Convert the image data to a numpy array
     img_array = np.array(bytearray(img_data), dtype=np.uint8)
-
-    # Read the image using OpenCV
     image = cv2.imdecode(img_array, -1)
-
-    # If the image has 4 channels (RGBA), convert it to RGB
     if image.shape[-1] == 4:
         image = cv2.cvtColor(image, cv2.COLOR_RGBA2RGB)
-
     return image
 
-# Detect faces and crop them
-def detect_and_crop_faces(image, face_net, confidence_threshold=0.5):
+def process_image(image_url, base_url, transaction_id):
+    try:
+        image_url = urljoin(base_url, image_url)
+        response = requests.get(image_url)
+        response.raise_for_status()
+
+        # Determine the image format
+        _, ext = os.path.splitext(image_url)
+        ext = ext.lower()
+
+        if ext == '.svg':
+            # Handle SVG by converting it to PNG
+            return process_svg_image(response.content, transaction_id, image_url)
+        else:
+            return process_raster_image(response.content, transaction_id, image_url)
+    except (requests.exceptions.RequestException, OSError, UnidentifiedImageError) as e:
+        logging.error(f"Error processing image {image_url}: {str(e)}")
+        return None
+
+def process_raster_image(image_content, transaction_id, image_url):
+    try:
+        image = Image.open(BytesIO(image_content))
+        text = pytesseract.image_to_string(image)
+        return text
+    except UnidentifiedImageError as e:
+        print(f"Unidentified image error: {str(e)}")
+        return None
+
+def process_svg_image(svg_content, transaction_id, image_url):
+    try:
+        # Convert SVG to PNG using cairosvg
+        png_image = cairosvg.svg2png(bytestring=svg_content)
+        image = Image.open(BytesIO(png_image))
+        text = pytesseract.image_to_string(image)
+        return text
+    except Exception as e:
+        print(f"Error processing SVG image: {str(e)}")
+        return None
+
+def detect_and_crop_faces(image):
     detector = MTCNN()
-    # results = detector.detect_faces(image)
-    #
-    # faces = []
-    # face_boxes = []
-    #
-    # for result in results:
-    #     if result['confidence'] > confidence_threshold:
-    #         x, y, width, height = result['box']
-    #         x1, y1 = abs(x), abs(y)
-    #         x2, y2 = x1 + width, y1 + height
-    #         face = image[y1:y2, x1:x2]
-    #
-    #         faces.append(face)
-    #         face_boxes.append(result['box'])
-    #
-    # return faces, face_boxes
-
-    face_boxes = []
-    # Perform face detection
     faces = detector.detect_faces(image)
-
-    # Analyze each detected face
-    for i, face_info in enumerate(faces):
-      # Extract bounding box coordinates
-      x, y, w, h = face_info['box']
-
-      # Crop the face region
-      face = image[y:y + h, x:x + w]
-      face_boxes.append(face)
+    face_boxes = []
+    for face_info in faces:
+        x, y, w, h = face_info['box']
+        face = image[y:y + h, x:x + w]
+        face_boxes.append(face)
     return face_boxes
 
-def get_gender_count(image, gender_net, confidence_threshold=0.5):
-    # Detect faces and genders in the image using MTCNN
-    #faces, _ = detect_and_crop_faces(image, confidence_threshold)
-    faces = detect_and_crop_faces(image, confidence_threshold)
-
-    # Initialize gender counts
+def get_gender_count(image, face_net, gender_net, confidence_threshold=0.5):
+    faces = detect_and_crop_faces(image)
     male_count = 0
     female_count = 0
     Skin = []
     Races = []
-
-    # Process each detected face
     for face_image in faces:
-        # Preprocess the face image for gender classification
-        face_blob = cv2.dnn.blobFromImage(cv2.resize(face_image, (227, 227)), 1.0, (227, 227), (78.4263377603, 87.7689143744, 114.895847746), swapRB=False)
-
-        # Pass the face blob through the gender classification model
+        face_blob = cv2.dnn.blobFromImage(cv2.resize(face_image, (227, 227)), 1.0, (227, 227),
+                                          (78.4263377603, 87.7689143744, 114.895847746), swapRB=False)
         gender_net.setInput(face_blob)
         predictions = gender_net.forward()
         Skin.append(extract_skin_regions(face_image))
         Races.append(get_race_detail(face_image))
-
-        # Get the predicted gender
         gender = "Male" if predictions[0][0] < 0.5 else "Female"
-
-        # Update the gender counts
         if gender == "Male":
             male_count += 1
         else:
             female_count += 1
-
-    # Calculate gender bias confidence
     total_count = male_count + female_count
     confidence = max(male_count, female_count) / total_count if total_count > 0 else 0
-
-    # Return the gender counts and confidence
     return male_count, female_count, confidence, Skin, Races
 
-# Extract skin color
 def closest_color(requested_color):
     min_colors = {}
     for key, name in CSS3_HEX_TO_NAMES.items():
-        r_c, g_c, b_c = hex_to_rgb(key)
+        r_c, g_c, b_c = webcolors.hex_to_rgb(key)
         rd = (r_c - requested_color[0]) ** 2
         gd = (g_c - requested_color[1]) ** 2
         bd = (b_c - requested_color[2]) ** 2
@@ -130,119 +122,66 @@ def closest_color(requested_color):
     return min_colors[min(min_colors.keys())]
 
 def extract_skin_regions(image):
-    # Convert the image to the HSV color space
     hsv_image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
-
-    # Define the lower and upper bounds for skin color in HSV space
     lower_bound = np.array([0, 20, 70], dtype=np.uint8)
     upper_bound = np.array([20, 255, 255], dtype=np.uint8)
-
-    # Create a mask to identify skin regions based on the color range
     skin_mask = cv2.inRange(hsv_image, lower_bound, upper_bound)
-
-    # Find the average color of the skin regions
     skin_color = cv2.mean(image, mask=skin_mask)[:3]
-
-    # Convert the BGR color to RGB format
     skin_color_rgb = (int(skin_color[2]), int(skin_color[1]), int(skin_color[0]))
-
-    # Find the closest predefined CSS3 color name for the RGB value
     closest_name = closest_color(skin_color_rgb)
-
     return closest_name
 
-# Get additional image details (gender, race, etc.)
 def get_race_detail(image):
-    # Use DeepFace to predict the race of the face
-    model = DeepFace.build_model("VGG-Face")
     result = DeepFace.analyze(img_path=image, actions=["race"], enforce_detection=False)
-    print(result)
-    for entry in result:
-        dominant_race = entry['dominant_race']
+    dominant_race = result[0]['dominant_race']
     return dominant_race
 
-# Extract image links from a webpage
 def extract_image_links(url):
     response = requests.get(url)
     soup = BeautifulSoup(response.text, "html.parser")
     img_tags = soup.find_all("img")
-    img_links = []
-    for img in img_tags:
-        img_link = img.get("src")
-        if img_link and (img_link.endswith(".jpg") or img_link.endswith(".jpeg") or img_link.endswith(".png")):
-            img_links.append(img_link)
+    img_links = [urljoin(url, img.get("src")) if img.get("src").endswith((".jpg", ".jpeg", ".png", ".gif", ".svg")) else None for img in img_tags]
+    return [link for link in img_links if link]
 
-    for i in range(len(img_links)):
-      if img_links[i].startswith("https://"):
-        continue
-      else:
-        img_links[i] = str(url) + str(img_links[i])
-
-    return img_links
-
-# Main function
 def main(url):
     transaction_id = datetime.now().strftime("%Y%m%d%H%M%S")
-    # Load the gender model
-    GENDER_MODEL = 'weights/gender_net.caffemodel'
-    GENDER_PROTO = 'weights/deploy_gender.prototxt'
+    GENDER_MODEL = os.path.join(os.path.dirname(__file__), 'weights', 'gender_net.caffemodel')
+    GENDER_PROTO = os.path.join(os.path.dirname(__file__), 'weights', 'deploy_gender.prototxt')
+    FACE_PROTO = os.path.join(os.path.dirname(__file__), 'weights', 'deploy.prototxt')
+    FACE_MODEL = os.path.join(os.path.dirname(__file__), 'weights', 'res10_300x300_ssd_iter_140000_fp16.caffemodel')
 
-
-    # Load the gender Caffe model
     gender_net = cv2.dnn.readNetFromCaffe(GENDER_PROTO, GENDER_MODEL)
+    face_net = cv2.dnn.readNetFromCaffe(FACE_PROTO, FACE_MODEL)
 
-    # Get the URL from the user
-    #url = input("Enter the URL of the webpage containing the images: ")
-
-    # Extract image links from the webpage
     img_links = extract_image_links(url)
-
     biased_alt_results = []
-    # Process each image
-    for i, img_link in enumerate(img_links):
-        print(f"Processing image {i+1}/{len(img_links)}")
-        # Download the image
-        image = download_image(img_link)
-        print("processing image at: " + img_link)
 
-        # If the image download fails, skip to the next image
+    for i, img_link in enumerate(img_links):
+        print(f"Processing image {i + 1}/{len(img_links)}: {img_link}")
+        image = download_image(img_link)
         if image is None:
             continue
 
-        # Get gender, skin color, and race details only if faces are present
-        male_count, female_count, confidence, skin_colors, races = get_gender_count(image, gender_net)
-
-        # Check if any faces were detected
+        male_count, female_count, confidence, skin_colors, races = get_gender_count(image, face_net, gender_net)
         total_count = male_count + female_count
         if total_count > 0:
-            with app.app_context():
-              diadb.create_table('Image_Txt_Results')
-            # Display the results for each face
             print(f"Image URL: {img_link}")
             print("Gender Count:")
             print(f"Male: {male_count}")
             print(f"Female: {female_count}")
             print(f"Gender Bias Confidence: {confidence}")
 
-            # Check if there are skin color regions detected
             counted_values_skin = Counter(skin_colors)
-            if len(counted_values_skin) > 0:
-                max_skin_key = max(counted_values_skin, key=counted_values_skin.get)
-                print(f"Skin Color: {max_skin_key}")
-            else:
-                print("No skin color regions detected in the image.")
+            max_skin_key = max(counted_values_skin, key=counted_values_skin.get) if counted_values_skin else "N/A"
+            print(f"Skin Color: {max_skin_key}")
 
-            # Check if there are race details detected
             counted_values_race = Counter(races)
-            if len(counted_values_race) > 0:
-                max_race_key = max(counted_values_race, key=counted_values_race.get)
-                print(f"Dominant Race: {max_race_key}")
-            else:
-                print("No race detected in the image.")
+            max_race_key = max(counted_values_race, key=counted_values_race.get) if counted_values_race else "N/A"
+            print(f"Dominant Race: {max_race_key}")
 
             with app.app_context():
-              diadb.saveImage('Image_Txt_Results', transaction_id, 'Image', male_count, female_count, confidence, max_skin_key, max_race_key, img_link)
-            biased_alt_results.append((img_link,male_count,female_count,confidence,max_skin_key,max_race_key))
+                diadb.save_image('Image_Txt_Results', transaction_id, 'Image', male_count, female_count, confidence, max_skin_key, max_race_key, img_link)
+            biased_alt_results.append((img_link, male_count, female_count, confidence, max_skin_key, max_race_key))
         else:
             print("No faces detected in the image.")
 
@@ -250,6 +189,3 @@ def main(url):
 
 if __name__ == "__main__":
     main()
-
-
-# In[ ]:

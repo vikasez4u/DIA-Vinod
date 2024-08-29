@@ -8,13 +8,16 @@
 </head>
 <body>
     <h1>Text Results</h1>
+    {% if text_results %}
     <table border="1">
         <tr>
             <th>ID</th>
+            <th>Transaction ID</th>
             <th>Result Type</th>
             <th>Sentence</th>
             <th>Word</th>
             <th>Image Link</th>
+            <th>Create Date</th>
         </tr>
         {% for result in text_results %}
         <tr>
@@ -28,15 +31,21 @@
         </tr>
         {% endfor %}
     </table>
+    {% else %}
+    <p>No text results found.</p>
+    {% endif %}
 
     <h1>Image Results</h1>
+    {% if img_results %}
     <table border="1">
         <tr>
             <th>ID</th>
+            <th>Transaction ID</th>
             <th>Result Type</th>
             <th>Sentence</th>
             <th>Word</th>
             <th>Image Link</th>
+            <th>Create Date</th>
         </tr>
         {% for result in img_results %}
         <tr>
@@ -46,19 +55,25 @@
             <td>{{ result[3] }}</td>
             <td>{{ result[4] }}</td>
             <td>{{ result[5] }}</td>
-          <td>{{ result[6] }}</td>
+            <td>{{ result[6] }}</td>
         </tr>
         {% endfor %}
     </table>
+    {% else %}
+    <p>No image results found.</p>
+    {% endif %}
 
     <h1>Alt Text Results</h1>
+    {% if alt_text_results %}
     <table border="1">
         <tr>
             <th>ID</th>
+            <th>Transaction ID</th>
             <th>Result Type</th>
             <th>Sentence</th>
             <th>Word</th>
             <th>Image Link</th>
+            <th>Create Date</th>
         </tr>
         {% for result in alt_text_results %}
         <tr>
@@ -68,18 +83,85 @@
             <td>{{ result[3] }}</td>
             <td>{{ result[4] }}</td>
             <td>{{ result[5] }}</td>
-          <td>{{ result[6] }}</td>
+            <td>{{ result[6] }}</td>
         </tr>
         {% endfor %}
     </table>
-    <h2>Summary Report</h2>
-<p>Total Biased Sentences: {{ total_biased_text }}</p>
-<p>Total Biased Alt Texts: {{ total_biased_alt_text }}</p>
-<p>Total Biased Image Results: {{ total_biased_img_results }}</p>
+    {% else %}
+    <p>No alt text results found.</p>
+    {% endif %}
 
-<p>Unique Word Count in Biased Sentences: {{ unique_word_count_text }}</p>
-<p>Unique Word Count in Biased Alt Texts: {{ unique_word_count_alt_text }}</p>
-<p>Unique Word Count in Biased Image Results: {{ unique_word_count_img_results }}</p>
+    <h1>Geographical Bias Results</h1>
+    {% if geographical_bias_results %}
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Transaction ID</th>
+            <th>Source</th>
+            <th>Geo Entity</th>
+            <th>Entity Type</th>
+            <th>Create Date</th>
+        </tr>
+        {% for result in geographical_bias_results %}
+        <tr>
+            <td>{{ result[0] }}</td>
+            <td>{{ result[1] }}</td>
+            <td>{{ result[2] }}</td>
+            <td>{{ result[3] }}</td>
+            <td>{{ result[4] }}</td>
+            <td>{{ result[5] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <p>No geographical bias results found.</p>
+    {% endif %}
+
+    <h1>Image Text Results</h1>
+    {% if image_txt_results %}
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Transaction ID</th>
+            <th>Result Type</th>
+            <th>Male Count</th>
+            <th>Female Count</th>
+            <th>Confidence</th>
+            <th>Skin Color</th>
+            <th>Race</th>
+            <th>Image Link</th>
+            <th>Create Date</th>
+        </tr>
+        {% for result in image_txt_results %}
+        <tr>
+            <td>{{ result[0] }}</td>
+            <td>{{ result[1] }}</td>
+            <td>{{ result[2] }}</td>
+            <td>{{ result[3] }}</td>
+            <td>{{ result[4] }}</td>
+            <td>{{ result[5] }}</td>
+            <td>{{ result[6] }}</td>
+            <td>{{ result[7] }}</td>
+            <td>{{ result[8] }}</td>
+            <td>{{ result[9] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <p>No image text results found.</p>
+    {% endif %}
+
+    <h2>Summary Report</h2>
+    <p>Total Biased Sentences: {{ total_biased_text }}</p>
+    <p>Total Biased Alt Texts: {{ total_biased_alt_text }}</p>
+    <p>Total Biased Image Results: {{ total_biased_img_results }}</p>
+    <p>Total Image Text Results: {{ total_image_txt_results }}</p>
+    <p>Total Geographical Bias Results: {{ total_geographical_bias }}</p>
+
+    <p>Unique Word Count in Biased Sentences: {{ unique_word_count_text }}</p>
+    <p>Unique Word Count in Biased Alt Texts: {{ unique_word_count_alt_text }}</p>
+    <p>Unique Word Count in Biased Image Results: {{ unique_word_count_img_results }}</p>
+    <p>Unique Word Count in Geographical Bias: {{ unique_word_count_geographical_bias }}</p>
 
 </body>
 </html>
