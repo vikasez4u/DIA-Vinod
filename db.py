@@ -448,4 +448,4 @@ def baisedworddelete(id):
 
 
 if __name__ == "__main__":
-  db.run(debug=True, port=3030)
+  db.run(debug=True, port=3000)

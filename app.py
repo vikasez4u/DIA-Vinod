@@ -129,6 +129,7 @@ def load_gender_biased_words():
 
   with app.app_context():
     diadb.create_table('Biased_Words')
+    diadb.create_table('Gender_Table')
     baisedword_results = diadb.baisedwordresult()
 
   for baisedword_result in baisedword_results:
@@ -248,6 +249,7 @@ def home():
   diadb.create_table('biased_img_results')
   diadb.create_table('geographical_bias')
   diadb.create_table('Biased_Words')
+  diadb.create_table('Gender_Table')
   return render_template('index.html')
 
 
