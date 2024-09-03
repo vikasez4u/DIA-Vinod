@@ -7,6 +7,48 @@
     <title>Show Database</title>
 </head>
 <body>
+    <h1>Gender Table</h1>
+    {% if gender_table %}
+    <table border="1">
+        <tr>
+            <th>Gender Id</th>
+            <th>Gender Name</th>
+            <th>Create Date</th>
+        </tr>
+        {% for result in gender_table %}
+        <tr>
+            <td>{{ result[0] }}</td>
+            <td>{{ result[1] }}</td>
+            <td>{{ result[2] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <p>No Gender results found.</p>
+    {% endif %}
+
+    <h1>Biased_Words</h1>
+    {% if biased_words %}
+    <table border="1">
+        <tr>
+            <th>Biasedword Iid</th>
+            <th>Gender Id</th>
+            <th>Biased Word</th>
+            <th>Create Date</th>
+        </tr>
+        {% for result in biased_words %}
+        <tr>
+            <td>{{ result[0] }}</td>
+            <td>{{ result[1] }}</td>
+            <td>{{ result[2] }}</td>
+            <td>{{ result[3] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <p>No biased words results found.</p>
+    {% endif %}
+
     <h1>Text Results</h1>
     {% if text_results %}
     <table border="1">

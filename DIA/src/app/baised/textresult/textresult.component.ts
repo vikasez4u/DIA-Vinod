@@ -35,9 +35,9 @@ constructor(private router: Router, private activatedRoute: ActivatedRoute){
     this.total_biased_text = state['total_biased_text'];
     this.total_biased_alt_text = state['total_biased_alt_text'];
     this.total_biased_img_results = state['total_biased_img_results'];
-    this.text_results_tr_Gender_Count = state['text_results_tr_Gender_Count'];
-    this.alt_text_results_tr_Gender_Count = state['alt_text_results_tr_Gender_Count'];
-    this.img_text_results_tr_Gender_Count = state['img_text_results_tr_Gender_Count'];
+    this.text_results_tr_Gender_Count = state['text_results_Gender_Count'];
+    this.alt_text_results_tr_Gender_Count = state['alt_text_results_Gender_Count'];
+    this.img_text_results_tr_Gender_Count = state['img_text_results_Gender_Count'];
 
   }
 }

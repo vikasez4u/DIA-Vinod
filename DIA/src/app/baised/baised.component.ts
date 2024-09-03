@@ -104,9 +104,9 @@ export class BaisedComponent implements OnInit {
               biased_img_results: Page['txt_img_results'], total_biased_text: Page['total_biased_text'],
               total_biased_alt_text: Page['total_biased_alt_text'],
               total_biased_img_results: Page['total_biased_img_results'],
-              text_results_tr_Gender_Count: Page['text_results_tr_Gender_Count'],
-              alt_text_results_tr_Gender_Count: Page['alt_text_results_tr_Gender_Count'],
-              img_text_results_tr_Gender_Count: Page['img_text_results_tr_Gender_Count']}});
+              text_results_Gender_Count: Page['text_results_Gender_Count'],
+              alt_text_results_Gender_Count: Page['alt_text_results_Gender_Count'],
+              img_text_results_Gender_Count: Page['img_text_results_Gender_Count']}});
               //window.location.assign('/output');
             }
             else if (Page['file'] == 'Image') {

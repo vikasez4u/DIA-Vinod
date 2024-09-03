@@ -38,7 +38,6 @@ def create_table(table_name):
           CREATE TABLE IF NOT EXISTS {table_name} (
               id INTEGER PRIMARY KEY AUTOINCREMENT,
               transaction_id TEXT,
-              source TEXT,
               result_type TEXT,
               sentence TEXT,
               word TEXT,
@@ -69,7 +68,6 @@ def create_table(table_name):
             CREATE TABLE IF NOT EXISTS {table_name} (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 transaction_id TEXT,
-                source TEXT,  -- Adding the source column
                 result_type TEXT,
                 sentence TEXT,
                 word TEXT,
@@ -85,7 +83,6 @@ def create_table(table_name):
           CREATE TABLE IF NOT EXISTS {table_name} (
               id INTEGER PRIMARY KEY AUTOINCREMENT,
               transaction_id TEXT,
-              source TEXT,
               result_type TEXT,
               sentence TEXT,
               word TEXT,
@@ -101,7 +98,6 @@ def create_table(table_name):
           CREATE TABLE IF NOT EXISTS {table_name} (
               id INTEGER PRIMARY KEY AUTOINCREMENT,
               transaction_id TEXT,
-              source TEXT,
               result_type TEXT,
               sentence TEXT,
               word TEXT,
@@ -125,7 +121,6 @@ def create_table(table_name):
           CREATE TABLE IF NOT EXISTS {table_name} (
               gender_id INTEGER PRIMARY KEY AUTOINCREMENT,
               gender_name TEXT NOT NULL UNIQUE,
-              source TEXT,  -- Add source column
               create_date TEXT
           )
       ''')
@@ -135,7 +130,6 @@ def create_table(table_name):
               biasedword_id INTEGER PRIMARY KEY AUTOINCREMENT,
               gender_id INTEGER NOT NULL,
               biased_word TEXT NOT NULL UNIQUE,
-              source TEXT,  -- Add source column
               create_date TEXT,
               FOREIGN KEY (gender_id)
               REFERENCES Gender_Table (gender_id)
@@ -175,8 +169,8 @@ def save_image(table_name, transaction_id, result_type, male_count, female_count
   db.commit()
 
 
-def insert_biased_result(transaction_id, source, result_type, sentence, word, image_link=None):
-  print(f"Attempting to insert into biased_text_results: transaction_id={transaction_id}, source={source}, "
+def insert_biased_result(table_name, transaction_id, result_type, sentence, word, image_link=None):
+  print(f"Attempting to insert into {table_name}: transaction_id={transaction_id}, "
         f"result_type={result_type}, sentence={sentence}, word={word}, image_link={image_link}")
 
   db = get_db()
@@ -185,28 +179,19 @@ def insert_biased_result(transaction_id, source, result_type, sentence, word, im
   create_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
   try:
-    cursor.execute('''
-        INSERT INTO biased_text_results (transaction_id, source, result_type, sentence, word, image_link, create_date)
-        VALUES (?, ?, ?, ?, ?, ?, ?)
-      ''', (transaction_id, source, result_type, sentence, word, image_link, create_date))
+    cursor.execute(f'''
+        INSERT INTO {table_name} (transaction_id, result_type, sentence, word, image_link, create_date)
+        VALUES (?, ?, ?, ?, ?, ?)
+      ''', (transaction_id, result_type, sentence, word, image_link, create_date))
     print("Insert successful!")
   except Exception as e:
-    print(f"Error inserting into biased_text_results: {e}")
-
-  try:
-    cursor.execute(f'''
-             INSERT INTO biased_alt_Text_results (transaction_id, source, result_type, sentence, word, image_link, create_date)
-             VALUES (?, ?, ?, ?, ?, ?, ?)
-         ''', (transaction_id, source, result_type, sentence, word, image_link, create_date))
-    print(f"Insert successful into biased_alt_Text_results: transaction_id={transaction_id}, word={word}")
-  except Exception as e:
-    print(f"Error inserting into biased_alt_Text_results: {e}")
+    print(f"Error inserting into {table_name}: {e}")
 
   db.commit()
 
 
-def insert_biased_img_result(transaction_id, source, result_type, sentence, word, image_link):
-  print(f"Attempting to insert into biased_img_results: transaction_id={transaction_id}, source={source}, "
+def insert_biased_img_result(transaction_id, result_type, sentence, word, image_link):
+  print(f"Attempting to insert into biased_img_results: transaction_id={transaction_id}, "
         f"result_type={result_type}, sentence={sentence}, word={word}, image_link={image_link}")
 
   db = get_db()
@@ -216,9 +201,9 @@ def insert_biased_img_result(transaction_id, source, result_type, sentence, word
 
   try:
     cursor.execute('''
-            INSERT INTO biased_img_results (transaction_id, source, result_type, sentence, word, image_link, create_date)
-            VALUES (?, ?, ?, ?, ?, ?, ?)
-        ''', (transaction_id, source, result_type, sentence, word, image_link, create_date))
+            INSERT INTO biased_img_results (transaction_id, result_type, sentence, word, image_link, create_date)
+            VALUES (?, ?, ?, ?, ?, ?)
+        ''', (transaction_id, result_type, sentence, word, image_link, create_date))
     print(f"Insert into biased_img_results successful for word '{word}' and sentence '{sentence}'.")
   except Exception as e:
     print(f"Error inserting into biased_img_results: {e}")
@@ -251,6 +236,8 @@ def show_db():
   biased_results = nativeQuery('SELECT * FROM biased_results')
   image_txt_results = nativeQuery('SELECT * FROM Image_Txt_Results')
   geographical_bias_results = nativeQuery('SELECT * FROM geographical_bias')
+  gender_table = nativeQuery('SELECT * FROM Gender_Table')
+  biased_words = nativeQuery('SELECT * FROM Biased_Words')
 
   # Calculate summary statistics
   total_biased_text = len(text_results)
@@ -259,6 +246,8 @@ def show_db():
   total_biased_results = len(biased_results)
   total_image_txt_results = len(image_txt_results)
   total_geographical_bias = len(geographical_bias_results)
+  total_gender_table = len(gender_table)
+  total_biased_words = len(biased_words)
 
   # Extract unique words from biased sentences, alt texts, and image results
   #unique_words_text = set(word for _, _, content, _, _, _, _ in text_results if content for word in content.split())
@@ -295,12 +284,16 @@ def show_db():
                          biased_results=biased_results,
                          image_txt_results=image_txt_results,
                          geographical_bias_results=geographical_bias_results,
+                         gender_table=gender_table,
+                         biased_words=biased_words,
                          total_biased_text=total_biased_text,
                          total_biased_alt_text=total_biased_alt_text,
                          total_biased_img_results=total_biased_img_results,
                          total_biased_results=total_biased_results,
                          total_image_txt_results=total_image_txt_results,
                          total_geographical_bias=total_geographical_bias,
+                         total_gender_table=total_gender_table,
+                         total_biased_words=total_biased_words,
                          unique_word_count_text=unique_word_count_text,
                          unique_word_count_alt_text=unique_word_count_alt_text,
                          unique_word_count_img_results=unique_word_count_img_results,
@@ -328,11 +321,22 @@ def textsummaryresult(transaction_id):
         SELECT * FROM biased_img_results WHERE transaction_id = ?
     ''', (transaction_id,)).fetchall()
 
+  text_results_Gender_Count = nativeQuery(
+    'SELECT DISTINCT(WORD), count(*) FROM biased_text_results WHERE TRANSACTION_ID = '+transaction_id+' group by word')
+
+  alt_text_results_Gender_Count = nativeQuery(
+    'SELECT DISTINCT(WORD), count(*) FROM biased_alt_Text_results WHERE TRANSACTION_ID = '+transaction_id+' group by word')
+
+  img_text_results_Gender_Count = nativeQuery(
+    'SELECT DISTINCT(WORD), count(*) FROM biased_img_results WHERE TRANSACTION_ID = '+transaction_id+' group by word')
+
   total_biased_text = len(text_results)
   total_biased_alt_text = len(alt_text_results)
   total_biased_img_results = len(img_results)
 
-  return total_biased_text, total_biased_alt_text, total_biased_img_results
+  print(f'{text_results_Gender_Count}\n{alt_text_results_Gender_Count}\n{img_text_results_Gender_Count}')
+
+  return total_biased_text, total_biased_alt_text, total_biased_img_results,text_results_Gender_Count,alt_text_results_Gender_Count, img_text_results_Gender_Count
 
 
 def genderresult():
@@ -342,15 +346,15 @@ def genderresult():
   return gender_results
 
 
-def gendersave(name, source):
+def gendersave(name):
   db = get_db()
   cursor = db.cursor()
   try:
     create_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     cursor.execute('''
-          INSERT INTO Gender_Table (gender_name, source, create_date)
-          VALUES (?, ?, ?)
-      ''', (name, source, create_date))
+          INSERT INTO Gender_Table (gender_name, create_date)
+          VALUES (?, ?)
+      ''', (name, create_date))
     db.commit()
     return 'Successfully Saved'
   except Exception as e:
@@ -363,7 +367,9 @@ def nativeQuery(query):
     db = get_db()
     cursor = db.cursor()
     cursor.execute(query)
-    result = cursor.fetchall()
+    rows = cursor.fetchall()
+    query_results = [dict(row) for row in rows]
+    result = [(item['word'], item['count(*)']) for item in query_results]
   except sqlite3.Error as e:
     print(f"Database query error: {e}")
     result = []
@@ -383,25 +389,23 @@ def baisedwordresult():
         JOIN Gender_Table G ON G.gender_id = B.gender_id
     ''').fetchall()
 
-  # Print the biased words
-  print("Biased Words:")
   for result in baisedword_results:
     gender_name = result[0]
     biased_word = result[1]
-    print(f"Gender: {gender_name}, Biased Word: {biased_word}")
+    print(f"Biased Words: \nGender: {gender_name}, Biased Word: {biased_word}")
 
   return baisedword_results
 
 
-def baisedwordsave(genderId, word, source):
+def baisedwordsave(genderId, word):
   db = get_db()
   cursor = db.cursor()
   try:
     create_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     cursor.execute('''
-          INSERT INTO Biased_Words (gender_id, biased_word, source, create_date)
-          VALUES (?, ?, ?, ?)
-      ''', (genderId, word, source, create_date))
+          INSERT INTO Biased_Words (gender_id, biased_word, create_date)
+          VALUES (?, ?, ?)
+      ''', (genderId, word, create_date))
     db.commit()
     return 'Successfully Saved'
   except Exception as e:

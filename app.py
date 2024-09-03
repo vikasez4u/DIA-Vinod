@@ -125,22 +125,27 @@ def load_gender_biased_words():
 
   gender_keywords = df['Words'].tolist()
   gender_list = df['Gender'].tolist()
+  print(f'gender_keywords: {gender_keywords}\ngender_list: {gender_list}')
   mapGB = [f"{word}:{gender_list[i]}" for i, word in enumerate(gender_keywords)]
+  print(f'mapGB: {mapGB}')
 
   with app.app_context():
     diadb.create_table('Biased_Words')
     diadb.create_table('Gender_Table')
     baisedword_results = diadb.baisedwordresult()
-
+  print("After getting keywords from DB")
   for baisedword_result in baisedword_results:
     word = baisedword_result[1]
     mapGB.append(f"{word}:{baisedword_result[0]}")
     gender_keywords.append(word)
+  gender_keywords = list(dict.fromkeys(gender_keywords))
+  mapGB = list(dict.fromkeys(mapGB))
+  print(f'gender_keywords: {gender_keywords}')
+  print(f'mapGB: {mapGB}')
+  return gender_keywords
 
-  return list(dict.fromkeys(gender_keywords)), list(dict.fromkeys(mapGB))
 
-
-def detect_biased_sentences(text, keyword_list, table_name, transaction_id, source, image_link=None):
+def detect_biased_sentences(text, keyword_list, table_name, transaction_id, image_link=None):
   if not isinstance(text, str):  # Ensure the input is a string
     print(f"Expected a string for text, but got {type(text)}")
     return [], []
@@ -171,26 +176,28 @@ def detect_biased_sentences(text, keyword_list, table_name, transaction_id, sour
         print(f"Found biased word '{word}' in sentence '{sentence}'. Inserting into {table_name}.")
 
         try:
-          if image_link:
-            diadb.insert_biased_img_result(transaction_id, source, 'Image', highlighted_sentence, word, image_link)
-          else:
-            diadb.insert_biased_result(transaction_id, source, 'Text', highlighted_sentence, word, image_link)
+          diadb.insert_biased_result(table_name, transaction_id, 'Text', highlighted_sentence, word, image_link)
           print(f"Insert into {table_name} successful for word '{word}' and sentence '{highlighted_sentence}'.")
         except Exception as e:
           print(f"Failed to insert into {table_name}: {e}")
         break
-
   return biased_sentences, biased_words
 
 
 def detect_biased_sentences_in_alt_text(alt_texts, keyword_list, transaction_id):
+  alt_sentences, alt_words, alt_link = [], [], []
   for alt_text, image_link in alt_texts:
     print(f"Processing alt text '{alt_text}' from image '{image_link}'.")
     try:
-      detect_biased_sentences(alt_text, keyword_list, 'biased_alt_Text_results', transaction_id, 'alt_text', image_link)
+      sentence, word = detect_biased_sentences(alt_text, keyword_list, 'biased_alt_Text_results', transaction_id, image_link)
+      if sentence and word:
+        alt_sentences.append(sentence)
+        alt_words.append(word)
+        alt_link.append(image_link)
       print(f"Insert into biased_alt_Text_results successful for alt text '{alt_text}' and image '{image_link}'.")
     except Exception as e:
       print(f"Failed to insert alt text into biased_alt_Text_results: {e}")
+  return alt_sentences, alt_words, alt_link
 
 
 def detect_geo_bias(text, transaction_id, source):
@@ -223,7 +230,7 @@ def extract_text_from_images(url, transaction_id):
     if text:  # Ensure text is not None or empty
       # Detect gender-biased sentences from image text
       sentences, words = detect_biased_sentences(text, keyword_list, 'biased_img_results', transaction_id,
-                                                 source='image', image_link=image_url)
+                                                 image_link=image_url)
       biased_sentences.extend(sentences)
       biased_words.extend(words)
       image_links.append(image_url)
@@ -292,6 +299,7 @@ def parallelexec():
 
 @app.route('/result', methods=['POST', 'GET'])
 def result():
+  print('result')
   global transaction_id
   global txt_results, alt_results, txt_img_results, image_results
 
@@ -330,11 +338,20 @@ def result():
 
     elif text_mode:
       txt_results, alt_results, txt_img_results = run_text_analysis_with_context(url, transaction_id)
+      biased_text_results = list(zip(txt_results[1], txt_results[0]))
+      biased_alt_results = list(zip(alt_results[1], alt_results[0], alt_results[2]))
+      biased_img_results = list(zip(txt_img_results[1], txt_img_results[0], txt_img_results[2]))
+      total_biased_text, total_biased_alt_text, total_biased_img_results, text_results_Gender_Count, alt_text_results_Gender_Count, img_text_results_Gender_Count = diadb.textsummaryresult(transaction_id)
       return {
         "file": "Text",
-        "txt_results": txt_results,
-        "alt_results": alt_results,
-        "txt_img_results": txt_img_results
+        "txt_results": biased_text_results,
+        "alt_results": biased_alt_results,
+        "txt_img_results": biased_img_results,
+        "total_biased_text": total_biased_text, "total_biased_alt_text": total_biased_alt_text,
+        "total_biased_img_results": total_biased_img_results,
+        "text_results_Gender_Count": text_results_Gender_Count,
+        "alt_text_results_Gender_Count": alt_text_results_Gender_Count,
+        "img_text_results_Gender_Count": img_text_results_Gender_Count
       }
 
     elif image_mode:
@@ -369,16 +386,17 @@ def text_analysis(url, transaction_id):
   text_content = extract_text_from_url(url)
 
   # Gender-biased sentences detection
-  txt_results, _ = detect_biased_sentences(text_content, keyword_list, 'biased_text_results', transaction_id,
-                                           source='text')
+  txt_results = detect_biased_sentences(text_content, keyword_list, 'biased_text_results', transaction_id)
 
   # Geographical bias detection
   detect_geo_bias(text_content, transaction_id, source='text')
 
   # Alt text analysis
   alt_texts = extract_alt_text_from_url(url)
-  alt_results, _ = detect_biased_sentences(' '.join([alt[0] for alt in alt_texts]), keyword_list,
-                                           'biased_alt_Text_results', transaction_id, source='alt_text')
+  alt_results = detect_biased_sentences_in_alt_text(alt_texts, keyword_list, transaction_id)
+  print(f'alt results: {alt_results}')
+  '''alt_results = detect_biased_sentences(' '.join([alt[0] for alt in alt_texts]), keyword_list,
+                                           'biased_alt_Text_results', transaction_id)'''
   detect_geo_bias(' '.join([alt[0] for alt in alt_texts]), transaction_id, source='alt_text')
 
   # Image analysis
@@ -467,15 +485,14 @@ def baisedworddelete():
   return {'result': result}
 
 
-@app.route('/readExcel', methods=["GET"])
+'''@app.route('/readExcel', methods=["GET"])
 def readExcel():
-  df = pd.read_excel('C:/Users/alwin/Documents/DIAWorkspace/DIA/DIA/uploads/gender_biased_words.xlsx',
-                     sheet_name='Words', usecols="A:B")
+  df = pd.read_excel('./uploads/gender_biased_words.xlsx', sheet_name='Words', usecols="A:B")
   exceldata = [{"Gender": str(gender), "Words": word} for gender, word in zip(df['Gender'], df['Words'])]
   print(exceldata)
-  return {'excel_data': exceldata}
+  return {'excel_data': exceldata}'''
 
 
 if __name__ == '__main__':
-  keyword_list, _ = load_gender_biased_words()
+  keyword_list = load_gender_biased_words()
   app.run(debug=True)
