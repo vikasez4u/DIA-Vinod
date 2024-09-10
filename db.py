@@ -230,6 +230,8 @@ def insert_geo_bias_result(transaction_id, source, city=None, country=None):
 
 @db.route('/show_db')
 def show_db():
+  db = get_db()
+  cursor = db.cursor()
   text_results = nativeQuery('SELECT * FROM biased_text_results')
   alt_text_results = nativeQuery('SELECT * FROM biased_alt_Text_results')
   img_results = nativeQuery('SELECT * FROM biased_img_results')
@@ -321,14 +323,23 @@ def textsummaryresult(transaction_id):
         SELECT * FROM biased_img_results WHERE transaction_id = ?
     ''', (transaction_id,)).fetchall()
 
-  text_results_Gender_Count = nativeQuery(
-    'SELECT DISTINCT(WORD), count(*) FROM biased_text_results WHERE TRANSACTION_ID = '+transaction_id+' group by word')
+  text_results_Gender_Count = cursor.execute('''
+          SELECT DISTINCT(WORD), count(*) FROM biased_text_results WHERE TRANSACTION_ID =  ? group by word
+      ''', (transaction_id,)).fetchall()
+  query_results = [dict(row) for row in text_results_Gender_Count]
+  text_results_Gender_Count = [(item['word'], item['count(*)']) for item in query_results]
 
-  alt_text_results_Gender_Count = nativeQuery(
-    'SELECT DISTINCT(WORD), count(*) FROM biased_alt_Text_results WHERE TRANSACTION_ID = '+transaction_id+' group by word')
+  alt_text_results_Gender_Count = cursor.execute('''
+            SELECT DISTINCT(WORD), count(*) FROM biased_alt_Text_results WHERE TRANSACTION_ID =  ? group by word
+        ''', (transaction_id,)).fetchall()
+  query_results = [dict(row) for row in alt_text_results_Gender_Count]
+  alt_text_results_Gender_Count = [(item['word'], item['count(*)']) for item in query_results]
 
-  img_text_results_Gender_Count = nativeQuery(
-    'SELECT DISTINCT(WORD), count(*) FROM biased_img_results WHERE TRANSACTION_ID = '+transaction_id+' group by word')
+  img_text_results_Gender_Count = cursor.execute('''
+            SELECT DISTINCT(WORD), count(*) FROM biased_img_results WHERE TRANSACTION_ID =  ? group by word
+        ''', (transaction_id,)).fetchall()
+  query_results = [dict(row) for row in img_text_results_Gender_Count]
+  img_text_results_Gender_Count = [(item['word'], item['count(*)']) for item in query_results]
 
   total_biased_text = len(text_results)
   total_biased_alt_text = len(alt_text_results)
@@ -367,9 +378,7 @@ def nativeQuery(query):
     db = get_db()
     cursor = db.cursor()
     cursor.execute(query)
-    rows = cursor.fetchall()
-    query_results = [dict(row) for row in rows]
-    result = [(item['word'], item['count(*)']) for item in query_results]
+    result = cursor.fetchall()
   except sqlite3.Error as e:
     print(f"Database query error: {e}")
     result = []
