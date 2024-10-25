@@ -16,6 +16,7 @@ import bleach
 from pexecute.thread import ThreadLoom
 import db as diadb
 from datetime import datetime
+from Text import text_analysis_results
 
 # Set up Tesseract OCR executable path
 pytesseract.pytesseract_cmd = "C:\\Program Files\\Tesseract-OCR\\tesseract.exe"
@@ -23,98 +24,6 @@ pytesseract.pytesseract_cmd = "C:\\Program Files\\Tesseract-OCR\\tesseract.exe"
 # Initialize Flask app
 app = Flask(__name__)
 app.secret_key = 'Digital Inclusivity Auditor'
-
-
-def fetch_url_content(url):
-  try:
-    response = requests.get(url)
-    if response.status_code == 401:
-      print(f"Skipping page {url}: Authentication required.")
-      return None
-    response.raise_for_status()  # Raises an HTTPError for bad responses (4xx and 5xx)
-    return response.content
-  except RequestException as e:
-    print(f"Error occurred while retrieving the web page: {e}")
-    return None
-
-
-def extract_text_from_html(content):
-  try:
-    if content:
-      soup = BeautifulSoup(content, 'html.parser')
-      return soup.get_text()
-    else:
-      print("Received empty content, skipping processing.")
-      return None
-  except Exception as e:
-    print(f"Error occurred while parsing the HTML content: {e}")
-    return None
-
-
-def extract_text_from_url(url):
-  content = fetch_url_content(url)
-  if content:
-    return extract_text_from_html(content)
-  return None
-
-
-def extract_alt_text_from_url(url):
-  content = fetch_url_content(url)
-  if not content:
-    return []
-
-  soup = BeautifulSoup(content, 'html.parser')
-  alt_texts = [(img.get('alt'), img.get('src')) for img in soup.find_all('img') if img.get('alt')]
-  return alt_texts
-
-
-def process_image(image_url, base_url, transaction_id):
-  try:
-    image_url = urljoin(base_url, image_url)
-    response = requests.get(image_url)
-    response.raise_for_status()
-
-    # Determine the image format
-    _, ext = os.path.splitext(image_url)
-    ext = ext.lower()
-
-    if ext == '.svg':
-      # Handle SVG by converting it to PNG
-      text = process_svg_image(response.content)
-    else:
-      text = process_raster_image(response.content)
-
-    if text is None:
-      text = ""  # Set to empty string if no text was extracted
-
-    return text
-
-  except (requests.exceptions.RequestException, OSError, UnidentifiedImageError) as e:
-    print(f"Error processing image {image_url}: {str(e)}")
-    return ""  # Return an empty string if there's an error
-
-
-def process_raster_image(image_content):
-  try:
-    image = Image.open(BytesIO(image_content))
-    text = pytesseract.image_to_string(image)
-    return text
-  except UnidentifiedImageError as e:
-    print(f"Unidentified image error: {str(e)}")
-    return None
-
-
-def process_svg_image(svg_content):
-  try:
-    # Convert SVG to PNG using cairosvg
-    png_image = cairosvg.svg2png(bytestring=svg_content)
-    image = Image.open(BytesIO(png_image))
-    text = pytesseract.image_to_string(image)
-    return text
-  except Exception as e:
-    print(f"Error processing SVG image: {str(e)}")
-    return None
-
 
 def load_gender_biased_words():
   try:
@@ -145,100 +54,12 @@ def load_gender_biased_words():
   return gender_keywords
 
 
-def detect_biased_sentences(text, keyword_list, table_name, transaction_id, image_link=None):
-  if not isinstance(text, str):  # Ensure the input is a string
-    print(f"Expected a string for text, but got {type(text)}")
-    return [], []
-
-  if not text.strip():
-    print("No text found to process.")
-    return [], []
-
-  sentences = re.split(r'(?<!\w\.\w.)(?<![A-Z][a-z]\.)(?<=\.|\?)\s', text)
-  biased_sentences = []
-  biased_words = []
-
-  with app.app_context():
-    diadb.create_table(table_name)
-
-  for sentence in sentences:
-    sentence = sentence.lower().strip()
-    words = re.findall(r'\b\w+\b', sentence)
-    for i, word in enumerate(words):
-      if word in keyword_list:
-        trimmed_sentence = ' '.join(words[max(0, i - 5):min(i + 6, len(words))])
-        highlighted_sentence = re.sub(r'\b' + re.escape(word) + r'\b', r'<span class="wordcolor">\g<0></span>',
-                                      trimmed_sentence, flags=re.IGNORECASE)
-        biased_sentences.append(highlighted_sentence)
-        biased_words.append(word)
-
-        # Debugging: Print before insertion
-        print(f"Found biased word '{word}' in sentence '{sentence}'. Inserting into {table_name}.")
-
-        try:
-          diadb.insert_biased_result(table_name, transaction_id, 'Text', highlighted_sentence, word, image_link)
-          print(f"Insert into {table_name} successful for word '{word}' and sentence '{highlighted_sentence}'.")
-        except Exception as e:
-          print(f"Failed to insert into {table_name}: {e}")
-        break
-  return biased_sentences, biased_words
 
 
-def detect_biased_sentences_in_alt_text(alt_texts, keyword_list, transaction_id):
-  alt_sentences, alt_words, alt_link = [], [], []
-  for alt_text, image_link in alt_texts:
-    print(f"Processing alt text '{alt_text}' from image '{image_link}'.")
-    try:
-      sentence, word = detect_biased_sentences(alt_text, keyword_list, 'biased_alt_Text_results', transaction_id, image_link)
-      if sentence and word:
-        alt_sentences.append(sentence)
-        alt_words.append(word)
-        alt_link.append(image_link)
-      print(f"Insert into biased_alt_Text_results successful for alt text '{alt_text}' and image '{image_link}'.")
-    except Exception as e:
-      print(f"Failed to insert alt text into biased_alt_Text_results: {e}")
-  return alt_sentences, alt_words, alt_link
 
 
-def detect_geo_bias(text, transaction_id, source):
-  if not isinstance(text, str):
-    print(f"Expected a string for text, but got {type(text)}")
-    return []
-
-  countries, valid_cities = geoExtractor.process_geographical_entities(text)
-  with app.app_context():
-    for city in valid_cities:
-      diadb.insert_geo_bias_result(transaction_id, source, city, None)
-    for country in countries:
-      diadb.insert_geo_bias_result(transaction_id, source, None, country)
 
 
-def extract_text_from_images(url, transaction_id):
-  content = fetch_url_content(url)
-  if not content:
-    return [], [], []
-
-  soup = BeautifulSoup(content, 'html.parser')
-  image_urls = [img['src'] for img in soup.find_all('img')]
-
-  biased_sentences = []
-  biased_words = []
-  image_links = []
-
-  for image_url in image_urls:
-    text = process_image(image_url, url, transaction_id)
-    if text:  # Ensure text is not None or empty
-      # Detect gender-biased sentences from image text
-      sentences, words = detect_biased_sentences(text, keyword_list, 'biased_img_results', transaction_id,
-                                                 image_link=image_url)
-      biased_sentences.extend(sentences)
-      biased_words.extend(words)
-      image_links.append(image_url)
-
-      # Detect geographical bias from image text
-      detect_geo_bias(text, transaction_id, source='image')
-
-  return biased_sentences, biased_words, image_links
 
 
 diadb.init_db(app)
@@ -383,26 +204,10 @@ def run_with_app_context(func, **kwargs):
 
 @app.route('/text', methods=['POST'])
 def text_analysis(url, transaction_id):
-  text_content = extract_text_from_url(url)
-
-  # Gender-biased sentences detection
-  txt_results = detect_biased_sentences(text_content, keyword_list, 'biased_text_results', transaction_id)
-
-  # Geographical bias detection
-  detect_geo_bias(text_content, transaction_id, source='text')
-
-  # Alt text analysis
-  alt_texts = extract_alt_text_from_url(url)
-  alt_results = detect_biased_sentences_in_alt_text(alt_texts, keyword_list, transaction_id)
-  print(f'alt results: {alt_results}')
-  '''alt_results = detect_biased_sentences(' '.join([alt[0] for alt in alt_texts]), keyword_list,
-                                           'biased_alt_Text_results', transaction_id)'''
-  detect_geo_bias(' '.join([alt[0] for alt in alt_texts]), transaction_id, source='alt_text')
-
-  # Image analysis
-  img_results = extract_text_from_images(url, transaction_id)
-
+  
+  txt_results, alt_results, img_results = text_analysis_results(url, transaction_id,keyword_list)
   return txt_results, alt_results, img_results
+
 
 
 @app.route("/form", methods=["POST", "GET"])
