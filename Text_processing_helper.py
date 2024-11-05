@@ -135,11 +135,7 @@ def detect_geo_bias(text, transaction_id, source):
         return []
 
     countries, valid_cities = geoExtractor.process_geographical_entities(text)
-
-    for city in valid_cities:
-        diadb.insert_geo_bias_result(transaction_id, source, city, None)
-    for country in countries:
-        diadb.insert_geo_bias_result(transaction_id, source, None, country)
+    return countries, valid_cities
 
 def extract_alt_text_from_url(url):
     """
