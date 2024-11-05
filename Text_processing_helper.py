@@ -38,9 +38,6 @@ def fetch_url_content(url):
     """
     try:
         response = requests.get(url)
-        if response.status_code == 401:
-            print(f"Skipping page {url}: Authentication required.")
-            return None
         response.raise_for_status()
         return response.content
     except RequestException as e:
@@ -58,12 +55,8 @@ def extract_text_from_html(content):
         str or None: Extracted text, or None if parsing fails.
     """
     try:
-        if content:
-            soup = BeautifulSoup(content, 'html.parser')
-            return soup.get_text()
-        else:
-            print("Received empty content, skipping processing.")
-            return None
+        soup = BeautifulSoup(content, 'html.parser')
+        return soup.get_text()
     except Exception as e:
         print(f"Error occurred while parsing the HTML content: {e}")
         return None
@@ -83,19 +76,13 @@ def detect_biased_sentences(text, keyword_list, table_name, transaction_id, imag
     Returns:
         tuple: Lists of biased sentences and words found in the text.
     """
-    if not isinstance(text, str):
-        print(f"Expected a string for text, but got {type(text)}")
-        return [], []
-
-    if not text.strip():
-        print("No text found to process.")
+    if not isinstance(text, str) or not text.strip():
+        print(f"Invalid text input: {type(text)}")
         return [], []
 
     sentences = re.split(r'(?<!\w\.\w.)(?<![A-Z][a-z]\.)(?<=\.|\?)\s', text)
     biased_sentences = []
     biased_words = []
-
-    diadb.create_table(table_name)
 
     for sentence in sentences:
         sentence = sentence.lower().strip()
@@ -107,35 +94,90 @@ def detect_biased_sentences(text, keyword_list, table_name, transaction_id, imag
                 biased_sentences.append(highlighted_sentence)
                 biased_words.append(word)
 
-                print(f"Found biased word '{word}' in sentence '{sentence}'. Inserting into {table_name}.")
+                print(f"Found biased word '{word}' in sentence '{sentence}'.")
 
-                try:
-                    diadb.insert_biased_result(table_name, transaction_id, 'Text', highlighted_sentence, word, image_link)
-                    print(f"Insert into {table_name} successful for word '{word}' and sentence '{highlighted_sentence}'.")
-                except Exception as e:
-                    print(f"Failed to insert into {table_name}: {e}")
-                break
+                # Uncomment the following lines to enable database insertion
+                # try:
+                #     diadb.insert_biased_result(table_name, transaction_id, 'Text', highlighted_sentence, word, image_link)
+                #     print(f"Insert into {table_name} successful for word '{word}' and sentence '{highlighted_sentence}'.")
+                # except Exception as e:
+                #     print(f"Failed to insert into {table_name}: {e}")
+
     return biased_sentences, biased_words
 
-def detect_geo_bias(text, transaction_id, source):
+import re
+
+def detect_geo_ethnicity_bias(text, transaction_id, source, ethnicity_list=None, image_urls=None):
     """
-    Detects geographical bias by finding country and city names in text, 
-    then logs results to a database.
+    Detects geographical and ethnicity-related bias in text, combining detected countries,
+    cities, and ethnicities into a single list along with full sentence snippets.
     
     Parameters:
-        text (str): Text to search for geographical entities.
+        text (str): Text to search for geographical entities and ethnicities.
         transaction_id (int): Unique identifier for the transaction.
         source (str): Source identifier for the data.
-        
+        ethnicity_list (list, optional): List of ethnicity keywords to detect.
+        image_urls (list, optional): List of image URLs associated with alt texts.
+
     Returns:
-        list: List of detected geographic entities (countries and cities).
+        list: List of dictionaries with detected entities (countries, cities, ethnicities) 
+              and associated sentence snippets, along with their image URLs.
     """
     if not isinstance(text, str):
         print(f"Expected a string for text, but got {type(text)}")
         return []
 
+    detected_entities = []
+
+    # Detect geographical entities
     countries, valid_cities = geoExtractor.process_geographical_entities(text)
-    return countries, valid_cities
+
+    # Create a mapping of detected entities to image URLs if available
+    entity_image_map = {}
+    if image_urls:
+        # Assuming each URL corresponds to an entity, you may want to adjust this logic
+        for i, url in enumerate(image_urls):
+            # This is a placeholder for the logic of mapping
+            # You might want to link URLs with their respective snippets or indices
+            entity_image_map[i] = url
+
+    # Detect ethnicities based on provided list
+    if ethnicity_list:
+        lower_text = text.lower()
+        for ethnicity in ethnicity_list:
+            if ethnicity.lower() in lower_text:
+                match = re.search(r'([^.]*?\b{}\b[^.]*\.)'.format(re.escape(ethnicity)), text, re.IGNORECASE)
+                snippet = match.group(0) if match else ethnicity
+                detected_entities.append({
+                    "entity": ethnicity,
+                    "type": "ethnicity",
+                    "snippet": snippet,
+                    "image_url": entity_image_map.get(len(detected_entities) - 1)  # Try to associate URL
+                })
+
+    # Add countries with surrounding sentence snippets
+    for country in countries:
+        match = re.search(r'([^.]*?\b{}\b[^.]*\.)'.format(re.escape(country)), text, re.IGNORECASE)
+        snippet = match.group(0) if match else country
+        detected_entities.append({
+            "entity": country,
+            "type": "country",
+            "snippet": snippet,
+            "image_url": entity_image_map.get(len(detected_entities) - 1)  # Try to associate URL
+        })
+
+    # Add cities with surrounding sentence snippets
+    for city in valid_cities:
+        match = re.search(r'([^.]*?\b{}\b[^.]*\.)'.format(re.escape(city)), text, re.IGNORECASE)
+        snippet = match.group(0) if match else city
+        detected_entities.append({
+            "entity": city,
+            "type": "city",
+            "snippet": snippet,
+            "image_url": entity_image_map.get(len(detected_entities) - 1)  # Try to associate URL
+        })
+
+    return detected_entities
 
 def extract_alt_text_from_url(url):
     """
@@ -165,23 +207,26 @@ def detect_biased_sentences_in_alt_text(alt_texts, keyword_list, transaction_id)
         transaction_id (int): Unique transaction identifier for the database.
         
     Returns:
-        tuple: Lists of biased alt text sentences, words, and associated image links.
+        dict: Dictionary containing lists of biased alt text sentences, words, and associated image links.
     """
-    alt_sentences, alt_words, alt_link = [], [], []
+    alt_results = {
+        'biased_sentences': [],
+        'biased_words': [],
+        'image_links': []
+    }
+    
     for alt_text, image_link in alt_texts:
         print(f"Processing alt text '{alt_text}' from image '{image_link}'.")
-        try:
-            sentence, word = detect_biased_sentences(alt_text, keyword_list, 'biased_alt_Text_results', transaction_id, image_link)
-            if sentence and word:
-                alt_sentences.append(sentence)
-                alt_words.append(word)
-                alt_link.append(image_link)
+        sentences, words = detect_biased_sentences(alt_text, keyword_list, 'biased_alt_Text_results', transaction_id, image_link)
+        if sentences and words:
+            alt_results['biased_sentences'].extend(sentences)
+            alt_results['biased_words'].extend(words)
+            alt_results['image_links'].append(image_link)
             print(f"Insert into biased_alt_Text_results successful for alt text '{alt_text}' and image '{image_link}'.")
-        except Exception as e:
-            print(f"Failed to insert alt text into biased_alt_Text_results: {e}")
-    return alt_sentences, alt_words, alt_link
+    
+    return alt_results
 
-def extract_text_from_images(url, transaction_id, keyword_list):
+def extract_text_from_images(url, transaction_id, keyword_list, ethnicity_list=None):
     """
     Extracts text from images on a webpage and detects bias in extracted text.
     
@@ -189,112 +234,76 @@ def extract_text_from_images(url, transaction_id, keyword_list):
         url (str): URL of the page containing images.
         transaction_id (int): Unique transaction identifier for the database.
         keyword_list (list): Keywords to detect bias.
+        ethnicity_list (list, optional): List of ethnicity keywords to detect.
         
     Returns:
-        tuple: Lists of biased sentences, biased words, and image links.
+        dict: Dictionary containing lists of biased sentences, words, image links,
+              and detected geographical and ethnicity biases.
     """
     content = fetch_url_content(url)
     if not content:
-        return [], [], []
+        return {
+            'biased_sentences': [],
+            'biased_words': [],
+            'image_links': [],
+            'detected_entities': []
+        }
 
     soup = BeautifulSoup(content, 'html.parser')
     image_urls = [img['src'] for img in soup.find_all('img')]
 
-    biased_sentences = []
-    biased_words = []
-    image_links = []
+    img_results = {
+        'biased_sentences': [],
+        'biased_words': [],
+        'image_links': [],
+        'detected_entities': [],
+        'geo_bias_results': []
+    }
 
     for image_url in image_urls:
         text = process_image(image_url, url, transaction_id)
         if text:
-            sentences, words = detect_biased_sentences(text, keyword_list, 'biased_img_results', transaction_id, image_link=image_url)
-            biased_sentences.extend(sentences)
-            biased_words.extend(words)
-            image_links.append(image_url)
+            # Detect biased sentences and words
+            sentences, words = detect_biased_sentences(text, keyword_list, 'biased_img_results', transaction_id, image_url)
+            img_results['biased_sentences'].extend(sentences)
+            img_results['biased_words'].extend(words)
+            img_results['image_links'].append(image_url)
 
-            detect_geo_bias(text, transaction_id, source='image')
+            # Detect geographical and ethnicity bias
+            geo_entities = detect_geo_ethnicity_bias(text, transaction_id, 'image', ethnicity_list,image_url=image_url)
+            img_results['detected_entities'].extend(geo_entities)
 
-    return biased_sentences, biased_words, image_links
+    return img_results
 
-def process_svg_image(svg_content):
+def process_image(image_url, page_url, transaction_id):
     """
-    Converts SVG image content to PNG, then extracts text using OCR.
+    Fetches an image and extracts text using OCR.
     
     Parameters:
-        svg_content (bytes): SVG image content as bytes.
+        image_url (str): URL of the image.
+        page_url (str): URL of the page where the image is located.
+        transaction_id (int): Unique identifier for the transaction.
         
     Returns:
-        str or None: Extracted text, or None if processing fails.
+        str or None: Extracted text from the image, or None if extraction fails.
     """
     try:
-        png_image = cairosvg.svg2png(bytestring=svg_content)
-        image = Image.open(BytesIO(png_image))
-        text = pytesseract.image_to_string(image)
-        return text
-    except Exception as e:
-        print(f"Error processing SVG image: {str(e)}")
-        return None
-
-def process_raster_image(image_content):
-    """
-    Extracts text from raster images using OCR.
-    
-    Parameters:
-        image_content (bytes): Raster image content as bytes.
-        
-    Returns:
-        str or None: Extracted text, or None if the image format is unrecognized.
-    """
-    try:
-        image = Image.open(BytesIO(image_content))
-        text = pytesseract.image_to_string(image)
-        return text
-    except UnidentifiedImageError as e:
-        print(f"Unidentified image error: {str(e)}")
-        return None
-
-
-def process_image(image_url, base_url, transaction_id):
-    """
-    Processes an image by retrieving it from a URL, determining its format, and extracting text using OCR.
-    
-    This function handles both SVG and raster images. If the image is in SVG format, it is converted to PNG 
-    before applying OCR to extract any text present. The function returns the extracted text or an empty 
-    string if no text is found or an error occurs.
-    
-    Parameters:
-        image_url (str): The partial or full URL of the image to process.
-        base_url (str): The base URL of the website, used to resolve relative image URLs.
-        transaction_id (int): A unique identifier for the transaction, used in logging and debugging.
-
-    Returns:
-        str: Extracted text from the image, or an empty string if no text was found or an error occurred.
-    """
-    try:
-        # Combine base URL with image URL to form a full URL if necessary
-        image_url = urljoin(base_url, image_url)
-        
-        # Request the image content
         response = requests.get(image_url)
-        response.raise_for_status()  # Raise an error if the request failed
+        response.raise_for_status()
 
-        # Determine the file extension to identify image format
-        _, ext = os.path.splitext(image_url)
-        ext = ext.lower()
-
-        # Process SVG images by converting to PNG before extracting text
-        if ext == '.svg':
-            text = process_svg_image(response.content)
+        # Determine if the image is an SVG and convert it to PNG if necessary
+        if image_url.lower().endswith('.svg'):
+            png_image = cairosvg.svg2png(bytestring=response.content)
+            image = Image.open(BytesIO(png_image))
         else:
-            # Process raster images directly
-            text = process_raster_image(response.content)
+            image = Image.open(BytesIO(response.content))
 
-        # Return an empty string if no text was extracted
-        if text is None:
-            text = ""
-
+        # Extract text using OCR
+        text = pytesseract.image_to_string(image)
+        print(f"Extracted text from image '{image_url}': {text}")
         return text
-
-    except (requests.exceptions.RequestException, OSError, UnidentifiedImageError) as e:
-        print(f"Error processing image {image_url}: {str(e)}")
-        return ""  # Return an empty string if there's an error
+    except UnidentifiedImageError:
+        print(f"Error: Could not identify image format for '{image_url}'.")
+    except Exception as e:
+        print(f"Error occurred while processing the image '{image_url}': {e}")
+    return None
