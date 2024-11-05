@@ -108,6 +108,60 @@ def detect_biased_sentences(text, keyword_list, table_name, transaction_id, imag
 import re
 
 def detect_geo_ethnicity_bias(text, transaction_id, source, ethnicity_list=None, image_urls=None):
+    if not isinstance(text, str):
+        print(f"Expected a string for text, but got {type(text)}")
+        return []
+
+    detected_entities = []
+
+    # Detect geographical entities
+    countries, valid_cities = geoExtractor.process_geographical_entities(text)
+
+    # Create a mapping of detected entities to image URLs
+    entity_image_map = {}
+    if image_urls:
+        for i, url in enumerate(image_urls):
+            entity_image_map[i] = url  # Simplified; make sure this is correctly indexed with your entities
+            
+    # Detect ethnicities based on provided list
+    if ethnicity_list:
+        lower_text = text.lower()
+        for ethnicity in ethnicity_list:
+            if ethnicity.lower() in lower_text:
+                match = re.search(r'([^.]*?\b{}\b[^.]*\.)'.format(re.escape(ethnicity)), text, re.IGNORECASE)
+                snippet = match.group(0) if match else ethnicity
+                detected_entities.append({
+                    "entity": ethnicity,
+                    "type": "ethnicity",
+                    "snippet": snippet,
+                    "image_url": entity_image_map.get(len(detected_entities))  # Use the current length
+                })
+
+    # Add countries with surrounding sentence snippets
+    for country in countries:
+        match = re.search(r'([^.]*?\b{}\b[^.]*\.)'.format(re.escape(country)), text, re.IGNORECASE)
+        snippet = match.group(0) if match else country
+        detected_entities.append({
+            "entity": country,
+            "type": "country",
+            "snippet": snippet,
+            "image_url": entity_image_map.get(len(detected_entities))  # Use the current length
+        })
+
+    # Add cities with surrounding sentence snippets
+    for city in valid_cities:
+        match = re.search(r'([^.]*?\b{}\b[^.]*\.)'.format(re.escape(city)), text, re.IGNORECASE)
+        snippet = match.group(0) if match else city
+        detected_entities.append({
+            "entity": city,
+            "type": "city",
+            "snippet": snippet,
+            "image_url": entity_image_map.get(len(detected_entities))  # Use the current length
+        })
+
+    return detected_entities
+
+def detect_geo_ethnicity_bias_1(text, transaction_id, source, ethnicity_list=None, image_urls=None):
     """
     Detects geographical and ethnicity-related bias in text, combining detected countries,
     cities, and ethnicities into a single list along with full sentence snippets.
@@ -268,11 +322,16 @@ def extract_text_from_images(url, transaction_id, keyword_list, ethnicity_list=N
             img_results['biased_sentences'].extend(sentences)
             img_results['biased_words'].extend(words)
             img_results['image_links'].append(image_url)
-
             # Detect geographical and ethnicity bias
-            geo_entities = detect_geo_ethnicity_bias(text, transaction_id, 'image', ethnicity_list,image_url=image_url)
-            img_results['detected_entities'].extend(geo_entities)
+            geo_entities = detect_geo_ethnicity_bias(text, transaction_id, 'image', ethnicity_list, image_urls=[image_url])
+        
+            # If geo_entities contains data, add the image_url to each entity
+            if geo_entities:
+                for entity in geo_entities:
+                    entity['image_url'] = image_url  # Assign current image URL to the entity
+                img_results['detected_entities'].extend(geo_entities)  # Extend the main list with updated entities
 
+    
     return img_results
 
 def process_image(image_url, page_url, transaction_id):

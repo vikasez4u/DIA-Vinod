@@ -8,7 +8,8 @@ def text_analysis_results(url, transaction_id, keyword_list):
     Parameters:
         url (str): URL of the page to analyze.
         transaction_id (int): Unique identifier for the database transaction.
-        keyword_list (list): List of keywords to detect gender-biased terms.
+        keyword_list (list): List of
+          keywords to detect gender-biased terms.
         
     Returns:
         dict: Contains results of biased text, biased alt text, and biased image text analysis.
@@ -58,7 +59,7 @@ def text_analysis_results(url, transaction_id, keyword_list):
     }
 
 # Example test run
-url = "https://www.goodgoodgood.co/articles/quotes-to-empower-women"
+url = "https://travelmelodies.com/incredible-india-quotes/"
 transaction_id = 1
 keyword_list = ["he", "she", "man", "woman", "male", "female", "husband", "wife", "father", "mother"]
 
