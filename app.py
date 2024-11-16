@@ -1,18 +1,10 @@
-import os
-import re
-import requests
-from bs4 import BeautifulSoup
-from PIL import Image, UnidentifiedImageError
+from builtins import print
+
 import pytesseract
-from io import BytesIO
-from urllib.parse import urljoin
-import cairosvg  # To convert SVGs to PNGs for OCR processing
-from requests import RequestException
 import Image_Mode_Race_colour as imageMode
 import Geographical_Entity_Extractor as geoExtractor
 from flask import Flask, render_template, request, session
 import pandas as pd
-import bleach
 from pexecute.thread import ThreadLoom
 import db as diadb
 from datetime import datetime
@@ -52,15 +44,6 @@ def load_gender_biased_words():
   print(f'gender_keywords: {gender_keywords}')
   print(f'mapGB: {mapGB}')
   return gender_keywords
-
-
-
-
-
-
-
-
-
 
 diadb.init_db(app)
 
@@ -158,10 +141,17 @@ def result():
         print("Parallel execution did not return results or returned None.")
 
     elif text_mode:
-      txt_results, alt_results, txt_img_results = run_text_analysis_with_context(url, transaction_id)
+      text_result = text_analysis_results(url, transaction_id, keyword_list)
+      txt_results = text_result["text_bias_results"]
+      txt_geo_eth = text_result["text_geo_ethnicities"]
+      alt_results = text_result["alt_text_results"]
+      alt_txt_geo_eth = text_result["alt_text_geo_ethnicities"]
+      txt_img_results = text_result["image_results"]
+      print(txt_geo_eth)
+      print(alt_txt_geo_eth)
       biased_text_results = list(zip(txt_results[1], txt_results[0]))
-      biased_alt_results = list(zip(alt_results[1], alt_results[0], alt_results[2]))
-      biased_img_results = list(zip(txt_img_results[1], txt_img_results[0], txt_img_results[2]))
+      biased_alt_results = list(zip(alt_results["biased_words"], alt_results["biased_sentences"], alt_results["image_links"]))
+      biased_img_results = list(zip(txt_img_results["biased_words"], txt_img_results["biased_sentences"], txt_img_results["image_links"]))
       total_biased_text, total_biased_alt_text, total_biased_img_results, text_results_Gender_Count, alt_text_results_Gender_Count, img_text_results_Gender_Count = diadb.textsummaryresult(transaction_id)
       return {
         "file": "Text",
@@ -204,7 +194,7 @@ def run_with_app_context(func, **kwargs):
 
 @app.route('/text', methods=['POST'])
 def text_analysis(url, transaction_id):
-  
+
   txt_results, alt_results, img_results = text_analysis_results(url, transaction_id,keyword_list)
   return txt_results, alt_results, img_results
 
