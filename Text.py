@@ -12,78 +12,52 @@ from Text_processing_helper import (
 def text_analysis_results(url, transaction_id, keyword_list):
     """
     Conducts comprehensive analysis on the text content, alt text, and images from a webpage 
-    to detect gender and geographical bias, and logs results into the database.
+    to detect gender and geographical bias.
+    
+    Parameters:
+        url (str): URL of the page to analyze.
+        transaction_id (int): Unique identifier for the database transaction.
+        keyword_list (list): List of
+          keywords to detect gender-biased terms.
+        
+    Returns:
+        dict: Contains results of biased text, biased alt text, and biased image text analysis.
     """
     text_content = extract_text_from_url(url)
-    
+
     ethnicity_list = [
-        "African American", "Asian", "Hispanic", "Latino", "Native American", 
-        "Indigenous", "Arab", "Jewish", "Caucasian", "White", "Black", "Pacific Islander", 
-        "Middle Eastern", "Indian", "Pakistani", "Bangladeshi", "Korean", "Chinese", 
-        "Japanese", "Filipino", "Vietnamese", "Mexican", "Puerto Rican", "Cuban", 
-        "Colombian", "Brazilian", "Argentinian", "Peruvian", "Egyptian", "Somali", 
-        "Ethiopian", "Nigerian", "Ghanaian", "Kenyan", "South African", "Aboriginal", 
-        "Maori", "Inuit", "Aleut", "Hmong", "Romani", "Burmese", "Thai", "Cambodian", 
-        "Laotian", "Mongolian", "Turkish", "Persian", "Armenian", "Slavic", "Greek", 
-        "Italian", "French", "German", "Dutch", "Norwegian", "Swedish", "Finnish", 
-        "Danish", "Scottish", "Irish", "Welsh", "Polish", "Russian", "Ukrainian", 
-        "Serbian", "Croatian", "Bosnian", "Hungarian", "Jewish", "Afro-Caribbean", 
+        "African American", "Asian", "Hispanic", "Latino", "Native American",
+        "Indigenous", "Arab", "Jewish", "Caucasian", "White", "Black", "Pacific Islander",
+        "Middle Eastern", "Indian", "Pakistani", "Bangladeshi", "Korean", "Chinese",
+        "Japanese", "Filipino", "Vietnamese", "Mexican", "Puerto Rican", "Cuban",
+        "Colombian", "Brazilian", "Argentinian", "Peruvian", "Egyptian", "Somali",
+        "Ethiopian", "Nigerian", "Ghanaian", "Kenyan", "South African", "Aboriginal",
+        "Maori", "Inuit", "Aleut", "Hmong", "Romani", "Burmese", "Thai", "Cambodian",
+        "Laotian", "Mongolian", "Turkish", "Persian", "Armenian", "Slavic", "Greek",
+        "Italian", "French", "German", "Dutch", "Norwegian", "Swedish", "Finnish",
+        "Danish", "Scottish", "Irish", "Welsh", "Polish", "Russian", "Ukrainian",
+        "Serbian", "Croatian", "Bosnian", "Hungarian", "Jewish", "Afro-Caribbean",
         "Caribbean", "Haitian", "Jamaican", "Trinidadian", "Guyanese"
     ]
 
-    biased_sentences, biased_words = detect_biased_sentences(
-        text_content, keyword_list, 'biased_text_results', transaction_id
-    )
+    # Detects biased sentences within the main text content using specified keywords
+    txt_results = detect_biased_sentences(text_content, keyword_list, 'biased_text_results', transaction_id)
 
-    for sentence, word in zip(biased_sentences, biased_words):
-        insert_biased_result(
-            table_name='biased_text_results',
-            transaction_id=transaction_id,
-            result_type='Text',
-            sentence=sentence,
-            word=word
-        )
-
-    text_geo_ethnicities = detect_geo_ethnicity_bias(
-        text_content, transaction_id, source='text', ethnicity_list=ethnicity_list
-    )
-
-    for entity in text_geo_ethnicities:
-        insert_geo_bias_result(
-            transaction_id=transaction_id,
-            source='text',
-            city=entity['entity'] if entity['type'] == 'city' else None,
-            country=entity['entity'] if entity['type'] == 'country' else None
-        )
-
-    alt_texts = extract_alt_text_from_url(url)
+    # Identifies geographical and ethnicity bias within the main text content
+    text_geo_ethnicities = detect_geo_ethnicity_bias(text_content, transaction_id, source='text', ethnicity_list=ethnicity_list)
+    
+    # Alt text extraction and analysis
+    alt_texts = extract_alt_text_from_url(url)  # Retrieves alt text and image source pairs from images on the page
+    
+    # Detects gender-biased words within alt text descriptions and logs to the database
     alt_results = detect_biased_sentences_in_alt_text(alt_texts, keyword_list, transaction_id)
-    alttext_geo_ethnicities = detect_geo_ethnicity_bias(
-        ' '.join([alt[0] for alt in alt_texts]),
-        transaction_id,
-        source='alt_text',
-        ethnicity_list=ethnicity_list,
-        image_urls=[url for _, url in alt_texts]
-    )
+    # Detects geographical bias within alt text descriptions
+    alttext_geo_ethnicities = detect_geo_ethnicity_bias(' '.join([alt[0] for alt in alt_texts]), transaction_id, source='alt_text', ethnicity_list=ethnicity_list,image_urls=[url for _, url in alt_texts])
+    
+    # Image text extraction and analysis
+    img_results = extract_text_from_images(url, transaction_id, keyword_list)  # Extracts and analyzes text from images for bias
 
-    for entity in alttext_geo_ethnicities:
-        insert_geo_bias_result(
-            transaction_id=transaction_id,
-            source='alt_text',
-            city=entity['entity'] if entity['type'] == 'city' else None,
-            country=entity['entity'] if entity['type'] == 'country' else None
-        )
-
-    img_results = extract_text_from_images(url, transaction_id, keyword_list, ethnicity_list)
-
-    for entity in img_results['geo_bias_results']:
-        insert_geo_bias_result(
-            transaction_id=transaction_id,
-            source='image',
-            city=entity['entity'] if entity['type'] == 'city' else None,
-            country=entity['entity'] if entity['type'] == 'country' else None
-        )
-
+    # Returns results of text, alt text, and image bias analyses
     return {
         'text_bias_results': biased_sentences,
         'alt_text_results': alt_results,
@@ -91,23 +65,11 @@ def text_analysis_results(url, transaction_id, keyword_list):
         'image_results': img_results
     }
 
-# Standalone Testing
-# if __name__ == "__main__":
-#     app = Flask(__name__)
-#     app.config['TESTING'] = True
+# Example test run
+url = "https://travelmelodies.com/incredible-india-quotes/"
+transaction_id = 1
+keyword_list = ["he", "she", "man", "woman", "male", "female", "husband", "wife", "father", "mother"]
 
-#     init_db(app)
-
-#     with app.app_context():
-#         # Ensure all required tables exist
-#         ensure_tables_exist()
-
-#         url = "https://travelmelodies.com/incredible-india-quotes/"
-#         transaction_id = 1
-#         keyword_list = ["he", "she", "man", "woman", "male", "female", "husband", "wife", "father", "mother"]
-
-#         try:
-#             results = text_analysis_results(url, transaction_id, keyword_list)
-#             print("Final Analysis Results:", results)
-#         except Exception as e:
-#             print(f"An error occurred during testing: {e}")
+# Run the analysis function and print results
+results = text_analysis_results(url, transaction_id, keyword_list)
+print("Final Analysis Results:", results)
