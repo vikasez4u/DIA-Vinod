@@ -17,6 +17,21 @@ def get_db():
   except OSError as e:
     print(f"Error connecting to database: {e}")
     raise
+def ensure_tables_exist():
+    """
+    Ensures all required tables exist in the database.
+    """
+    tables = [
+        'biased_text_results',
+        'biased_alt_Text_results',
+        'biased_img_results',
+        'geographical_bias',
+        'Gender_Table',
+        'Biased_Words'
+    ]
+    for table_name in tables:
+        create_table(table_name)
+
 
 
 def close_db(e=None):

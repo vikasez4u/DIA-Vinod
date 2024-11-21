@@ -10,7 +10,9 @@ import cairosvg  # To convert SVGs to PNGs for OCR processing
 from requests import RequestException
 import Geographical_Entity_Extractor as geoExtractor
 import db as diadb
-
+import spacy
+# Load spaCy's language model (you can replace 'en_core_web_sm' with a larger model if needed)
+nlp = spacy.load('en_core_web_sm')
 def extract_text_from_url(url):
     """
     Fetches content from a URL and extracts text from the HTML if available.
@@ -96,18 +98,80 @@ def detect_biased_sentences(text, keyword_list, table_name, transaction_id, imag
 
                 print(f"Found biased word '{word}' in sentence '{sentence}'.")
 
-                # Uncomment the following lines to enable database insertion
-                # try:
-                #     diadb.insert_biased_result(table_name, transaction_id, 'Text', highlighted_sentence, word, image_link)
-                #     print(f"Insert into {table_name} successful for word '{word}' and sentence '{highlighted_sentence}'.")
-                # except Exception as e:
-                #     print(f"Failed to insert into {table_name}: {e}")
+                #Uncomment the following lines to enable database insertion
+                try:
+                    diadb.insert_biased_result(table_name, transaction_id, 'Text', highlighted_sentence, word, image_link)
+                    print(f"Insert into {table_name} successful for word '{word}' and sentence '{highlighted_sentence}'.")
+                except Exception as e:
+                    print(f"Failed to insert into {table_name}: {e}")
 
     return biased_sentences, biased_words
 
 import re
 
+
 def detect_geo_ethnicity_bias(text, transaction_id, source, ethnicity_list=None, image_urls=None):
+    """
+    Detects geographical entities and ethnicity-related bias in text, combining results from spaCy NER 
+    and a custom ethnicity list while removing duplicates.
+    
+    Parameters:
+        text (str): Text to analyze.
+        transaction_id (int): Unique identifier for the transaction.
+        source (str): Source identifier for the data.
+        ethnicity_list (list, optional): List of ethnicity keywords to detect.
+        image_urls (list, optional): List of image URLs associated with text or alt text.
+        
+    Returns:
+        list: Combined list of detected entities with snippets, types, and associated image URLs.
+    """
+    if not isinstance(text, str):
+        print(f"Expected a string for text, but got {type(text)}")
+        return []
+
+    detected_entities = []
+    entity_image_map = {}
+    
+    # Map image URLs to entities if provided
+    if image_urls:
+        for i, url in enumerate(image_urls):
+            entity_image_map[i] = url
+
+    # Process text with spaCy
+    doc = nlp(text)
+
+    # Extract geographical entities (countries, cities, geopolitical entities)
+    for ent in doc.ents:
+        if ent.label_ in {"GPE", "LOC", "NORP"}:  # GPE: Geopolitical Entity, LOC: Location, NORP: Nationalities/Religious/Political Groups
+            match = re.search(r'([^.]*?\b{}\b[^.]*\.)'.format(re.escape(ent.text)), text, re.IGNORECASE)
+            snippet = match.group(0) if match else ent.text
+            detected_entities.append({
+                "entity": ent.text,
+                "type": ent.label_,
+                "snippet": snippet,
+                "image_url": entity_image_map.get(len(detected_entities))
+            })
+
+    # Detect ethnicities from the custom list
+    if ethnicity_list:
+        lower_text = text.lower()
+        for ethnicity in ethnicity_list:
+            if ethnicity.lower() in lower_text:
+                match = re.search(r'([^.]*?\b{}\b[^.]*\.)'.format(re.escape(ethnicity)), text, re.IGNORECASE)
+                snippet = match.group(0) if match else ethnicity
+                detected_entities.append({
+                    "entity": ethnicity,
+                    "type": "ethnicity",
+                    "snippet": snippet,
+                    "image_url": entity_image_map.get(len(detected_entities))
+                })
+
+    # Remove duplicates (combine entities with similar snippets and names)
+    unique_entities = {f"{e['entity'].lower()}_{e['type']}": e for e in detected_entities}.values()
+
+    return list(unique_entities)
+
+def detect_geo_ethnicity_bias_1(text, transaction_id, source, ethnicity_list=None, image_urls=None):
     if not isinstance(text, str):
         print(f"Expected a string for text, but got {type(text)}")
         return []
@@ -279,20 +343,18 @@ def detect_biased_sentences_in_alt_text(alt_texts, keyword_list, transaction_id)
             print(f"Insert into biased_alt_Text_results successful for alt text '{alt_text}' and image '{image_link}'.")
     
     return alt_results
-
 def extract_text_from_images(url, transaction_id, keyword_list, ethnicity_list=None):
     """
-    Extracts text from images on a webpage and detects bias in extracted text.
-    
+    Extracts text from images on a webpage, detects bias, and returns results similar to alt text logic.
+
     Parameters:
         url (str): URL of the page containing images.
         transaction_id (int): Unique transaction identifier for the database.
         keyword_list (list): Keywords to detect bias.
         ethnicity_list (list, optional): List of ethnicity keywords to detect.
-        
+
     Returns:
-        dict: Dictionary containing lists of biased sentences, words, image links,
-              and detected geographical and ethnicity biases.
+        dict: Contains lists of biased sentences, words, image links, and geographical bias results.
     """
     content = fetch_url_content(url)
     if not content:
@@ -300,7 +362,7 @@ def extract_text_from_images(url, transaction_id, keyword_list, ethnicity_list=N
             'biased_sentences': [],
             'biased_words': [],
             'image_links': [],
-            'detected_entities': []
+            'geo_bias_results': []
         }
 
     soup = BeautifulSoup(content, 'html.parser')
@@ -310,7 +372,6 @@ def extract_text_from_images(url, transaction_id, keyword_list, ethnicity_list=N
         'biased_sentences': [],
         'biased_words': [],
         'image_links': [],
-        'detected_entities': [],
         'geo_bias_results': []
     }
 
@@ -322,16 +383,15 @@ def extract_text_from_images(url, transaction_id, keyword_list, ethnicity_list=N
             img_results['biased_sentences'].extend(sentences)
             img_results['biased_words'].extend(words)
             img_results['image_links'].append(image_url)
-            # Detect geographical and ethnicity bias
-            geo_entities = detect_geo_ethnicity_bias(text, transaction_id, 'image', ethnicity_list, image_urls=[image_url])
-        
-            # If geo_entities contains data, add the image_url to each entity
-            if geo_entities:
-                for entity in geo_entities:
-                    entity['image_url'] = image_url  # Assign current image URL to the entity
-                img_results['detected_entities'].extend(geo_entities)  # Extend the main list with updated entities
 
-    
+            # Detect geographical and ethnicity bias
+            geo_entities = detect_geo_ethnicity_bias(
+                text, transaction_id, source='image', ethnicity_list=ethnicity_list, image_urls=[image_url]
+            )
+
+            # Store detected geographical entities
+            img_results['geo_bias_results'].extend(geo_entities)
+
     return img_results
 
 def process_image(image_url, page_url, transaction_id):

@@ -1,20 +1,19 @@
-from Text_processing_helper import extract_text_from_url, detect_biased_sentences, detect_geo_ethnicity_bias, extract_alt_text_from_url, detect_biased_sentences_in_alt_text, extract_text_from_images
+#from flask import Flask
+from db import init_db, ensure_tables_exist, insert_biased_result, insert_geo_bias_result
+from Text_processing_helper import (
+    extract_text_from_url,
+    detect_biased_sentences,
+    detect_geo_ethnicity_bias,
+    extract_alt_text_from_url,
+    detect_biased_sentences_in_alt_text,
+    extract_text_from_images,
+)
 
 def text_analysis_results(url, transaction_id, keyword_list):
     """
     Conducts comprehensive analysis on the text content, alt text, and images from a webpage 
-    to detect gender and geographical bias.
-    
-    Parameters:
-        url (str): URL of the page to analyze.
-        transaction_id (int): Unique identifier for the database transaction.
-        keyword_list (list): List of
-          keywords to detect gender-biased terms.
-        
-    Returns:
-        dict: Contains results of biased text, biased alt text, and biased image text analysis.
+    to detect gender and geographical bias, and logs results into the database.
     """
-    # Extracts raw text content from the webpage's HTML
     text_content = extract_text_from_url(url)
     
     ethnicity_list = [
@@ -32,37 +31,83 @@ def text_analysis_results(url, transaction_id, keyword_list):
         "Caribbean", "Haitian", "Jamaican", "Trinidadian", "Guyanese"
     ]
 
-    # Detects biased sentences within the main text content using specified keywords
-    txt_results = detect_biased_sentences(text_content, keyword_list, 'biased_text_results', transaction_id)
+    biased_sentences, biased_words = detect_biased_sentences(
+        text_content, keyword_list, 'biased_text_results', transaction_id
+    )
 
-    # Identifies geographical and ethnicity bias within the main text content
-    text_geo_ethnicities = detect_geo_ethnicity_bias(text_content, transaction_id, source='text', ethnicity_list=ethnicity_list)
-    
-    # Alt text extraction and analysis
-    alt_texts = extract_alt_text_from_url(url)  # Retrieves alt text and image source pairs from images on the page
-    
-    # Detects gender-biased words within alt text descriptions and logs to the database
+    for sentence, word in zip(biased_sentences, biased_words):
+        insert_biased_result(
+            table_name='biased_text_results',
+            transaction_id=transaction_id,
+            result_type='Text',
+            sentence=sentence,
+            word=word
+        )
+
+    text_geo_ethnicities = detect_geo_ethnicity_bias(
+        text_content, transaction_id, source='text', ethnicity_list=ethnicity_list
+    )
+
+    for entity in text_geo_ethnicities:
+        insert_geo_bias_result(
+            transaction_id=transaction_id,
+            source='text',
+            city=entity['entity'] if entity['type'] == 'city' else None,
+            country=entity['entity'] if entity['type'] == 'country' else None
+        )
+
+    alt_texts = extract_alt_text_from_url(url)
     alt_results = detect_biased_sentences_in_alt_text(alt_texts, keyword_list, transaction_id)
-    # Detects geographical bias within alt text descriptions
-    alttext_geo_ethnicities = detect_geo_ethnicity_bias(' '.join([alt[0] for alt in alt_texts]), transaction_id, source='alt_text', ethnicity_list=ethnicity_list,image_urls=[url for _, url in alt_texts])
-    
-    # Image text extraction and analysis
-    img_results = extract_text_from_images(url, transaction_id, keyword_list)  # Extracts and analyzes text from images for bias
+    alttext_geo_ethnicities = detect_geo_ethnicity_bias(
+        ' '.join([alt[0] for alt in alt_texts]),
+        transaction_id,
+        source='alt_text',
+        ethnicity_list=ethnicity_list,
+        image_urls=[url for _, url in alt_texts]
+    )
 
-    # Returns results of text, alt text, and image bias analyses
+    for entity in alttext_geo_ethnicities:
+        insert_geo_bias_result(
+            transaction_id=transaction_id,
+            source='alt_text',
+            city=entity['entity'] if entity['type'] == 'city' else None,
+            country=entity['entity'] if entity['type'] == 'country' else None
+        )
+
+    img_results = extract_text_from_images(url, transaction_id, keyword_list, ethnicity_list)
+
+    for entity in img_results['geo_bias_results']:
+        insert_geo_bias_result(
+            transaction_id=transaction_id,
+            source='image',
+            city=entity['entity'] if entity['type'] == 'city' else None,
+            country=entity['entity'] if entity['type'] == 'country' else None
+        )
+
     return {
-        'text_bias_results': txt_results,
-        'text_geo_ethnicities': text_geo_ethnicities,
+        'text_bias_results': biased_sentences,
         'alt_text_results': alt_results,
         'alt_text_geo_ethnicities': alttext_geo_ethnicities,
         'image_results': img_results
     }
 
-# Example test run
-url = "https://travelmelodies.com/incredible-india-quotes/"
-transaction_id = 1
-keyword_list = ["he", "she", "man", "woman", "male", "female", "husband", "wife", "father", "mother"]
+# Standalone Testing
+# if __name__ == "__main__":
+#     app = Flask(__name__)
+#     app.config['TESTING'] = True
 
-# Run the analysis function and print results
-results = text_analysis_results(url, transaction_id, keyword_list)
-print("Final Analysis Results:", results)
+#     init_db(app)
+
+#     with app.app_context():
+#         # Ensure all required tables exist
+#         ensure_tables_exist()
+
+#         url = "https://travelmelodies.com/incredible-india-quotes/"
+#         transaction_id = 1
+#         keyword_list = ["he", "she", "man", "woman", "male", "female", "husband", "wife", "father", "mother"]
+
+#         try:
+#             results = text_analysis_results(url, transaction_id, keyword_list)
+#             print("Final Analysis Results:", results)
+#         except Exception as e:
+#             print(f"An error occurred during testing: {e}")
