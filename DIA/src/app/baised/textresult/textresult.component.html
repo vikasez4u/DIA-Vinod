@@ -1,153 +1,540 @@
-<!-- TAB CONTROLLERS -->
-<input id="panel-1-ctrl"
-       class="panel-radios" type="radio" name="tab-radios" checked hidden="hidden">
-<input id="panel-2-ctrl"
-       class="panel-radios" type="radio" name="tab-radios" hidden="hidden">
-<input id="panel-3-ctrl"
-       class="panel-radios" type="radio" name="tab-radios" hidden="hidden">
-<input id="panel-4-ctrl"
-       class="panel-radios" type="radio" name="tab-radios" hidden="hidden">
-<input id="nav-ctrl"
-       class="panel-radios" type="checkbox" name="nav-checkbox" hidden="hidden">
+<!--&lt;!&ndash; TAB CONTROLLERS &ndash;&gt;-->
+<!--<input id="panel-1-ctrl"-->
+<!--       class="panel-radios" type="radio" name="tab-radios" checked hidden="hidden">-->
+<!--<input id="panel-2-ctrl"-->
+<!--       class="panel-radios" type="radio" name="tab-radios" hidden="hidden">-->
+<!--<input id="panel-3-ctrl"-->
+<!--       class="panel-radios" type="radio" name="tab-radios" hidden="hidden">-->
+<!--<input id="panel-4-ctrl"-->
+<!--       class="panel-radios" type="radio" name="tab-radios" hidden="hidden">-->
+<!--<input id="nav-ctrl"-->
+<!--       class="panel-radios" type="checkbox" name="nav-checkbox" hidden="hidden">-->
 
-<!--<div>
-  <div id = "leftbox">
-       <ul class="ulh">
-          <li class="lih">
-              <a routerLink="/" >Home</a>
-          </li>
-         </ul>
-  </div>
-   <div id = "middlebox">
-          <a class="apptitlecontainer">Digital Inclusivity Auditor</a>
-  </div>
-  <div id = "rightbox">
-     <ul>
-          <li>
+<!--&lt;!&ndash;<div>-->
+<!--  <div id = "leftbox">-->
+<!--       <ul class="ulh">-->
+<!--          <li class="lih">-->
+<!--              <a routerLink="/" >Home</a>-->
+<!--          </li>-->
+<!--         </ul>-->
+<!--  </div>-->
+<!--   <div id = "middlebox">-->
+<!--          <a class="apptitlecontainer">Digital Inclusivity Auditor</a>-->
+<!--  </div>-->
+<!--  <div id = "rightbox">-->
+<!--     <ul>-->
+<!--          <li>-->
 
-          </li>
-      </ul>
-</div>-->
+<!--          </li>-->
+<!--      </ul>-->
+<!--</div>&ndash;&gt;-->
 
-<!-- TABS LIST -->
-<ul id="tabs-list">
-    <!-- MENU TOGGLE -->
-    <label id="open-nav-label" for="nav-ctrl"></label>
-  <li id="li-for-panel-1" style="margin-left:-5px">
-      <label class="panel-label"
-             for="panel-1-ctrl">Summary</label>
-    </li>
-    <li id="li-for-panel-2">
-      <label class="panel-label"
-             for="panel-2-ctrl">Text Results</label>
-    </li><!--INLINE-BLOCK FIX
- --><li id="li-for-panel-3">
-      <label class="panel-label"
-             for="panel-3-ctrl">Alt Text Results</label>
-    </li><!--INLINE-BLOCK FIX
- --><li id="li-for-panel-4">
-      <label class="panel-label"
-             for="panel-4-ctrl">Image Text Results</label>
-    </li>
+<!--&lt;!&ndash; TABS LIST &ndash;&gt;-->
+<!--<ul id="tabs-list">-->
+<!--    &lt;!&ndash; MENU TOGGLE &ndash;&gt;-->
+<!--    <label id="open-nav-label" for="nav-ctrl"></label>-->
+<!--  <li id="li-for-panel-1" style="margin-left:-5px">-->
+<!--      <label class="panel-label"-->
+<!--             for="panel-1-ctrl">Summary</label>-->
+<!--    </li>-->
+<!--    <li id="li-for-panel-2">-->
+<!--      <label class="panel-label"-->
+<!--             for="panel-2-ctrl">Text Results</label>-->
+<!--    </li>&lt;!&ndash;INLINE-BLOCK FIX-->
+<!-- &ndash;&gt;<li id="li-for-panel-3">-->
+<!--      <label class="panel-label"-->
+<!--             for="panel-3-ctrl">Alt Text Results</label>-->
+<!--    </li>&lt;!&ndash;INLINE-BLOCK FIX-->
+<!-- &ndash;&gt;<li id="li-for-panel-4">-->
+<!--      <label class="panel-label"-->
+<!--             for="panel-4-ctrl">Image Text Results</label>-->
+<!--    </li>-->
 
-    <label id="close-nav-label" for="nav-ctrl">Close</label>
-</ul>
+<!--    <label id="close-nav-label" for="nav-ctrl">Close</label>-->
+<!--</ul>-->
 
-<!-- THE PANELS -->
-<article id="panels">
-  <div class="container">
-    <section id="panel-1">
-      <main>
-        <!--<h1>Summary</h1>-->
-        <p>
-          <div class="result" >
-            <ul>
-              <li>
-                Total Biased Sentences: {{ total_biased_text }}
-                <ul *ngFor="let txt_gender_count of text_results_tr_Gender_Count;">
-                  <li>{{ txt_gender_count[0] }}: {{ txt_gender_count[1] }}</li>
-                </ul>
-              </li>
-              <br>
-              <li>Total Biased Alt Texts: {{ total_biased_alt_text }}
-                <ul *ngFor="let alt_txt_gender_count of alt_text_results_tr_Gender_Count;">
-                  <li>{{ alt_txt_gender_count[0] }}: {{ alt_txt_gender_count[1] }}</li>
-                </ul>
-              </li>
-              <br>
-              <li>Total Biased Image Results: {{ total_biased_img_results }}
-                <ul *ngFor="let img_txt_gender_count of img_text_results_tr_Gender_Count;">
-                  <li>{{ img_txt_gender_count[0] }}: {{ img_txt_gender_count[1] }}</li>
-                </ul>
-              </li>
-            </ul>
-          </div>
-      </main>
-    </section>
-    <section id="panel-2">
-      <div class="progress-container">
-        <div class="progress-bar" id="myBar"></div>
-      </div>
-      <main>
-        <!--<h1>Text Results</h1>-->
-        <p>
-          <div class="result" *ngIf="biased_txt_results.length>0">
-            <ul>
-              <li *ngFor="let result of biased_txt_results;">
-                {{ result[0] }}: <span [innerHTML]="result[1]"></span>
-              </li>
-            </ul>
-          </div>
+<!--&lt;!&ndash; THE PANELS &ndash;&gt;-->
+<!--<article id="panels">-->
+<!--  <div class="container">-->
+<!--    <section id="panel-1">-->
+<!--      <main>-->
+<!--        &lt;!&ndash;<h1>Summary</h1>&ndash;&gt;-->
+<!--        <p>-->
+<!--          <div class="result" >-->
+<!--            <ul>-->
+<!--              <li>-->
+<!--                Total Biased Sentences: {{ total_biased_text }}-->
+<!--                <ul *ngFor="let txt_gender_count of text_results_tr_Gender_Count;">-->
+<!--                  <li>{{ txt_gender_count[0] }}: {{ txt_gender_count[1] }}</li>-->
+<!--                </ul>-->
+<!--              </li>-->
+<!--              <br>-->
+<!--              <li>Total Biased Alt Texts: {{ total_biased_alt_text }}-->
+<!--                <ul *ngFor="let alt_txt_gender_count of alt_text_results_tr_Gender_Count;">-->
+<!--                  <li>{{ alt_txt_gender_count[0] }}: {{ alt_txt_gender_count[1] }}</li>-->
+<!--                </ul>-->
+<!--              </li>-->
+<!--              <br>-->
+<!--              <li>Total Biased Image Results: {{ total_biased_img_results }}-->
+<!--                <ul *ngFor="let img_txt_gender_count of img_text_results_tr_Gender_Count;">-->
+<!--                  <li>{{ img_txt_gender_count[0] }}: {{ img_txt_gender_count[1] }}</li>-->
+<!--                </ul>-->
+<!--              </li>-->
+<!--            </ul>-->
+<!--          </div>-->
+<!--      </main>-->
+<!--    </section>-->
+<!--    <section id="panel-2">-->
+<!--      <div class="progress-container">-->
+<!--        <div class="progress-bar" id="myBar"></div>-->
+<!--      </div>-->
+<!--      <main>-->
+<!--        &lt;!&ndash;<h1>Text Results</h1>&ndash;&gt;-->
+<!--        <p>-->
+<!--          <div class="result" *ngIf="biased_txt_results.length>0">-->
+<!--            <ul>-->
+<!--              <li *ngFor="let result of biased_txt_results;">-->
+<!--                {{ result[0] }}: <span [innerHTML]="result[1]"></span>-->
+<!--              </li>-->
+<!--            </ul>-->
+<!--          </div>-->
 
-          <div class="result" *ngIf="biased_txt_results.length==0">
-            <p>No biased sentences found in the text.</p>
-          </div>
-      </main>
-    </section>
-    <section id="panel-3">
-      <main>
-        <!--<h1>Alt Text Results</h1>-->
-        <p>
-          <div class="result" *ngIf="biased_alt_results.length>0">
-            <ul *ngFor="let result of biased_alt_results;">
-              <li>
-                {{ result[0] }}: <span [innerHTML]="result[1]"></span>
-              </li>
-              <li><a href="{{ result[2] }}">{{ result[2] }}</a></li>
-            </ul>
-          </div>
+<!--          <div class="result" *ngIf="biased_txt_results.length==0">-->
+<!--            <p>No biased sentences found in the text.</p>-->
+<!--          </div>-->
+<!--      </main>-->
+<!--    </section>-->
+<!--    <section id="panel-3">-->
+<!--      <main>-->
+<!--        &lt;!&ndash;<h1>Alt Text Results</h1>&ndash;&gt;-->
+<!--        <p>-->
+<!--          <div class="result" *ngIf="biased_alt_results.length>0">-->
+<!--            <ul *ngFor="let result of biased_alt_results;">-->
+<!--              <li>-->
+<!--                {{ result[0] }}: <span [innerHTML]="result[1]"></span>-->
+<!--              </li>-->
+<!--              <li><a href="{{ result[2] }}">{{ result[2] }}</a></li>-->
+<!--            </ul>-->
+<!--          </div>-->
 
-          <div class="result" *ngIf="biased_alt_results.length==0">
-            <p>No biased sentences found in the text.</p>
-          </div>
-      </main>
-    </section>
-    <section id="panel-4">
-      <main>
-        <!--<h1>Image Text Results</h1>-->
-        <p>
-          <div class="result" *ngIf="biased_img_results.length>0">
-            <ul *ngFor="let result of biased_img_results;">
-              <li>
-                {{ result[0] }}: <span [innerHTML]="result[1]"></span>
-              </li>
-              <li><a href="{{ result[2] }}">{{ result[2] }}</a></li>
-            </ul>
-          </div>
+<!--          <div class="result" *ngIf="biased_alt_results.length==0">-->
+<!--            <p>No biased sentences found in the text.</p>-->
+<!--          </div>-->
+<!--      </main>-->
+<!--    </section>-->
+<!--    <section id="panel-4">-->
+<!--      <main>-->
+<!--        &lt;!&ndash;<h1>Image Text Results</h1>&ndash;&gt;-->
+<!--        <p>-->
+<!--          <div class="result" *ngIf="biased_img_results.length>0">-->
+<!--            <ul *ngFor="let result of biased_img_results;">-->
+<!--              <li>-->
+<!--                {{ result[0] }}: <span [innerHTML]="result[1]"></span>-->
+<!--              </li>-->
+<!--              <li><a href="{{ result[2] }}">{{ result[2] }}</a></li>-->
+<!--            </ul>-->
+<!--          </div>-->
 
-          <div class="result" *ngIf="biased_img_results.length==0">
-            <p>No biased sentences found in the text.</p>
-          </div>
-      </main>
-    </section>
+<!--          <div class="result" *ngIf="biased_img_results.length==0">-->
+<!--            <p>No biased sentences found in the text.</p>-->
+<!--          </div>-->
+<!--      </main>-->
+<!--    </section>-->
 
-  </div>
-</article>
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.8/angular.min.js">
-</script>
+<!--  </div>-->
+<!--</article>-->
+<!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.8/angular.min.js">-->
+<!--</script>-->
 
-<br><app-barchart [contentType]="modelType" [total_biased_text]="total_biased_text"
-                  [total_biased_alt_text]="total_biased_alt_text" [total_biased_img_results]="total_biased_img_results"
-                  [text_results_tr_Gender_Count]="text_results_tr_Gender_Count"
-                  [alt_text_results_tr_Gender_Count]="alt_text_results_tr_Gender_Count"
-                  [img_text_results_tr_Gender_Count]="img_text_results_tr_Gender_Count"></app-barchart><br><br>
+<!--<br><app-barchart [contentType]="modelType" [total_biased_text]="total_biased_text"-->
+<!--                  [total_biased_alt_text]="total_biased_alt_text" [total_biased_img_results]="total_biased_img_results"-->
+<!--                  [text_results_tr_Gender_Count]="text_results_tr_Gender_Count"-->
+<!--                  [alt_text_results_tr_Gender_Count]="alt_text_results_tr_Gender_Count"-->
+<!--                  [img_text_results_tr_Gender_Count]="img_text_results_tr_Gender_Count"></app-barchart><br><br>-->
+
+
+<!--New Code-->
+  <div class="mt-5">
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    1st card
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <div class="Text-align:center">
+                        <h1>82%</h1>
+                        <p> Gender (M/F) Biased</p>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    3rd card
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <!-- First Card -->
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <!-- <div class="card"> -->
+                    <div class="card-header">
+
+                        <div class="card-body">
+                            <div>
+                                <p class="card-title" style="color:#981fae; font-size:medium; font-weight: bold;">Text
+                                    Results
+                                    <img src="magnify1.png" alt="magnifying glass"
+                                    style="height:2.5rem;width:2.5rem; float: right;"></p>
+                                <a href="#" class="float-right"
+                                    style="margin-bottom:2rem;text-decoration: underline; margin-right:1.7rem; "> View Results
+                                </a>
+                            </div>
+
+                            <div class="horizontal-line"></div>
+                            <div>
+                                <p class="card-text" style="color:#981fae; font-weight:bold;font-size:1.2rem">320
+                                    <label style="color:grey; font-weight:lighter;font-size:0.6rem">Total Detected
+                                        Words</label>
+                                </p>
+                            </div>
+
+
+
+                        </div>
+                    </div>
+                    <!-- </div> -->
+                    <div class="card-body">
+
+
+                        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+
+                            <label class="btn rounded-pill btn-light active ">
+                                <input type="radio" name="options" id="option1" autocomplete="off" checked> Text Content
+                            </label>
+
+
+                            <label class="btn rounded-pill btn-light">
+                                <input type="radio" name="options" id="option2" autocomplete="off"> Ethnicity
+                            </label>
+
+                            <label class="btn rounded-pill btn-light">
+                                <input type="radio" name="options" id="option3" autocomplete="off"> Geo-location
+                            </label>
+
+
+                        </div>
+
+                        <hr>
+                        <div class="progress-wrapper">
+                            <div>
+                                <div class="progress-container">
+                                    <div class="progress-header">
+                                        <h6>Women</h6>
+                                        <span>43</span>
+                                    </div>
+                                    <div class="progress" style="height:5px">
+                                        <div class="progress-bar bg-success" role="progressbar"
+                                            style="width: 43%;height:5px; color: #981fae" aria-valuenow="43"
+                                            aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </div>
+                                <br />
+                                <div class="progress-container">
+                                    <div class="progress-header">
+                                        <h6>He</h6>
+                                        <span>32</span>
+                                    </div>
+                                    <div class="progress" style="height:5px">
+                                        <div class="progress-bar bg-warning" role="progressbar"
+                                            style="width: 32%;height:5px; color:#83F52C" aria-valuenow="43"
+                                            aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </div>
+                                <br />
+                                <div class="progress-container">
+                                    <div class="progress-header">
+                                        <h6>Herself</h6>
+                                        <span>21</span>
+                                    </div>
+                                    <div class="progress" style="height:5px">
+                                        <div class="progress-bar bg-danger" role="progressbar"
+                                            style="width: 21%;height:5px; color: #FADD02" aria-valuenow="43"
+                                            aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr />
+                        <div>
+                            Graph
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Second Card -->
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <!-- <div class="card"> -->
+                    <div class="card-header">
+
+                        <div class="card-body">
+                            <div>
+                                <p class="card-title" style="color:#981fae; font-size:medium; font-weight: bold;">AltText Results
+
+                                    <img src="gallery1.png" alt="gallery view"
+                                    style="height:2.5rem;width:3rem; float: right;"></p>
+                                <a href="#" class="float-right"
+                                    style="margin-bottom:2rem;text-decoration: underline; margin-right:2rem; "> View Results
+                                </a>
+
+                            </div>
+
+                            <div class="horizontal-line"></div>
+                            <div>
+                                <p class="card-text" style="color:#981fae; font-weight:bold;font-size:1.2rem">225
+                                    <label style="color:grey; font-weight:lighter;font-size:0.6rem">Total Detected
+                                        Words</label>
+                                </p>
+                            </div>
+
+
+
+                        </div>
+                    </div>
+                    <!-- </div> -->
+                    <div class="card-body">
+
+
+                        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+
+                            <label class="btn rounded-pill btn-light active ">
+                                <input type="radio" name="options" id="option1" autocomplete="off" checked> Text Content
+                            </label>
+
+
+                            <label class="btn rounded-pill btn-light">
+                                <input type="radio" name="options" id="option2" autocomplete="off"> Ethnicity
+                            </label>
+
+                            <label class="btn rounded-pill btn-light">
+                                <input type="radio" name="options" id="option3" autocomplete="off"> Geo-location
+                            </label>
+
+
+                        </div>
+
+                        <hr>
+                        <div class="progress-wrapper">
+                            <div>
+                                <div class="progress-container">
+                                    <div class="progress-header">
+                                        <h6>Women</h6>
+                                        <span>43</span>
+                                    </div>
+                                    <div class="progress" style="height:5px">
+                                        <div class="progress-bar bg-success" role="progressbar"
+                                            style="width: 43%;height:5px; color: #981fae" aria-valuenow="43"
+                                            aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </div>
+                                <br />
+                                <div class="progress-container">
+                                    <div class="progress-header">
+                                        <h6>He</h6>
+                                        <span>32</span>
+                                    </div>
+                                    <div class="progress" style="height:5px">
+                                        <div class="progress-bar bg-warning" role="progressbar"
+                                            style="width: 32%;height:5px; color:#83F52C" aria-valuenow="43"
+                                            aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </div>
+                                <br />
+                                <div class="progress-container">
+                                    <div class="progress-header">
+                                        <h6>Herself</h6>
+                                        <span>21</span>
+                                    </div>
+                                    <div class="progress" style="height:5px">
+                                        <div class="progress-bar bg-danger" role="progressbar"
+                                            style="width: 21%;height:5px; color: #FADD02" aria-valuenow="43"
+                                            aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr />
+                        <div>
+                            Graph
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Third Card -->
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <!-- <div class="card"> -->
+                    <div class="card-header">
+
+                        <div class="card-body">
+                            <div>
+
+                                <p class="card-title" style="color:#981fae; font-size:medium; font-weight: bold;">Image Text Results
+
+                                    <img src="text1.png" alt="font"
+                                    style="height:2.5rem;width:2.5rem; float: right;"></p>
+                                <a href="#" class="float-right"
+                                    style="margin-bottom:2rem;text-decoration: underline; margin-right:2rem; "> View Results
+                                </a>
+
+
+                            </div>
+
+                            <div class="horizontal-line"></div>
+                            <div>
+                                <p class="card-text" style="color:#981fae; font-weight:bold;font-size:1.2rem">110
+                                    <label style="color:grey; font-weight:lighter;font-size:0.6rem">Total Detected
+                                        Words</label>
+                                </p>
+                            </div>
+
+
+
+                        </div>
+                    </div>
+                    <!-- </div> -->
+                    <div class="card-body">
+
+
+                        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+
+                            <label class="btn rounded-pill btn-light active ">
+                                <input type="radio" name="options" id="option1" autocomplete="off" checked> Text Content
+                            </label>
+
+
+                            <label class="btn rounded-pill btn-light">
+                                <input type="radio" name="options" id="option2" autocomplete="off"> Ethnicity
+                            </label>
+
+                            <label class="btn rounded-pill btn-light">
+                                <input type="radio" name="options" id="option3" autocomplete="off"> Geo-location
+                            </label>
+
+
+                        </div>
+
+                        <hr>
+                        <div class="progress-wrapper">
+                            <div>
+                                <div class="progress-container">
+                                    <div class="progress-header">
+                                        <h6>Women</h6>
+                                        <span>43</span>
+                                    </div>
+                                    <div class="progress" style="height:5px">
+                                        <div class="progress-bar bg-success" role="progressbar"
+                                            style="width: 43%;height:5px; color: #981fae" aria-valuenow="43"
+                                            aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </div>
+                                <br />
+                                <div class="progress-container">
+                                    <div class="progress-header">
+                                        <h6>He</h6>
+                                        <span>32</span>
+                                    </div>
+                                    <div class="progress" style="height:5px">
+                                        <div class="progress-bar bg-warning" role="progressbar"
+                                            style="width: 32%;height:5px; color:#83F52C" aria-valuenow="43"
+                                            aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </div>
+                                <br />
+                                <div class="progress-container">
+                                    <div class="progress-header">
+                                        <h6>Herself</h6>
+                                        <span>21</span>
+                                    </div>
+                                    <div class="progress" style="height:5px">
+                                        <div class="progress-bar bg-danger" role="progressbar"
+                                            style="width: 21%;height:5px; color: #FADD02" aria-valuenow="43"
+                                            aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr />
+                        <div>
+                            Graph
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>S.No</th>
+                            <th>Gender Name</th>
+                            <th>Default Biased Words</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Male</td>
+                            <td>He, Him, His</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Female</td>
+                            <td>She, Her</td>
+                        </tr>
+                        <!-- Add more rows as needed -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-md-6">
+
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>S.No</th>
+                            <th>Gender Name</th>
+                            <th>Uploaded Biased Words</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Male</td>
+                            <td>Guy, Man</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Female</td>
+                            <td>Girl, Woman</td>
+                        </tr>
+                        <!-- Add more rows as needed -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>

@@ -11,23 +11,23 @@ from Text_processing_helper import (
 
 def text_analysis_results(url, transaction_id, keyword_list):
     """
-    Conducts comprehensive analysis on the text content, alt text, and images from a webpage 
+    Conducts comprehensive analysis on the text content, alt text, and images from a webpage
     to detect gender and geographical bias, and logs results into the database.
     """
     text_content = extract_text_from_url(url)
-    
+
     ethnicity_list = [
-        "African American", "Asian", "Hispanic", "Latino", "Native American", 
-        "Indigenous", "Arab", "Jewish", "Caucasian", "White", "Black", "Pacific Islander", 
-        "Middle Eastern", "Indian", "Pakistani", "Bangladeshi", "Korean", "Chinese", 
-        "Japanese", "Filipino", "Vietnamese", "Mexican", "Puerto Rican", "Cuban", 
-        "Colombian", "Brazilian", "Argentinian", "Peruvian", "Egyptian", "Somali", 
-        "Ethiopian", "Nigerian", "Ghanaian", "Kenyan", "South African", "Aboriginal", 
-        "Maori", "Inuit", "Aleut", "Hmong", "Romani", "Burmese", "Thai", "Cambodian", 
-        "Laotian", "Mongolian", "Turkish", "Persian", "Armenian", "Slavic", "Greek", 
-        "Italian", "French", "German", "Dutch", "Norwegian", "Swedish", "Finnish", 
-        "Danish", "Scottish", "Irish", "Welsh", "Polish", "Russian", "Ukrainian", 
-        "Serbian", "Croatian", "Bosnian", "Hungarian", "Jewish", "Afro-Caribbean", 
+        "African American", "Asian", "Hispanic", "Latino", "Native American",
+        "Indigenous", "Arab", "Jewish", "Caucasian", "White", "Black", "Pacific Islander",
+        "Middle Eastern", "Indian", "Pakistani", "Bangladeshi", "Korean", "Chinese",
+        "Japanese", "Filipino", "Vietnamese", "Mexican", "Puerto Rican", "Cuban",
+        "Colombian", "Brazilian", "Argentinian", "Peruvian", "Egyptian", "Somali",
+        "Ethiopian", "Nigerian", "Ghanaian", "Kenyan", "South African", "Aboriginal",
+        "Maori", "Inuit", "Aleut", "Hmong", "Romani", "Burmese", "Thai", "Cambodian",
+        "Laotian", "Mongolian", "Turkish", "Persian", "Armenian", "Slavic", "Greek",
+        "Italian", "French", "German", "Dutch", "Norwegian", "Swedish", "Finnish",
+        "Danish", "Scottish", "Irish", "Welsh", "Polish", "Russian", "Ukrainian",
+        "Serbian", "Croatian", "Bosnian", "Hungarian", "Jewish", "Afro-Caribbean",
         "Caribbean", "Haitian", "Jamaican", "Trinidadian", "Guyanese"
     ]
 
@@ -87,6 +87,7 @@ def text_analysis_results(url, transaction_id, keyword_list):
     return {
         'text_bias_results': biased_sentences,
         'alt_text_results': alt_results,
+        'text_geo_ethnicities': text_geo_ethnicities,
         'alt_text_geo_ethnicities': alttext_geo_ethnicities,
         'image_results': img_results
     }
