@@ -23,6 +23,8 @@ total_biased_img_results: any;
 text_results_tr_Gender_Count: any;
 alt_text_results_tr_Gender_Count: any;
 img_text_results_tr_Gender_Count: any;
+overall_gender_count: any;
+textmodel_counts: any;
 
 constructor(private router: Router, private activatedRoute: ActivatedRoute){
   let state = this.router.getCurrentNavigation()!.extras.state;
@@ -38,7 +40,8 @@ constructor(private router: Router, private activatedRoute: ActivatedRoute){
     this.text_results_tr_Gender_Count = state['text_results_Gender_Count'];
     this.alt_text_results_tr_Gender_Count = state['alt_text_results_Gender_Count'];
     this.img_text_results_tr_Gender_Count = state['img_text_results_Gender_Count'];
-
+    this.overall_gender_count = state['overall_gender_count'];
+    this.textmodel_counts = state['textmodel_counts'];
   }
 }
 

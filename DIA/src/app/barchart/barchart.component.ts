@@ -1,5 +1,6 @@
 import { Component, OnInit, AfterViewInit, Input, ElementRef, ViewChild } from '@angular/core';
 import Chart from 'chart.js/auto';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 
 @Component({
   selector: 'app-barchart',
@@ -8,89 +9,214 @@ import Chart from 'chart.js/auto';
 })
 
 export class BarchartComponent implements OnInit, AfterViewInit {
-@ViewChild('ImgGenChart') imgGenChartRef !: ElementRef;
-@ViewChild('TextChart') txtChartRef !: ElementRef;
-@ViewChild('AltChart') altChartRef !: ElementRef;
-@ViewChild('ImgChart') imgChartRef !: ElementRef;
+@ViewChild('Chart') ChartRef !: ElementRef;
 
-modelTextFlag : boolean = false;
-modelImgFlag : boolean = false;
-@Input() contentType: any;
-@Input() total_biased_text: any;
-@Input() total_biased_alt_text: any;
-@Input() total_biased_img_results: any;
-@Input() text_results_tr_Gender_Count: any;
-@Input() alt_text_results_tr_Gender_Count: any;
-@Input() img_text_results_tr_Gender_Count: any;
-@Input() image_results_tr: any;
+@Input() data: any;
+@Input() chartType!: String;
 
-public textChart: any = '';
-public textAltChart: any = '';
-public textImgChart: any = '';
-public imageGenderChart: any = '';
+public Analysis_chart: any = '';
 
-constructor() {
-      this.modelTextFlag = false;
-      this.modelImgFlag = false;
- }
+constructor() {}
 
 ngOnInit(): void {}
 
 ngAfterViewInit(){
-    if(this.contentType == "Text"){
-      this.modelTextFlag = true;
-      this.modelImgFlag = false;
-    }
-    else if(this.contentType == "Image"){
-     this.modelImgFlag = true;
-     this.modelTextFlag = false;
-     //this.getImageData();
-    }
-    else{
-      this.modelTextFlag = true;
-      this.modelImgFlag = true;
-      //this.getImageData();
-    }
-    this.getData(this.modelTextFlag,this.modelImgFlag);
+  Chart.register(ChartDataLabels);
+  this.generateChart();
 }
 
-getData(modelTextFlag: boolean,modelImgFlag : boolean) {
-var textLabel: any = [];
-var textData: any = [];
-var altLabel: any = [];
-var altData: any = [];
-var imgLabel: any = [];
-var imgData: any = [];
-var imageLabel: any = [];
-var imageData: any = [];
+generateChart() {
+  var Label: any = [];
+  var Count: any = [];
 
-if(modelTextFlag){
-  for(var key of this.text_results_tr_Gender_Count){
-    textLabel.push(key[0]);
-    textData.push(key[1]);
+  for(var key of this.data){
+    Label.push(key[0]);
+    Count.push(key[1]);
   }
+  const total = Count.reduce((sum: number, count:number) => sum + count, 0); // Calculate total sum of Count
+  const percentages = Count.map((count: number) => Math.round((count / total) * 100)); // Calculate percentage for each count
 
-  for(var key of this.alt_text_results_tr_Gender_Count){
-    altLabel.push(key[0]);
-    altData.push(key[1]);
+  var d3 = require("d3-scale-chromatic");
+  const colorScale = d3.interpolateInferno;
+
+  const colorRangeInfo = {
+    colorStart: 0.2,
+    colorEnd: 1,
+    useEndAsStart: false,
+  };
+
+  var Color = this.interpolateColors(percentages.length, colorScale, colorRangeInfo);
+
+  // Check for different chart types and set the configuration accordingly
+  if (this.chartType === 'radial-bar') {
+    this.Analysis_chart = new Chart(this.ChartRef.nativeElement.getContext('2d'), {
+      type: 'doughnut', //this denotes tha type of chart
+      data: { // values on X-Axis
+        labels: Label,
+        datasets: [
+          {
+            label: "Text Results",
+            data: percentages,
+            backgroundColor: Color,
+            hoverBackgroundColor: Color,
+            hoverOffset: 4,
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        cutout: '80%',
+        plugins :{
+          legend: {
+            position: 'right',
+            align: 'start',
+            labels: {
+              pointStyle: 'circle',
+              boxWidth: 2,
+              padding: 6,
+              usePointStyle: true,
+              font: {
+                size: 12,
+              },
+            }
+          },
+          datalabels: {
+            anchor: 'center',
+            align: 'center',
+            color: 'white',
+            font: {
+              size: 14,
+              weight: 'bold'
+            },
+            formatter: (value) => {
+              return value+'%';
+            }
+          }
+        },
+        layout: {
+          padding: {
+            left: 0,
+            right: 10,
+            top: 5,
+            bottom: 5
+          }
+        },
+        interaction: {
+          mode: 'nearest',
+          axis: 'x',
+          intersect: false,
+        },
+      }
+    });
   }
+else if (this.chartType === 'semi-donut') {
+      this.Analysis_chart = new Chart(this.ChartRef.nativeElement.getContext('2d'), {
+        type: 'doughnut',
+        data: {
+          labels: Label,
+          datasets: [{
+            label: "Results",
+            data: percentages,
+            backgroundColor: Color,
+            hoverBackgroundColor: Color,
+          }]
+        },
+        options: {
+          responsive: true,
+          cutout: '70%',
+          circumference: 180,
+          rotation: 270,
+          plugins: {
+            legend: {
+                position: 'right',
+                align: 'start',
+                labels: {
+                  pointStyle: 'circle',
+                  boxWidth: 2,
+                  padding: 6,
+                  usePointStyle: true,
+                  font: {
+                    size: 12,
+                    weight: 'bold'
+                  },
+                }
+            },
+            datalabels: {
+              anchor: 'center',
+              align: 'center',
+              color: 'white',
+              font: { size: 14, weight: 'bold' },
+              formatter: (value) => value + '%'
+            }
+          },
+          interaction: {
+            mode: 'nearest',
+            axis: 'x',
+            intersect: false,
+          },
+        }
+      });
+} else{
+       this.Analysis_chart = new Chart(this.ChartRef.nativeElement.getContext('2d'), {
+          type: 'doughnut', //this denotes tha type of chart
 
-  for(var key of this.img_text_results_tr_Gender_Count){
-    imgLabel.push(key[0]);
-    imgData.push(key[1]);
-  }
-}
-
-if(modelImgFlag){
-  imageLabel.push('Male','Female');
-  for(var key of this.image_results_tr){
-    imageData.push(key[0]);
-    imageData.push(key[1]);
-  }
-}
-
-this.createChart(textLabel, textData, altLabel, altData, imgLabel, imgData, imageLabel, imageData, modelTextFlag, modelImgFlag);
-
+          data: {// values on X-Axis
+            labels: Label,
+             datasets: [
+              {
+                label: "Text Results",
+                data: percentages,
+                backgroundColor: Color,
+                hoverBackgroundColor: Color,
+                hoverOffset: 4,
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            plugins :{
+              legend: {
+                position: 'right',
+                align: 'start',
+                labels: {
+                  pointStyle: 'circle',
+                  boxWidth: 2,
+                  padding: 6,
+                  usePointStyle: true,
+                  font: {
+                    size: 12,
+                  },
+                }
+              },
+              datalabels: {
+                anchor: 'center',
+                align: 'center',
+                color: 'white',
+                font: {
+                  size: 14,
+                  weight: 'bold'
+                },
+                formatter: (value) => {
+                  return value+'%';
+                }
+              }
+            },
+            layout: {
+              padding: {
+                left: 0,
+                right: 10,
+                top: 5,
+                bottom: 5
+              }
+            },
+            interaction: {
+              mode: 'nearest',
+              axis: 'x',
+              intersect: false,
+            },
+          }
+       });
+    }
 }
 
 calculatePoint(i: number, intervalSize: any, colorRangeInfo: any) {
@@ -115,138 +241,4 @@ interpolateColors(dataLength: number, colorScale: any, colorRangeInfo: any) {
   return colorArray;
 }
 
-createChart(textLabel:any[], textData:any[], altLabel:any[], altData:any[], imgLabel:any[], imgData:any[], imageLabel:any[], imageData:any[], modelTextFlag: boolean, modelImgFlag:boolean){
-var d3 = require("d3-scale-chromatic");
-const colorScale = d3.interpolateInferno;
-
-const colorRangeInfo = {
-  colorStart: 0.2,
-  colorEnd: 1,
-  useEndAsStart: false,
-};
-
-var txtColor = this.interpolateColors(textData.length, colorScale, colorRangeInfo);
-var altColor = this.interpolateColors(altData.length, colorScale, colorRangeInfo);
-var imgColor = this.interpolateColors(imgData.length, colorScale, colorRangeInfo);
-var imageColor = this.interpolateColors(imageData.length, colorScale, colorRangeInfo);
-
-    if(modelTextFlag){
-        this.textChart = new Chart(this.txtChartRef.nativeElement.getContext('2d'), {
-          type: 'pie', //this denotes tha type of chart
-
-          data: {// values on X-Axis
-            labels: textLabel,
-             datasets: [
-              {
-                label: "Text Results",
-                data: textData,
-                backgroundColor: txtColor,
-                hoverBackgroundColor: txtColor,
-                //barThickness: 40,
-                //borderRadius: 3,
-                //inflateAmount: 'auto',
-                //pointStyle: 'circle',
-                hoverOffset: 4,
-              }
-            ]
-          },
-          options: {
-            plugins: {
-              title: {
-                display: true,
-                text: 'Text Results'
-              }
-            }
-          }
-        });
-
-      this.textAltChart = new Chart(this.altChartRef.nativeElement.getContext('2d'), {
-          type: 'pie', //this denotes tha type of chart
-
-          data: {// values on X-Axis
-            labels: altLabel,
-             datasets: [
-              {
-                label: "Alt Text Results",
-                data: altData,
-                backgroundColor: altColor,
-                hoverBackgroundColor: altColor,
-                //barThickness: 40,
-                //borderRadius: 3,
-                //inflateAmount: 'auto',
-                //pointStyle: 'circle',
-                hoverOffset: 4,
-              }
-            ]
-          },
-          options: {
-            plugins: {
-              title: {
-                display: true,
-                text: 'Alt Text Results'
-              }
-            }
-          }
-        });
-
-      this.textImgChart = new Chart(this.imgChartRef.nativeElement.getContext('2d'), {
-          type: 'pie', //this denotes tha type of chart
-
-          data: {// values on X-Axis
-            labels: imgLabel,
-             datasets: [
-              {
-                label: "Image Text Results",
-                data: imgData,
-                backgroundColor: imgColor,
-                hoverBackgroundColor: imgColor,
-                //barThickness: 40,
-                //borderRadius: 3,
-                //inflateAmount: 'auto',
-                //pointStyle: 'circle',
-                hoverOffset: 4,
-              }
-            ]
-          },
-          options: {
-            plugins: {
-              title: {
-                display: true,
-                text: 'Image Text Results'
-              }
-            }
-          }
-        });
-    }
-    if(modelImgFlag){
-      this.imageGenderChart = new Chart(this.imgGenChartRef.nativeElement.getContext('2d'), {
-            type: 'pie', //this denotes tha type of chart
-
-            data: {// values on X-Axis
-              labels: imageLabel,
-               datasets: [
-                {
-                  label: "Image Results",
-                  data: imageData,
-                  backgroundColor: imageColor,
-                  hoverBackgroundColor: imageColor,
-                  //barThickness: 40,
-                  //borderRadius: 3,
-                  //inflateAmount: 'auto',
-                  //pointStyle: 'circle',
-                  hoverOffset: 4,
-                }
-              ]
-            },
-            options: {
-              plugins: {
-                title: {
-                  display: true,
-                  text: 'Image Results'
-                }
-              }
-          }
-      });
-    }
-  }
 }

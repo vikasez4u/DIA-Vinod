@@ -158,7 +158,9 @@
         <div class="row">
             <div class="col-md-4 mb-3">
                 <div class="card">
-                    1st card
+                  <div class="card-body chart-legend-container">
+                    <app-barchart [data]="overall_gender_count" [chartType]="'radial-bar'"></app-barchart>
+                  </div>
                 </div>
             </div>
             <div class="col-md-4 mb-3">
@@ -172,7 +174,9 @@
             </div>
             <div class="col-md-4 mb-3">
                 <div class="card">
-                    3rd card
+                  <div class="card-body">
+                    <app-barchart [data]="textmodel_counts" [chartType]="'semi-donut'"></app-barchart>
+                  </div>
                 </div>
             </div>
         </div>
@@ -269,8 +273,8 @@
                             </div>
                         </div>
                         <hr />
-                        <div>
-                            Graph
+                        <div class="chart-legend-container">
+                            <app-barchart [data]="text_results_tr_Gender_Count" [chartType]="'doughnut'"></app-barchart>
                         </div>
 
 
@@ -371,8 +375,8 @@
                             </div>
                         </div>
                         <hr />
-                        <div>
-                            Graph
+                        <div class="chart-legend-container">
+                            <app-barchart [data]="alt_text_results_tr_Gender_Count" [chartType]="'doughnut'"></app-barchart>
                         </div>
 
 
@@ -475,8 +479,8 @@
                             </div>
                         </div>
                         <hr />
-                        <div>
-                            Graph
+                        <div class="chart-legend-container">
+                            <app-barchart [data]="img_text_results_tr_Gender_Count" [chartType]="'doughnut'"></app-barchart>
                         </div>
 
 

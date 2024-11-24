@@ -163,11 +163,11 @@ def word_frequency_analysis():
   return word_counts.most_common(10)
 
 
-def geographical_bias_frequency():
+'''def geographical_bias_frequency():
   geo_data = nativeQuery("SELECT geo_entity FROM geographical_bias")
   geo_entities = [row[0] for row in geo_data]
   geo_counts = Counter(geo_entities)
-  return geo_counts.most_common(10)
+  return geo_counts.most_common(10)'''
 
 
 def save_image(table_name, transaction_id, result_type, male_count, female_count, confidence, skin_color, race,
@@ -292,7 +292,7 @@ def show_db():
 
   # Analytics
   word_frequency = word_frequency_analysis()
-  top_geo_entities, geo_counts = zip(*geographical_bias_frequency())
+  #top_geo_entities, geo_counts = zip(*geographical_bias_frequency())
 
   return render_template('show_db.html',
                          text_results=text_results,
@@ -318,8 +318,8 @@ def show_db():
                          unique_word_count_image_txt_results=unique_word_count_image_txt_results,
                          unique_word_count_geographical_bias=unique_word_count_geographical_bias,
                          word_frequency=word_frequency,
-                         top_geo_entities=top_geo_entities,
-                         geo_counts=geo_counts,
+                         #top_geo_entities=top_geo_entities,
+                         #geo_counts=geo_counts,
                          zip=zip)
 
 def textsummaryresult(transaction_id):
@@ -356,13 +356,16 @@ def textsummaryresult(transaction_id):
   query_results = [dict(row) for row in img_text_results_Gender_Count]
   img_text_results_Gender_Count = [(item['word'], item['count(*)']) for item in query_results]
 
+  #combining all text results counts
+  overall_gender_count = text_results_Gender_Count + alt_text_results_Gender_Count + img_text_results_Gender_Count
+
   total_biased_text = len(text_results)
   total_biased_alt_text = len(alt_text_results)
   total_biased_img_results = len(img_results)
 
-  print(f'{text_results_Gender_Count}\n{alt_text_results_Gender_Count}\n{img_text_results_Gender_Count}')
+  print(f'{text_results_Gender_Count}\n{alt_text_results_Gender_Count}\n{img_text_results_Gender_Count}\n{overall_gender_count}')
 
-  return total_biased_text, total_biased_alt_text, total_biased_img_results,text_results_Gender_Count,alt_text_results_Gender_Count, img_text_results_Gender_Count
+  return total_biased_text, total_biased_alt_text, total_biased_img_results,text_results_Gender_Count,alt_text_results_Gender_Count, img_text_results_Gender_Count, overall_gender_count
 
 
 def genderresult():

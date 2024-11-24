@@ -2,62 +2,36 @@
     display: flex;
 }
 
-#TextChart{
+#Chart{
 background-color: white;
 display: center;
-margin-left: 25px;
-margin-top: 25px;
-width: 629px;
-max-width: 564px;
-height: 322px;
-max-height: 500px;
+margin-left: -8px;
+margin-right: -6px;
+margin-top: 0px;
 border:1px solid black;
-padding: 30px;
-}
-
-#AltChart{
-background-color: white;
-display: center;
-margin-left: 25px;
-margin-top: 25px;
-width: 629px;
-max-width: 564px;
-height: 322px;
-max-height: 500px;
-border:1px solid black;
-padding: 30px;
-}
-
-#ImgChart{
-background-color: white;
-display: center;
-margin-left: 25px;
-margin-top: 25px;
-width: 629px;
-max-width: 564px;
-height: 322px;
-max-height: 500px;
-border:1px solid black;
-padding: 30px;
-}
-
-#ImgGenChart{
-background-color: white;
-display: center;
-margin-left: 25px;
-margin-top: 25px;
-width: 629px;
-max-width: 564px;
-height: 322px;
-max-height: 500px;
-border:1px solid black;
-padding: 30px;
-}
-
-.invisible{
-  display:none;
+padding: 15px;
 }
 
 .content-container{
-height:55rem;
+height:17rem;
+}
+
+.chart-legend-container {
+  height: 300px;
+  overflow-y: auto;
+  max-width: 200px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding-right: 10px;
+}
+
+.chart-legend-container .legend-item {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.chart-legend-container .legend-item span {
+  margin-left: 8px;
 }

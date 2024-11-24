@@ -18,6 +18,7 @@ app = Flask(__name__)
 app.secret_key = 'Digital Inclusivity Auditor'
 
 def load_gender_biased_words():
+  global mapGB
   try:
     df = pd.read_excel('./uploads/gender_biased_words.xlsx', sheet_name='Words', usecols="A:B")
   except FileNotFoundError as e:
@@ -147,12 +148,37 @@ def result():
       alt_results = text_result["alt_text_results"]
       alt_txt_geo_eth = text_result["alt_text_geo_ethnicities"]
       txt_img_results = text_result["image_results"]
-      print(txt_geo_eth)
-      print(alt_txt_geo_eth)
+      #print(txt_geo_eth)
+      #print(alt_txt_geo_eth)
       biased_text_results = list(zip(txt_results[1], txt_results[0]))
       biased_alt_results = list(zip(alt_results["biased_words"], alt_results["biased_sentences"], alt_results["image_links"]))
       biased_img_results = list(zip(txt_img_results["biased_words"], txt_img_results["biased_sentences"], txt_img_results["image_links"]))
-      total_biased_text, total_biased_alt_text, total_biased_img_results, text_results_Gender_Count, alt_text_results_Gender_Count, img_text_results_Gender_Count = diadb.textsummaryresult(transaction_id)
+      total_biased_text, total_biased_alt_text, total_biased_img_results, text_results_Gender_Count, alt_text_results_Gender_Count, img_text_results_Gender_Count, overall_gender_count = diadb.textsummaryresult(transaction_id)
+
+      # Create a dictionary to map words to gender
+      word_to_gender = {}
+      for entry in mapGB:
+        word, gender = entry.split(':')
+        word_to_gender[word] = gender
+
+      # Create a dictionary to hold the total counts for each gender
+      gender_counts = {'Male': 0, 'Female': 0}
+
+      # Iterate through all the results and sum the counts based on gender
+      for word, count in overall_gender_count:
+        gender = word_to_gender.get(word)
+        if gender:
+          gender_counts[gender] += count
+
+      # Final result
+      overall_count = list(gender_counts.items())
+      #print(overall_count)
+
+      #Create a dictionary to hold the Text Model run counts for each Text type result
+      textmodel_counts = [('Text Results', total_biased_text), ('Alt Text Results', total_biased_alt_text),
+                          ('Image Text Results', total_biased_img_results)]
+      #print(textmodel_counts)
+
       return {
         "file": "Text",
         "txt_results": biased_text_results,
@@ -162,7 +188,9 @@ def result():
         "total_biased_img_results": total_biased_img_results,
         "text_results_Gender_Count": text_results_Gender_Count,
         "alt_text_results_Gender_Count": alt_text_results_Gender_Count,
-        "img_text_results_Gender_Count": img_text_results_Gender_Count
+        "img_text_results_Gender_Count": img_text_results_Gender_Count,
+        "overall_gender_count": overall_count,
+        "textmodel_counts": textmodel_counts
       }
 
     elif image_mode:
