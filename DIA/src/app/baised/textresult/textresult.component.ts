@@ -1,4 +1,4 @@
-import { Component, OnInit, Injectable } from '@angular/core';
+import { Component, OnInit, Injectable  } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -12,6 +12,10 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 
 export class TextresultComponent implements OnInit {
+// This variable will hold the currently selected radio button value
+selectedTextOption: string = 'textContent';  // Default is "Text Content"
+selectedAltOption: string = 'textContent';
+selectedImgTxtOption: string = 'textContent';
 
 modelType: any;
 biased_txt_results: any;

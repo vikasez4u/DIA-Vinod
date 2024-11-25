@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import {FormsModule} from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { AppRoutingModule, routingComponents } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BaisedComponent } from './baised/baised.component';
@@ -25,7 +25,7 @@ import { AccordionModule } from 'primeng/accordion';
 import { BadgeModule } from 'primeng/badge';
 import { AboutComponent } from './about/about.component';
 import { FooterComponent } from './footer/footer.component';
-import { SampleResultComponent } from '../sample-result/sample-result.component'
+import { SampleResultComponent } from '../sample-result/sample-result.component';
 
 const routes : Routes = [
 { path: 'home', component: BaisedComponent},
