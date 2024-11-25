@@ -90,8 +90,6 @@ def text_analysis_results(url, transaction_id, keyword_list):
         'text_geo_ethnicities': text_geo_ethnicities,
         'alt_text_geo_ethnicities': alttext_geo_ethnicities,
         'image_results': img_results,
-        'image_geo_ethnicities':img_results['geo_bias_results']
-        'image_results': img_results,
         'image_text_geo_ethnicities': img_results['geo_bias_results'],
     }
 
