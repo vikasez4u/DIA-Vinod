@@ -10,6 +10,7 @@ import db as diadb
 from datetime import datetime
 from Text import text_analysis_results
 
+
 # Set up Tesseract OCR executable path
 pytesseract.pytesseract_cmd = "C:\\Program Files\\Tesseract-OCR\\tesseract.exe"
 
@@ -101,10 +102,16 @@ def parallelexec():
   return render_template('parallelexec.html', biased_txt_results=txt_results, biased_alt_results=alt_results,
                          biased_img_results=txt_img_results, image_biased_results=image_results)
 
-
+'''def insertgeoData(results):
+  for entity in results:
+    diadb.insert_geo_bias_result(
+      transaction_id=transaction_id,
+      source='image',
+      city=entity['entity'] if entity['type'] == 'city' else None,
+      country=entity['entity'] if entity['type'] == 'country' else None
+    )'''
 @app.route('/result', methods=['POST', 'GET'])
 def result():
-  print('result')
   global transaction_id
   global txt_results, alt_results, txt_img_results, image_results
 
@@ -122,9 +129,10 @@ def result():
 
     if text_mode and image_mode:
       loom = ThreadLoom(max_runner_cap=2)
-      loom.add_function(run_text_analysis_with_context, [url, transaction_id], {})
-      loom.add_function(run_image_analysis_with_context, [url], {})
+      loom.add_function(text_analysis_results, [url, transaction_id, keyword_list], {})
+      loom.add_function(imageMode.main, [url], {})
       parllelexecresult = loom.execute()
+      print(parllelexecresult)
 
       if parllelexecresult and len(parllelexecresult) > 0 and parllelexecresult[0]:
         output = parllelexecresult[0].get('output')
@@ -145,11 +153,14 @@ def result():
       text_result = text_analysis_results(url, transaction_id, keyword_list)
       txt_results = text_result["text_bias_results"]
       txt_geo_eth = text_result["text_geo_ethnicities"]
+      #insertgeoData(txt_geo_eth)
       alt_results = text_result["alt_text_results"]
       alt_txt_geo_eth = text_result["alt_text_geo_ethnicities"]
       txt_img_results = text_result["image_results"]
-      #print(txt_geo_eth)
-      #print(alt_txt_geo_eth)
+      txt_img_geo_eth = text_result["image_text_geo_ethnicities"]
+      print(txt_geo_eth)
+      print(alt_txt_geo_eth)
+      print(txt_img_geo_eth)
       biased_text_results = list(zip(txt_results[1], txt_results[0]))
       biased_alt_results = list(zip(alt_results["biased_words"], alt_results["biased_sentences"], alt_results["image_links"]))
       biased_img_results = list(zip(txt_img_results["biased_words"], txt_img_results["biased_sentences"], txt_img_results["image_links"]))
@@ -194,15 +205,17 @@ def result():
       }
 
     elif image_mode:
-      image_results = run_image_analysis_with_context(url)
+      image_results = imageMode.main(url)
+      image_results_Count, image_results_Gender_Count, image_results_Confidence_Count, image_results_Skin_Color_Count, image_results_Race_Count = diadb.imageSummaryResults(transaction_id)
       return {
         "file": "Image",
-        "image_results": image_results
+        "image_results": image_results,
+        "image_results_Count": image_results_Count,
+        "image_results_Gender_Count": image_results_Gender_Count,
+        "image_results_Confidence_Count": image_results_Confidence_Count,
+        "image_results_Skin_Color_Count": image_results_Skin_Color_Count,
+        "image_results_Race_Count": image_results_Race_Count
       }
-
-    elif geo_mode:
-      geo_entities = geoExtractor.process_geographical_entities(url, transaction_id)
-      return {"geo_entities": geo_entities}
 
   return {}
 

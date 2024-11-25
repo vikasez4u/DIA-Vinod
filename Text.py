@@ -35,14 +35,14 @@ def text_analysis_results(url, transaction_id, keyword_list):
         text_content, keyword_list, 'biased_text_results', transaction_id
     )
 
-    for sentence, word in zip(biased_sentences, biased_words):
+    '''for sentence, word in zip(biased_sentences, biased_words):
         insert_biased_result(
             table_name='biased_text_results',
             transaction_id=transaction_id,
             result_type='Text',
             sentence=sentence,
             word=word
-        )
+        )'''
 
     text_geo_ethnicities = detect_geo_ethnicity_bias(
         text_content, transaction_id, source='text', ethnicity_list=ethnicity_list
@@ -52,8 +52,8 @@ def text_analysis_results(url, transaction_id, keyword_list):
         insert_geo_bias_result(
             transaction_id=transaction_id,
             source='text',
-            city=entity['entity'] if entity['type'] == 'city' else None,
-            country=entity['entity'] if entity['type'] == 'country' else None
+            city=entity['entity'] if entity['type'] == 'ethnicity' else None,
+            country=entity['entity'] if entity['type'] != 'ethnicity' else None
         )
 
     alt_texts = extract_alt_text_from_url(url)
@@ -70,8 +70,8 @@ def text_analysis_results(url, transaction_id, keyword_list):
         insert_geo_bias_result(
             transaction_id=transaction_id,
             source='alt_text',
-            city=entity['entity'] if entity['type'] == 'city' else None,
-            country=entity['entity'] if entity['type'] == 'country' else None
+            city=entity['entity'] if entity['type'] == 'ethnicity' else None,
+            country=entity['entity'] if entity['type'] != 'ethnicity' else None
         )
 
     img_results = extract_text_from_images(url, transaction_id, keyword_list, ethnicity_list)
@@ -80,8 +80,8 @@ def text_analysis_results(url, transaction_id, keyword_list):
         insert_geo_bias_result(
             transaction_id=transaction_id,
             source='image',
-            city=entity['entity'] if entity['type'] == 'city' else None,
-            country=entity['entity'] if entity['type'] == 'country' else None
+            city=entity['entity'] if entity['type'] == 'ethnicity' else None,
+            country=entity['entity'] if entity['type'] != 'ethnicity' else None
         )
 
     return {
@@ -89,7 +89,8 @@ def text_analysis_results(url, transaction_id, keyword_list):
         'alt_text_results': alt_results,
         'text_geo_ethnicities': text_geo_ethnicities,
         'alt_text_geo_ethnicities': alttext_geo_ethnicities,
-        'image_results': img_results
+        'image_results': img_results,
+        'image_text_geo_ethnicities': img_results['geo_bias_results'],
     }
 
 # Standalone Testing

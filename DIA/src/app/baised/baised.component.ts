@@ -113,7 +113,12 @@ export class BaisedComponent implements OnInit {
             }
             else if (Page['file'] == 'Image') {
               //alert(Page['image_results_tr']);
-              self.router.navigate(['biased/imageresult'], {state: {image_biased_results: Page['image_results'], image_results_tr: Page['image_results_tr']}});
+              self.router.navigate(['biased/imageresult'], {state: {image_biased_results: Page['image_results'],
+              image_results_Count: Page['image_results_Count'],
+              image_results_Gender_Count: Page['image_results_Gender_Count'],
+              image_results_Confidence_Count: Page['image_results_Confidence_Count'],
+              image_results_Skin_Color_Count: Page['image_results_Skin_Color_Count'],
+              image_results_Race_Count: Page['image_results_Race_Count']}});
               //window.location.assign('/imageOp');
             }
             else {

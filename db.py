@@ -230,17 +230,21 @@ def insert_geo_bias_result(transaction_id, source, city=None, country=None):
   cursor = db.cursor()
 
   create_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-  if city:
-    cursor.execute('''
-            INSERT INTO geographical_bias (transaction_id, source, geo_entity, entity_type, create_date)
-            VALUES (?, ?, ?, 'City', ?)
-        ''', (transaction_id, source, city, create_date))
-  if country:
-    cursor.execute('''
-            INSERT INTO geographical_bias (transaction_id, source, geo_entity, entity_type, create_date)
-            VALUES (?, ?, ?, 'Country', ?)
-        ''', (transaction_id, source, country, create_date))
-
+  try:
+    if city:
+      cursor.execute('''
+              INSERT INTO geographical_bias (transaction_id, source, geo_entity, entity_type, create_date)
+              VALUES (?, ?, ?, 'City', ?)
+          ''', (transaction_id, source, city, create_date))
+      print(f"Insert into geographical_bias successful City '{city}'.")
+    if country:
+      cursor.execute('''
+              INSERT INTO geographical_bias (transaction_id, source, geo_entity, entity_type, create_date)
+              VALUES (?, ?, ?, 'Country', ?)
+          ''', (transaction_id, source, country, create_date))
+      print(f"Insert into geographical_bias successful Country '{country}'.")
+  except Exception as e:
+    print(f"Error inserting into biased_img_results: {e}")
   db.commit()
 
 @db.route('/show_db')
@@ -367,6 +371,42 @@ def textsummaryresult(transaction_id):
 
   return total_biased_text, total_biased_alt_text, total_biased_img_results,text_results_Gender_Count,alt_text_results_Gender_Count, img_text_results_Gender_Count, overall_gender_count
 
+#Get Image Model Results Summary
+def imageSummaryResults(transaction_id):
+  db = get_db()
+  cursor = db.cursor()
+
+  image_results_Count = len(cursor.execute('''
+          SELECT * FROM Image_Txt_Results WHERE transaction_id = ?
+      ''', (transaction_id,)).fetchall())
+
+  image_results_Gender_Count = cursor.execute('''
+          SELECT SUM(male_count) AS Male, SUM(Female_count) AS Female FROM Image_Txt_Results WHERE TRANSACTION_ID =  ?
+      ''', (transaction_id,)).fetchall()
+  query_results = [dict(row) for row in image_results_Gender_Count]
+  image_results_Gender_Count = [('Male', query_results[0].get('Male', 0)), ('Female', query_results[0].get('Female', 0))]
+
+  image_results_Confidence_Count = cursor.execute('''
+            SELECT DISTINCT(confidence), count(*) FROM Image_Txt_Results WHERE TRANSACTION_ID =  ?
+        ''', (transaction_id,)).fetchall()
+  query_results = [dict(row) for row in image_results_Confidence_Count]
+  image_results_Confidence_Count = [(item['confidence'], item['count(*)']) for item in query_results]
+
+  image_results_Skin_Color_Count = cursor.execute('''
+              SELECT DISTINCT(skin_color), count(*) FROM Image_Txt_Results WHERE TRANSACTION_ID =  ?
+          ''', (transaction_id,)).fetchall()
+  query_results = [dict(row) for row in image_results_Skin_Color_Count]
+  image_results_Skin_Color_Count = [(item['skin_color'], item['count(*)']) for item in query_results]
+
+  image_results_Race_Count = cursor.execute('''
+                SELECT DISTINCT(race), count(*) FROM Image_Txt_Results WHERE TRANSACTION_ID =  ?
+            ''', (transaction_id,)).fetchall()
+  query_results = [dict(row) for row in image_results_Race_Count]
+  image_results_Race_Count = [(item['race'], item['count(*)']) for item in query_results]
+
+  print(f'{image_results_Count}\n{image_results_Gender_Count}\n{image_results_Confidence_Count}\n{image_results_Skin_Color_Count}\n{image_results_Race_Count}')
+
+  return image_results_Count, image_results_Gender_Count, image_results_Confidence_Count, image_results_Skin_Color_Count, image_results_Race_Count
 
 def genderresult():
   db = get_db()

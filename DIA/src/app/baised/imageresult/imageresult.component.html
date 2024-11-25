@@ -40,13 +40,13 @@
       <main>
         <!--<h1>Summary</h1>-->
          <p>
-                                    <div class="img-result" *ngIf="image_results_tr.length>0">
+                                    <div class="img-result" *ngIf="image_results_Gender_Count.length>0">
                                       <!--  <h2>Image Text Results</h2>-->
                                         <ul>
 
                                             <li>
                                               <p>Total Gender Biased Count</p>
-                                                  <ul *ngFor="let txt_gender_count of image_results_tr;">
+                                                  <ul *ngFor="let txt_gender_count of image_results_Gender_Count;">
                                                     <li>Male:  {{ txt_gender_count[0] }}</li>
                                                     <li>Female:  {{ txt_gender_count[1] }}</li>
                                                   </ul>
@@ -54,7 +54,7 @@
 
                                         </ul>
                                     </div>
-                                    <div class="img-result" *ngIf="image_results_tr.length==0">
+                                    <div class="img-result" *ngIf="image_results_Gender_Count.length==0">
                                         <p>No biased image found.</p>
                                     </div>
       </main>
@@ -127,4 +127,7 @@
   </div>
 </article>
 
-<!--br><app-barchart [contentType]="modelType" [image_results_tr]="image_results_tr"></app-barchart><br><br-->
+<br><app-barchart [data]="image_results_Gender_Count" [chartType]="'radial-bar'"></app-barchart><br><br>
+<br><app-barchart [data]="image_results_Confidence_Count" [chartType]="'doughnut'"></app-barchart><br><br>
+<br><app-barchart [data]="image_results_Skin_Color_Count" [chartType]="'doughnut'"></app-barchart><br><br>
+<br><app-barchart [data]="image_results_Race_Count" [chartType]="'doughnut'"></app-barchart><br><br>

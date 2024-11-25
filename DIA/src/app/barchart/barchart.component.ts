@@ -33,7 +33,11 @@ generateChart() {
     Label.push(key[0]);
     Count.push(key[1]);
   }
-  const total = Count.reduce((sum: number, count:number) => sum + count, 0); // Calculate total sum of Count
+
+  if(Count.length>0){
+    const total = Count.reduce((sum: number, count:number) => sum + count, 0); // Calculate total sum of Count
+  }
+  const total = Count[0];
   const percentages = Count.map((count: number) => Math.round((count / total) * 100)); // Calculate percentage for each count
 
   var d3 = require("d3-scale-chromatic");
