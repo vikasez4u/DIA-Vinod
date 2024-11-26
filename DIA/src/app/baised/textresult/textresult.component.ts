@@ -1,5 +1,6 @@
 import { Component, OnInit, Injectable  } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { HttpClient } from "@angular/common/http";
 
 @Component({
   selector: 'app-textresult',
@@ -69,8 +70,10 @@ maxGeoPercentage: number = 0;  // For the percentage of the maximum biased count
 selectedAnalysis: string = 'textContent';
 analysisTitle : string = 'Gender Analysis'
 
+ users: any[] = [];
+ defaultwords: any[] = [];
 
-constructor(private router: Router, private activatedRoute: ActivatedRoute){
+constructor(private router: Router, private activatedRoute: ActivatedRoute, private http: HttpClient){
   let state = this.router.getCurrentNavigation()!.extras.state;
 
   if (state) {
@@ -209,5 +212,20 @@ ngOnInit(): void {
     // Calculate the percentage of the maximum biased count
     this.maxGeoPercentage = Math.round((this.maxGeoCount / totalGeoCount) * 100);
   }
+
+  this.http.get('/baisedwordresults', { responseType: 'json' })
+          .subscribe((data: any) => {
+           // alert(JSON.stringify(data));
+            this.defaultwords = data['baisedword_results'];
+           // alert(data);
+          });
+
+    this.http.get('/readExcel', { responseType: 'json' })
+          .subscribe((data: any) => {
+           // alert(JSON.stringify(data));
+            this.users = data['excel_data'];
+           // alert(data);
+          });
+
  }
 }

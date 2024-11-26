@@ -704,17 +704,11 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Male</td>
-                            <td>He, Him, His</td>
+                        <tr *ngFor="let u of defaultwords;  let i =index">
+                            <td>{{i+1}}</td>
+                            <td>{{u.GenderName}}</td>
+                            <td>{{u.BaisedWord}}</td>
                         </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>Female</td>
-                            <td>She, Her</td>
-                        </tr>
-                        <!-- Add more rows as needed -->
                     </tbody>
                 </table>
             </div>
@@ -730,17 +724,11 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Male</td>
-                            <td>Guy, Man</td>
+                       <tr *ngFor="let u of users;  let i =index">
+                            <td>{{i+1}}</td>
+                            <td>{{u.Gender}}</td>
+                            <td>{{u.Words}}</td>
                         </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>Female</td>
-                            <td>Girl, Woman</td>
-                        </tr>
-                        <!-- Add more rows as needed -->
                     </tbody>
                 </table>
             </div>

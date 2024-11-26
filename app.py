@@ -339,12 +339,12 @@ def baisedworddelete():
   return {'result': result}
 
 
-'''@app.route('/readExcel', methods=["GET"])
+@app.route('/readExcel', methods=["GET"])
 def readExcel():
   df = pd.read_excel('./uploads/gender_biased_words.xlsx', sheet_name='Words', usecols="A:B")
   exceldata = [{"Gender": str(gender), "Words": word} for gender, word in zip(df['Gender'], df['Words'])]
   print(exceldata)
-  return {'excel_data': exceldata}'''
+  return {'excel_data': exceldata}
 
 
 if __name__ == '__main__':
