@@ -46,9 +46,9 @@
 
                                             <li>
                                               <p>Total Gender Biased Count</p>
-                                                  <ul *ngFor="let txt_gender_count of image_results_Gender_Count;">
-                                                    <li>Male:  {{ txt_gender_count[0] }}</li>
-                                                    <li>Female:  {{ txt_gender_count[1] }}</li>
+                                                  <ul> <!--*ngFor="let txt_gender_count of image_results_Gender_Count;"-->
+                                                    <li>Male:  {{ image_results_Gender_Count[0][1] }}</li>
+                                                    <li>Female:  {{ image_results_Gender_Count[1][1] }}</li>
                                                   </ul>
                                             </li>
 

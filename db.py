@@ -419,7 +419,7 @@ def textsummaryresult(transaction_id):
   total_Ethnicity_img_text = len(img_text_results_Ethnicity_Count)
   total_GeoLocation_text = len(text_results_GeoLocation_Count)
   total_GeoLocation_alt_text = len(alt_text_results_GeoLocation_Count)
-  total_GeoLocation_img_text = len(alt_text_results_GeoLocation_Count)
+  total_GeoLocation_img_text = len(img_text_results_GeoLocation_Count)
 
   print(f'{text_results_Gender_Count}\n{alt_text_results_Gender_Count}\n{img_text_results_Gender_Count}\n{overall_gender_count}')
 
@@ -445,19 +445,19 @@ def imageSummaryResults(transaction_id):
   image_results_Gender_Count = [('Male', query_results[0].get('Male', 0)), ('Female', query_results[0].get('Female', 0))]
 
   image_results_Confidence_Count = cursor.execute('''
-            SELECT DISTINCT(confidence), count(*) FROM Image_Txt_Results WHERE TRANSACTION_ID =  ?
+            SELECT DISTINCT(confidence), count(*) FROM Image_Txt_Results WHERE TRANSACTION_ID =  ? group by confidence
         ''', (transaction_id,)).fetchall()
   query_results = [dict(row) for row in image_results_Confidence_Count]
   image_results_Confidence_Count = [(item['confidence'], item['count(*)']) for item in query_results]
 
   image_results_Skin_Color_Count = cursor.execute('''
-              SELECT DISTINCT(skin_color), count(*) FROM Image_Txt_Results WHERE TRANSACTION_ID =  ?
+              SELECT DISTINCT(skin_color), count(*) FROM Image_Txt_Results WHERE TRANSACTION_ID =  ? group by skin_color
           ''', (transaction_id,)).fetchall()
   query_results = [dict(row) for row in image_results_Skin_Color_Count]
   image_results_Skin_Color_Count = [(item['skin_color'], item['count(*)']) for item in query_results]
 
   image_results_Race_Count = cursor.execute('''
-                SELECT DISTINCT(race), count(*) FROM Image_Txt_Results WHERE TRANSACTION_ID =  ?
+                SELECT DISTINCT(race), count(*) FROM Image_Txt_Results WHERE TRANSACTION_ID =  ? group by race
             ''', (transaction_id,)).fetchall()
   query_results = [dict(row) for row in image_results_Race_Count]
   image_results_Race_Count = [(item['race'], item['count(*)']) for item in query_results]
