@@ -191,6 +191,7 @@ else if (this.chartType === 'semi-donut') {
                   usePointStyle: true,
                   font: {
                     size: 12,
+                    weight: 'bold'
                   },
                 }
               },
