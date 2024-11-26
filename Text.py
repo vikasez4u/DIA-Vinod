@@ -31,7 +31,7 @@ def text_analysis_results(url, transaction_id, keyword_list):
         "Caribbean", "Haitian", "Jamaican", "Trinidadian", "Guyanese"
     ]
 
-    biased_sentences, biased_words = detect_biased_sentences(
+    txt_results = detect_biased_sentences(
         text_content, keyword_list, 'biased_text_results', transaction_id
     )
 
@@ -85,7 +85,7 @@ def text_analysis_results(url, transaction_id, keyword_list):
         )
 
     return {
-        'text_bias_results': biased_sentences,
+        'text_bias_results': txt_results,
         'alt_text_results': alt_results,
         'text_geo_ethnicities': text_geo_ethnicities,
         'alt_text_geo_ethnicities': alttext_geo_ethnicities,
