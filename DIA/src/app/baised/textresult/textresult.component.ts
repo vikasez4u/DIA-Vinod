@@ -61,6 +61,14 @@ selectOption(option: string){
   this.selectedTextOption = option;
   }
 
+selectOptionForALtText(option:string){
+  this.selectedAltOption = option
+  }
+
+selectOptionForImage(option:string){
+  this.selectedImgTxtOption = option
+  }
+
 ngOnInit(): void {
   // Calculate maxValue after the data has been assigned to text_results_tr_Gender_Count
   if (this.text_results_tr_Gender_Count && this.text_results_tr_Gender_Count.length > 0) {

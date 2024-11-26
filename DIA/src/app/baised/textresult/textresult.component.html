@@ -166,19 +166,19 @@
 
             </div>
             <div class="col-md-4 mb-3">
-                <div class="card" style=" margin-bottom: 20px;">
+                <div class="card" style=" margin-bottom: 2.2rem; height:5.5rem">
                     <div style="text-align:center;">
                         <h1 style="color:#981fae">{{ maxGenderPercentage }}%</h1>
                         <p style="color:#000000"> {{ maxGender }} Biased</p>
                     </div>
                 </div>
-                <div class="card" style=" margin-bottom: 20px;">
+                <div class="card" style=" margin-bottom: 2.2rem; height:5.5rem">
                     <div style="text-align:center;">
                         <h1 style="color:#981fae">{{ maxGenderPercentage }}%</h1>
                         <p style="color:#000000"> {{ maxGender }} Biased</p>
                     </div>
                 </div>
-                <div class="card" style=" margin-bottom: 20px;">
+                <div class="card" style="margin-bottom: 2.2rem; height:5.5rem">
                     <div style="text-align:center;">
                         <h1 style="color:#981fae">{{ maxGenderPercentage }}%</h1>
                         <p style="color:#000000"> {{ maxGender }} Biased</p>
@@ -253,7 +253,7 @@
                                 <div class="progress-container">
                                     <div class="progress-header">
                                         <h6>{{ item[0] | titlecase }}</h6>
-                                        <span>{{ item[1] }} Occurrences</span>
+                                        <span>{{ item[1] }}</span>
                                     </div>
                                     <div class="progress" style="height: 5px;">
                                         <div class="progress-bar"
@@ -277,43 +277,25 @@
 
 
                         <div *ngIf="selectedTextOption === 'ethnicity'">
-                          <div class="progress-wrapper">
-                            <div>
+                         <div class="progress-wrapper">
+                            <div *ngFor="let item of text_results_tr_Gender_Count">
                                 <div class="progress-container">
                                     <div class="progress-header">
-                                        <h6>Women</h6>
-                                        <span>43</span>
+                                        <h6>{{ item[0] | titlecase }}</h6>
+                                        <span>{{ item[1] }}</span>
                                     </div>
-                                    <div class="progress" style="height:5px">
-                                        <div class="progress-bar bg-success" role="progressbar"
-                                            style="width: 43%;height:5px; color: #981fae" aria-valuenow="43"
-                                            aria-valuemin="0" aria-valuemax="100"></div>
+                                    <div class="progress" style="height: 5px;">
+                                        <div class="progress-bar"
+                                            [style.background-color]="'#981fae'"
+                                            [ngStyle]="{ width: (item[1] / maxTextValue) * 100 + '%', height: '5px' }"
+                                            role="progressbar"
+                                            [attr.aria-valuenow]="item[1]"
+                                            aria-valuemin="0"
+                                            aria-valuemax="100">
+                                        </div>
                                     </div>
                                 </div>
                                 <br />
-                                <div class="progress-container">
-                                    <div class="progress-header">
-                                        <h6>He</h6>
-                                        <span>32</span>
-                                    </div>
-                                    <div class="progress" style="height:5px">
-                                        <div class="progress-bar bg-warning" role="progressbar"
-                                            style="width: 32%;height:5px; color:#83F52C" aria-valuenow="43"
-                                            aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </div>
-                                <br />
-                                <div class="progress-container">
-                                    <div class="progress-header">
-                                        <h6>Herself</h6>
-                                        <span>21</span>
-                                    </div>
-                                    <div class="progress" style="height:5px">
-                                        <div class="progress-bar bg-danger" role="progressbar"
-                                            style="width: 21%;height:5px; color: #FADD02" aria-valuenow="43"
-                                            aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </div>
                             </div>
                           </div>
                           <hr />
@@ -324,43 +306,25 @@
 
 
                         <div *ngIf="selectedTextOption === 'geoLocation'">
-                          <div class="progress-wrapper">
-                            <div>
+                       <div class="progress-wrapper">
+                            <div *ngFor="let item of text_results_tr_Gender_Count">
                                 <div class="progress-container">
                                     <div class="progress-header">
-                                        <h6>Women</h6>
-                                        <span>43</span>
+                                        <h6>{{ item[0] | titlecase }}</h6>
+                                        <span>{{ item[1] }}</span>
                                     </div>
-                                    <div class="progress" style="height:5px">
-                                        <div class="progress-bar bg-success" role="progressbar"
-                                            style="width: 43%;height:5px; color: #981fae" aria-valuenow="43"
-                                            aria-valuemin="0" aria-valuemax="100"></div>
+                                    <div class="progress" style="height: 5px;">
+                                        <div class="progress-bar"
+                                            [style.background-color]="'#981fae'"
+                                            [ngStyle]="{ width: (item[1] / maxTextValue) * 100 + '%', height: '5px' }"
+                                            role="progressbar"
+                                            [attr.aria-valuenow]="item[1]"
+                                            aria-valuemin="0"
+                                            aria-valuemax="100">
+                                        </div>
                                     </div>
                                 </div>
                                 <br />
-                                <div class="progress-container">
-                                    <div class="progress-header">
-                                        <h6>He</h6>
-                                        <span>32</span>
-                                    </div>
-                                    <div class="progress" style="height:5px">
-                                        <div class="progress-bar bg-warning" role="progressbar"
-                                            style="width: 32%;height:5px; color:#83F52C" aria-valuenow="43"
-                                            aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </div>
-                                <br />
-                                <div class="progress-container">
-                                    <div class="progress-header">
-                                        <h6>Herself</h6>
-                                        <span>21</span>
-                                    </div>
-                                    <div class="progress" style="height:5px">
-                                        <div class="progress-bar bg-danger" role="progressbar"
-                                            style="width: 21%;height:5px; color: #FADD02" aria-valuenow="43"
-                                            aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </div>
                             </div>
                           </div>
                           <hr />
@@ -408,16 +372,16 @@
 
                         <div class="btn-group btn-group-toggle" data-toggle="buttons">
 
-                            <label class="btn rounded-pill btn-light" [class.active]="selectedAltOption === 'textContent'">
+                            <label class="btn rounded-pill btn-light" [class.active]="selectedAltOption === 'textContent'" (click)="selectOptionForALtText('textContent')">
                                 <input type="radio" name="AltOptions" id="AltContent" autocomplete="off" [(ngModel)]="selectedAltOption" value="textContent"> Text Content
                             </label>
 
 
-                            <label class="btn rounded-pill btn-light" [class.active]="selectedAltOption === 'ethnicity'">
+                            <label class="btn rounded-pill btn-light" [class.active]="selectedAltOption === 'ethnicity'" (click)="selectOptionForALtText('ethnicity')">
                                 <input type="radio" name="AltOptions" id="AltEthnicity" autocomplete="off" [(ngModel)]="selectedAltOption" value="ethnicity"> Ethnicity
                             </label>
 
-                            <label class="btn rounded-pill btn-light" [class.active]="selectedAltOption === 'geoLocation'">
+                            <label class="btn rounded-pill btn-light" [class.active]="selectedAltOption === 'geoLocation'" (click)="selectOptionForALtText('geoLocation')">
                                 <input type="radio" name="AltOptions" id="AltGeo" autocomplete="off" [(ngModel)]="selectedAltOption" value="geoLocation"> Geo-location
                             </label>
 
@@ -455,43 +419,25 @@
 
 
                         <div *ngIf="selectedAltOption === 'ethnicity'">
-                          <div class="progress-wrapper">
-                            <div>
+                        <div class="progress-wrapper">
+                            <div *ngFor="let item of alt_text_results_tr_Gender_Count">
                                 <div class="progress-container">
                                     <div class="progress-header">
-                                        <h6>Women</h6>
-                                        <span>43</span>
+                                        <h6>{{ item[0] | titlecase }}</h6>
+                                        <span>{{ item[1] }} Occurrences</span>
                                     </div>
-                                    <div class="progress" style="height:5px">
-                                        <div class="progress-bar bg-success" role="progressbar"
-                                            style="width: 43%;height:5px; color: #981fae" aria-valuenow="43"
-                                            aria-valuemin="0" aria-valuemax="100"></div>
+                                    <div class="progress" style="height: 5px;">
+                                        <div class="progress-bar"
+                                            [style.background-color]="'#981fae'"
+                                            [ngStyle]="{ width: (item[1] / maxAltValue) * 100 + '%', height: '5px' }"
+                                            role="progressbar"
+                                            [attr.aria-valuenow]="item[1]"
+                                            aria-valuemin="0"
+                                            aria-valuemax="100">
+                                        </div>
                                     </div>
                                 </div>
                                 <br />
-                                <div class="progress-container">
-                                    <div class="progress-header">
-                                        <h6>He</h6>
-                                        <span>32</span>
-                                    </div>
-                                    <div class="progress" style="height:5px">
-                                        <div class="progress-bar bg-warning" role="progressbar"
-                                            style="width: 32%;height:5px; color:#83F52C" aria-valuenow="43"
-                                            aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </div>
-                                <br />
-                                <div class="progress-container">
-                                    <div class="progress-header">
-                                        <h6>Herself</h6>
-                                        <span>21</span>
-                                    </div>
-                                    <div class="progress" style="height:5px">
-                                        <div class="progress-bar bg-danger" role="progressbar"
-                                            style="width: 21%;height:5px; color: #FADD02" aria-valuenow="43"
-                                            aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </div>
                             </div>
                           </div>
                           <hr />
@@ -503,42 +449,24 @@
 
                         <div *ngIf="selectedAltOption === 'geoLocation'">
                           <div class="progress-wrapper">
-                            <div>
+                            <div *ngFor="let item of alt_text_results_tr_Gender_Count">
                                 <div class="progress-container">
                                     <div class="progress-header">
-                                        <h6>Women</h6>
-                                        <span>43</span>
+                                        <h6>{{ item[0] | titlecase }}</h6>
+                                        <span>{{ item[1] }} Occurrences</span>
                                     </div>
-                                    <div class="progress" style="height:5px">
-                                        <div class="progress-bar bg-success" role="progressbar"
-                                            style="width: 43%;height:5px; color: #981fae" aria-valuenow="43"
-                                            aria-valuemin="0" aria-valuemax="100"></div>
+                                    <div class="progress" style="height: 5px;">
+                                        <div class="progress-bar"
+                                            [style.background-color]="'#981fae'"
+                                            [ngStyle]="{ width: (item[1] / maxAltValue) * 100 + '%', height: '5px' }"
+                                            role="progressbar"
+                                            [attr.aria-valuenow]="item[1]"
+                                            aria-valuemin="0"
+                                            aria-valuemax="100">
+                                        </div>
                                     </div>
                                 </div>
                                 <br />
-                                <div class="progress-container">
-                                    <div class="progress-header">
-                                        <h6>He</h6>
-                                        <span>32</span>
-                                    </div>
-                                    <div class="progress" style="height:5px">
-                                        <div class="progress-bar bg-warning" role="progressbar"
-                                            style="width: 32%;height:5px; color:#83F52C" aria-valuenow="43"
-                                            aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </div>
-                                <br />
-                                <div class="progress-container">
-                                    <div class="progress-header">
-                                        <h6>Herself</h6>
-                                        <span>21</span>
-                                    </div>
-                                    <div class="progress" style="height:5px">
-                                        <div class="progress-bar bg-danger" role="progressbar"
-                                            style="width: 21%;height:5px; color: #FADD02" aria-valuenow="43"
-                                            aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </div>
                             </div>
                           </div>
                           <hr />
@@ -588,16 +516,16 @@
 
                         <div class="btn-group btn-group-toggle" data-toggle="buttons">
 
-                            <label class="btn rounded-pill btn-light" [class.active]="selectedImgTxtOption === 'textContent'">
+                            <label class="btn rounded-pill btn-light" [class.active]="selectedImgTxtOption === 'textContent'" (click)="selectOptionForImage('textContent')">
                                 <input type="radio" name="ImgTxtOptions" id="ImgTxtContent" autocomplete="off" [(ngModel)]="selectedImgTxtOption" value="textContent"> Text Content
                             </label>
 
 
-                            <label class="btn rounded-pill btn-light" [class.active]="selectedImgTxtOption === 'ethnicity'">
+                            <label class="btn rounded-pill btn-light" [class.active]="selectedImgTxtOption === 'ethnicity'" (click)="selectOptionForImage('ethnicity')">
                                 <input type="radio" name="ImgTxtOptions" id="ImgTxtEthnicity" autocomplete="off" [(ngModel)]="selectedImgTxtOption" value="ethnicity"> Ethnicity
                             </label>
 
-                            <label class="btn rounded-pill btn-light" [class.active]="selectedImgTxtOption === 'geoLocation'">
+                            <label class="btn rounded-pill btn-light" [class.active]="selectedImgTxtOption === 'geoLocation'" (click)="selectOptionForImage('geoLocation')">
                                 <input type="radio" name="ImgTxtOptions" id="ImgTxtGeo" autocomplete="off" [(ngModel)]="selectedImgTxtOption" value="geoLocation"> Geo-location
                             </label>
 
@@ -634,42 +562,24 @@
                         </div>
                         <div *ngIf="selectedImgTxtOption === 'ethnicity'">
                           <div class="progress-wrapper">
-                            <div>
+                            <div *ngFor="let item of img_text_results_tr_Gender_Count">
                                 <div class="progress-container">
                                     <div class="progress-header">
-                                        <h6>Women</h6>
-                                        <span>43</span>
+                                        <h6>{{ item[0] | titlecase }}</h6>
+                                        <span>{{ item[1] }} Occurrences</span>
                                     </div>
-                                    <div class="progress" style="height:5px">
-                                        <div class="progress-bar bg-success" role="progressbar"
-                                            style="width: 43%;height:5px; color: #981fae" aria-valuenow="43"
-                                            aria-valuemin="0" aria-valuemax="100"></div>
+                                    <div class="progress" style="height: 5px;">
+                                        <div class="progress-bar"
+                                            [style.background-color]="'#981fae'"
+                                            [ngStyle]="{ width: (item[1] / maxImgTxtValue) * 100 + '%', height: '5px' }"
+                                            role="progressbar"
+                                            [attr.aria-valuenow]="item[1]"
+                                            aria-valuemin="0"
+                                            aria-valuemax="100">
+                                        </div>
                                     </div>
                                 </div>
                                 <br />
-                                <div class="progress-container">
-                                    <div class="progress-header">
-                                        <h6>He</h6>
-                                        <span>32</span>
-                                    </div>
-                                    <div class="progress" style="height:5px">
-                                        <div class="progress-bar bg-warning" role="progressbar"
-                                            style="width: 32%;height:5px; color:#83F52C" aria-valuenow="43"
-                                            aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </div>
-                                <br />
-                                <div class="progress-container">
-                                    <div class="progress-header">
-                                        <h6>Herself</h6>
-                                        <span>21</span>
-                                    </div>
-                                    <div class="progress" style="height:5px">
-                                        <div class="progress-bar bg-danger" role="progressbar"
-                                            style="width: 21%;height:5px; color: #FADD02" aria-valuenow="43"
-                                            aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </div>
                             </div>
                           </div>
                           <hr />
@@ -678,43 +588,25 @@
                           </div>
                         </div>
                         <div *ngIf="selectedImgTxtOption === 'geoLocation'">
-                          <div class="progress-wrapper">
-                            <div>
+                           <div class="progress-wrapper">
+                            <div *ngFor="let item of img_text_results_tr_Gender_Count">
                                 <div class="progress-container">
                                     <div class="progress-header">
-                                        <h6>Women</h6>
-                                        <span>43</span>
+                                        <h6>{{ item[0] | titlecase }}</h6>
+                                        <span>{{ item[1] }} Occurrences</span>
                                     </div>
-                                    <div class="progress" style="height:5px">
-                                        <div class="progress-bar bg-success" role="progressbar"
-                                            style="width: 43%;height:5px; color: #981fae" aria-valuenow="43"
-                                            aria-valuemin="0" aria-valuemax="100"></div>
+                                    <div class="progress" style="height: 5px;">
+                                        <div class="progress-bar"
+                                            [style.background-color]="'#981fae'"
+                                            [ngStyle]="{ width: (item[1] / maxImgTxtValue) * 100 + '%', height: '5px' }"
+                                            role="progressbar"
+                                            [attr.aria-valuenow]="item[1]"
+                                            aria-valuemin="0"
+                                            aria-valuemax="100">
+                                        </div>
                                     </div>
                                 </div>
                                 <br />
-                                <div class="progress-container">
-                                    <div class="progress-header">
-                                        <h6>He</h6>
-                                        <span>32</span>
-                                    </div>
-                                    <div class="progress" style="height:5px">
-                                        <div class="progress-bar bg-warning" role="progressbar"
-                                            style="width: 32%;height:5px; color:#83F52C" aria-valuenow="43"
-                                            aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </div>
-                                <br />
-                                <div class="progress-container">
-                                    <div class="progress-header">
-                                        <h6>Herself</h6>
-                                        <span>21</span>
-                                    </div>
-                                    <div class="progress" style="height:5px">
-                                        <div class="progress-bar bg-danger" role="progressbar"
-                                            style="width: 21%;height:5px; color: #FADD02" aria-valuenow="43"
-                                            aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </div>
                             </div>
                           </div>
                           <hr />
