@@ -214,10 +214,24 @@
 
                             <div class="horizontal-line"></div>
                             <div>
+                              <div *ngIf="selectedTextOption === 'textContent'">
                                 <p class="card-text" style="color:#981fae; font-weight:bold;font-size:2rem">{{ total_biased_text }}
                                     <label style="color:grey; font-weight:lighter;font-size:1rem">Total Detected
                                         Words</label>
                                 </p>
+                              </div>
+                               <div *ngIf="selectedTextOption === 'ethnicity'">
+                                <p class="card-text" style="color:#981fae; font-weight:bold;font-size:2rem">{{ total_Ethnicity_text }}
+                                    <label style="color:grey; font-weight:lighter;font-size:1rem">Total Detected
+                                        Words</label>
+                                </p>
+                              </div>
+                               <div *ngIf="selectedTextOption === 'geoLocation'">
+                                <p class="card-text" style="color:#981fae; font-weight:bold;font-size:2rem">{{ total_GeoLocation_text }}
+                                    <label style="color:grey; font-weight:lighter;font-size:1rem">Total Detected
+                                        Words</label>
+                                </p>
+                              </div>
                             </div>
 
 
@@ -356,10 +370,24 @@
 
                             <div class="horizontal-line"></div>
                             <div>
+                              <div *ngIf="selectedAltOption === 'textContent'">
                                 <p class="card-text" style="color:#981fae; font-weight:bold;font-size:2rem">{{ total_biased_alt_text }}
                                     <label style="color:grey; font-weight:lighter;font-size:1rem">Total Detected
                                         Words</label>
                                 </p>
+                                </div>
+                                <div *ngIf="selectedAltOption === 'ethnicity'">
+                                <p class="card-text" style="color:#981fae; font-weight:bold;font-size:2rem">{{ total_Ethnicity_alt_text }}
+                                    <label style="color:grey; font-weight:lighter;font-size:1rem">Total Detected
+                                        Words</label>
+                                </p>
+                                </div>
+                                <div *ngIf="selectedAltOption === 'geoLocation'">
+                                <p class="card-text" style="color:#981fae; font-weight:bold;font-size:2rem">{{ total_GeoLocation_alt_text }}
+                                    <label style="color:grey; font-weight:lighter;font-size:1rem">Total Detected
+                                        Words</label>
+                                </p>
+                                </div>
                             </div>
 
 
@@ -500,10 +528,24 @@
 
                             <div class="horizontal-line"></div>
                             <div>
+                              <div *ngIf = "selectedImgTxtOption === 'textContent'">
                                 <p class="card-text" style="color:#981fae; font-weight:bold;font-size:2rem">{{ total_biased_img_results }}
                                     <label style="color:grey; font-weight:lighter;font-size:1rem">Total Detected
                                         Words</label>
                                 </p>
+                                </div>
+                               <div *ngIf = "selectedImgTxtOption === 'ethnicity'">
+                                <p class="card-text" style="color:#981fae; font-weight:bold;font-size:2rem">{{ total_Ethnicity_img_text }}
+                                    <label style="color:grey; font-weight:lighter;font-size:1rem">Total Detected
+                                        Words</label>
+                                </p>
+                                </div>
+                               <div *ngIf = "selectedImgTxtOption === 'geoLocation'">
+                                <p class="card-text" style="color:#981fae; font-weight:bold;font-size:2rem">{{ total_GeoLocation_img_text }}
+                                    <label style="color:grey; font-weight:lighter;font-size:1rem">Total Detected
+                                        Words</label>
+                                </p>
+                                </div>
                             </div>
 
 

@@ -100,7 +100,6 @@ constructor(private router: Router, private activatedRoute: ActivatedRoute){
 }
 
 selectOption(option: string){
-  console.log(this.selectedTextOption)
   this.selectedTextOption = option;
   }
 
