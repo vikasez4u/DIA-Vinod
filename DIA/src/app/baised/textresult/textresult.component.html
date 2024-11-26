@@ -159,22 +159,36 @@
             <div class="col-md-4 mb-3">
                 <div class="card">
                   <div class="card-body chart-legend-container">
+                    <h5 style="color:#981fae">Overall Gender Analysis</h5>
                     <app-barchart [data]="overall_gender_count" [chartType]="'radial-bar'"></app-barchart>
                   </div>
                 </div>
+
             </div>
             <div class="col-md-4 mb-3">
-                <div class="card">
-                    <div class="Text-align:center">
-                        <h1>{{ maxGenderPercentage }}%</h1>
-                        <p> {{ maxGender }} Biased</p>
+                <div class="card" style=" margin-bottom: 20px;">
+                    <div style="text-align:center;">
+                        <h1 style="color:#981fae">{{ maxGenderPercentage }}%</h1>
+                        <p style="color:#000000"> {{ maxGender }} Biased</p>
                     </div>
-
+                </div>
+                <div class="card" style=" margin-bottom: 20px;">
+                    <div style="text-align:center;">
+                        <h1 style="color:#981fae">{{ maxGenderPercentage }}%</h1>
+                        <p style="color:#000000"> {{ maxGender }} Biased</p>
+                    </div>
+                </div>
+                <div class="card" style=" margin-bottom: 20px;">
+                    <div style="text-align:center;">
+                        <h1 style="color:#981fae">{{ maxGenderPercentage }}%</h1>
+                        <p style="color:#000000"> {{ maxGender }} Biased</p>
+                    </div>
                 </div>
             </div>
             <div class="col-md-4 mb-3">
                 <div class="card">
                   <div class="card-body">
+                    <h5 style="color:#981fae">Overall Text Model Results</h5>
                     <app-barchart [data]="textmodel_counts" [chartType]="'semi-donut'"></app-barchart>
                   </div>
                 </div>
@@ -185,11 +199,11 @@
             <div class="col-md-4 mb-3">
                 <div class="card">
                     <!-- <div class="card"> -->
-                    <div class="card-header">
+                    <div class="card-header" style="height:9rem">
 
                         <div class="card-body">
                             <div>
-                                <p class="card-title" style="color:#981fae; font-size:medium; font-weight: bold;">Text
+                                <p class="card-title" style="color:#981fae; font-size:medium; font-weight: bold; font-size:1.5rem">Text
                                     Results
                                     <img src="magnify1.png" alt="magnifying glass"
                                     style="height:2.5rem;width:2.5rem; float: right;"></p>
@@ -200,8 +214,8 @@
 
                             <div class="horizontal-line"></div>
                             <div>
-                                <p class="card-text" style="color:#981fae; font-weight:bold;font-size:1.2rem">{{ total_biased_text }}
-                                    <label style="color:grey; font-weight:lighter;font-size:0.6rem">Total Detected
+                                <p class="card-text" style="color:#981fae; font-weight:bold;font-size:2rem">{{ total_biased_text }}
+                                    <label style="color:grey; font-weight:lighter;font-size:1rem">Total Detected
                                         Words</label>
                                 </p>
                             </div>
@@ -216,16 +230,16 @@
 
                         <div class="btn-group btn-group-toggle" data-toggle="buttons">
 
-                            <label class="btn rounded-pill btn-light" [class.active]="selectedTextOption === 'textContent'">
+                            <label class="btn rounded-pill btn-light" [class.active]="selectedTextOption === 'textContent'" (click)="selectOption('textContent')">
                                 <input type="radio" name="TextContentOptions" id="TextContent" autocomplete="off" [(ngModel)]="selectedTextOption" value="textContent"> Text Content
                             </label>
 
 
-                            <label class="btn rounded-pill btn-light" [class.active]="selectedTextOption === 'ethnicity'">
+                            <label class="btn rounded-pill btn-light" [class.active]="selectedTextOption === 'ethnicity'" (click)="selectOption('ethnicity')">
                                 <input type="radio" name="TextContentOptions" id="TextEthnicity" autocomplete="off" [(ngModel)]="selectedTextOption" value="ethnicity"> Ethnicity
                             </label>
 
-                            <label class="btn rounded-pill btn-light" [class.active]="selectedTextOption === 'geoLocation'">
+                            <label class="btn rounded-pill btn-light" [class.active]="selectedTextOption === 'geoLocation'" (click)="selectOption('geoLocation')">
                                 <input type="radio" name="TextContentOptions" id="TextGeo" autocomplete="off" [(ngModel)]="selectedTextOption" value="geoLocation"> Geo-location
                             </label>
 
@@ -362,11 +376,11 @@
             <div class="col-md-4 mb-3">
                 <div class="card">
                     <!-- <div class="card"> -->
-                    <div class="card-header">
+                    <div class="card-header" style="height:9rem">
 
                         <div class="card-body">
                             <div>
-                                <p class="card-title" style="color:#981fae; font-size:medium; font-weight: bold;">AltText Results
+                                <p class="card-title" style="color:#981fae; font-size:medium; font-weight: bold;font-size:1.5rem">AltText Results
 
                                     <img src="gallery1.png" alt="gallery view"
                                     style="height:2.5rem;width:3rem; float: right;"></p>
@@ -378,8 +392,8 @@
 
                             <div class="horizontal-line"></div>
                             <div>
-                                <p class="card-text" style="color:#981fae; font-weight:bold;font-size:1.2rem">{{ total_biased_alt_text }}
-                                    <label style="color:grey; font-weight:lighter;font-size:0.6rem">Total Detected
+                                <p class="card-text" style="color:#981fae; font-weight:bold;font-size:2rem">{{ total_biased_alt_text }}
+                                    <label style="color:grey; font-weight:lighter;font-size:1rem">Total Detected
                                         Words</label>
                                 </p>
                             </div>
@@ -540,12 +554,12 @@
             <div class="col-md-4 mb-3">
                 <div class="card">
                     <!-- <div class="card"> -->
-                    <div class="card-header">
+                    <div class="card-header" style="height:9rem">
 
                         <div class="card-body">
                             <div>
 
-                                <p class="card-title" style="color:#981fae; font-size:medium; font-weight: bold;">Image Text Results
+                                <p class="card-title" style="color:#981fae; font-size:medium; font-weight: bold;font-size:1.5rem">Image Text Results
 
                                     <img src="text1.png" alt="font"
                                     style="height:2.5rem;width:2.5rem; float: right;"></p>
@@ -558,8 +572,8 @@
 
                             <div class="horizontal-line"></div>
                             <div>
-                                <p class="card-text" style="color:#981fae; font-weight:bold;font-size:1.2rem">{{ total_biased_img_results }}
-                                    <label style="color:grey; font-weight:lighter;font-size:0.6rem">Total Detected
+                                <p class="card-text" style="color:#981fae; font-weight:bold;font-size:2rem">{{ total_biased_img_results }}
+                                    <label style="color:grey; font-weight:lighter;font-size:1rem">Total Detected
                                         Words</label>
                                 </p>
                             </div>

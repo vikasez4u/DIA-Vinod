@@ -56,6 +56,11 @@ constructor(private router: Router, private activatedRoute: ActivatedRoute){
   }
 }
 
+selectOption(option: string){
+  console.log(this.selectedTextOption)
+  this.selectedTextOption = option;
+  }
+
 ngOnInit(): void {
   // Calculate maxValue after the data has been assigned to text_results_tr_Gender_Count
   if (this.text_results_tr_Gender_Count && this.text_results_tr_Gender_Count.length > 0) {
@@ -82,6 +87,9 @@ ngOnInit(): void {
 
     // Calculate the percentage of the maximum biased count
     this.maxGenderPercentage = Math.round((this.maxGenderCount / totalCount) * 100);
+
+
+
   }
  }
 }
