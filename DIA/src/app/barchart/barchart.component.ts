@@ -34,9 +34,6 @@ generateChart() {
     Count.push(key[1]);
   }
 
-  if(Count.length == 1){
-    const total = Count[0];
-  }
   const total = Count.reduce((sum: number, count:number) => sum + count, 0); // Calculate total sum of Count
 
   const percentages = Count.map((count: number) => Math.round((count / total) * 100)); // Calculate percentage for each count
@@ -70,7 +67,7 @@ generateChart() {
       },
       options: {
         responsive: true,
-        cutout: '80%',
+        cutout: '70%',
         plugins :{
           legend: {
             position: 'right',
