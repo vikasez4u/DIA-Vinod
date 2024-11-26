@@ -1,7 +1,7 @@
 <!--FAQ Screen worked-->
 <div>
 <div class="row containerH">
-  <div class="col-md-6">
+ <div class="col-md-6">
 <img src="faqPage.png" alt="FAQ">
     </div>
 
@@ -12,60 +12,179 @@
   <div class="accordion-item">
     <h2 class="accordion-header" id="headingOne">
       <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-        Accordion Item #1
+        General Platform FAQs
       </button>
     </h2>
     <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
       <div class="accordion-body">
-        <strong>This is the first item's accordion body.</strong> It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+        <p> What is the purpose of our intelligent content auditing platform?
+          <br>The platform is designed to revolutionize digital inclusivity by
+          evaluating web pages across diverse dimensions, including LGBTIQ+,
+          ethnicity, race, gender, age, ability, economic status, education,
+          location, language, nationality, and mental health.</p>
+
+          <p>Which dimensions are currently supported for analysis?
+          <br>The platform currently supports analysis for gender, ethnicity, and
+          geography, with plans to expand into additional inclusivity dimensions
+          in the future.</p>
+
+          <p>How do I provide content for analysis?
+          <br>Users can simply input the URL of the webpage they wish to scan, and
+          the platform will analyze the content for potential biases and
+          inclusivity issues.<p>
+
+          <p>How does the platform evaluate inclusivity in digital content?
+          <br>The platform analyzes text, alt text,image Text under Text Category
+          and images using a combination of:
+          <br>
+        Keyword-based detection for gender analysis (which users can customize).
+          SpaCy for ethnicity-related terms and entities.
+          Geographical entity extraction to evaluate regional inclusivity in the content.
+          Pretrained Model to assess the Image</p>
+
+          <p>How is the analysis conducted for images?
+          <br>Image content for representational biases, leveraging metadata, and
+          descriptive attributes where applicable, powered by the Pretrained
+          OpenAICV2 model for gender and ethnicity detection.</p>
+
+
+          <p>Which image formats are supported for analysis?
+          <br>The platform supports analysis of images in JPG, JPEG, PNG, GIF, and
+          SVG formats, ensuring comprehensive compatibility.</p>
+
+          <p>Can I analyze both text and image content simultaneously?
+          <br>Yes, the platform is designed to analyze both textual and visual
+          content, including alt text and metadata associated with images.</p>
+
       </div>
     </div>
   </div>
   <div class="accordion-item">
     <h2 class="accordion-header" id="headingTwo">
       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-        Accordion Item #2
+        Feature-Specific FAQs
       </button>
     </h2>
     <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
       <div class="accordion-body">
-        <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+        <p>How do I customize assessment criteria?
+        <br>Users can configure keyword sets for gender-related analysis and
+        adjust parameters for other dimensions to align with their specific
+        inclusivity goals.</p>
+
+        <p>What kind of reports does the platform generate?
+        <br>The platform generates detailed reports that include:
+        Analysis of inclusivity gaps in text and images.
+        A breakdown of results for each dimension.</p>
+
+        <p>Can I provide custom keywords for image and text analysis?
+        <br>Yes, the platform allows users to add custom keywords for text and alt
+        text analysis, making the auditing process adaptable to unique
+        requirements.
+        <br>However, for image analysis, custom keywords are not supported. The
+        platform uses a pretrained OpenAICV2 model to evaluate gender and
+        ethnicity in images, ensuring that the analysis is based on this
+        advanced model's capabilities</p>
+
       </div>
     </div>
   </div>
   <div class="accordion-item">
     <h2 class="accordion-header" id="headingThree">
       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-        Accordion Item #3
+        Technical and Security FAQs
       </button>
     </h2>
     <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
       <div class="accordion-body">
-        <strong>This is the third item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+        <p>How secure is my data during the analysis?
+        <br>Your data is processed securely and stored temporarily in the database
+        to track history and support future enhancements. It is handled in
+        compliance with strict data privacy standards and used only for
+        analysis purposes.</p>
+
+        <p>What are the supported file formats for uploads?
+        <br>For keyword search, we support Excel (XLSX) and CSV file formats for
+        textual data. Images are not uploaded directly; instead, the platform
+        analyzes images from the provided webpage URL.
+        </p>
+        <p>Does the platform support bulk uploads?
+        <br>Currently, the platform does not support bulk uploads for text or
+        image content. Each URL must be analyzed individually.</p>
+
+        <p>How do I interpret the results provided by the platform?
+        <br>The platform provides intuitive reports with clear explanations and
+        metrics, including a split-up of the count of keywords detected at the
+        Text, Alt Text, Image Alt Text, and Image levels. These metrics help
+        you understand the inclusivity of your digital content across these
+        categories.</p>
+
       </div>
     </div>
   </div>
   <div class="accordion-item">
     <h2 class="accordion-header" id="headingFour">
       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseTwo">
-        Accordion Item #4
+        Implementation and Future Scope FAQs
       </button>
     </h2>
     <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionExample">
       <div class="accordion-body">
-        <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+        <p>Are there plans to expand the analysis to additional dimensions?
+        <br>Yes, we plan to add dimensions such as mental health, age, ability,
+        economic status, and more in future updates.
+        </p>
+        <p>Can this platform be tailored to industry-specific needs?
+        <br>Absolutely. Its customizable features make it suitable for various
+        industries, including education, media, and corporate sectors.
+        </p>
+        <p>Is the platform suitable for non-English content?
+        <br>Currently, the platform supports English content.
+        </p>
       </div>
     </div>
   </div>
   <div class="accordion-item">
     <h2 class="accordion-header" id="headingFive">
       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseThree">
-        Accordion Item #5
+        Support FAQs
       </button>
     </h2>
     <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#accordionExample">
       <div class="accordion-body">
-        <strong>This is the third item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+        <p>What should I do if I encounter an issue during analysis?
+        <br>Refer to the troubleshooting guide in the Help Center or contact our
+        support team via the Contact Us section.</p>
+        <br>
+        <p>How do I provide feedback or suggest improvements?
+        <br>Use the Feedback section on the platform or email us at feedback&#64;example.com.
+        </p>
+      </div>
+    </div>
+  </div>
+    <div class="accordion-item">
+    <h2 class="accordion-header" id="headingSix">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseThree">
+        Impact and Application FAQs
+      </button>
+    </h2>
+    <div id="collapseSix" class="accordion-collapse collapse" aria-labelledby="headingSix" data-bs-parent="#accordionExample">
+      <div class="accordion-body">
+        <p>How does the platform help promote digital inclusivity?
+        <br>By identifying biases and gaps in digital content, the platform
+        empowers organizations to create equitable and representative online
+        experiences.</p>
+
+        <p>What insights can organizations gain from the analysis?
+        <br>The platform identifies inclusivity gaps, offers data-driven insights
+        into areas for improvement, and enables organizations to monitor their
+        progress toward achieving their inclusivity goals.</p>
+
+        <p>How can content creators leverage this platform?
+        <br>Content creators can use insights to adjust their work, ensuring their
+        content reflects diversity and fosters inclusivity in the digital
+        space.</p>
+
       </div>
     </div>
   </div>

@@ -1,6 +1,7 @@
 import { Component, OnInit, Injectable  } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient } from "@angular/common/http";
+import {NgbModal, ModalDismissReasons}  from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-textresult',
@@ -68,12 +69,15 @@ maxGeo: string = '';  // For the country associated with the maximum count
 maxGeoPercentage: number = 0;  // For the percentage of the maximum biased count
 
 selectedAnalysis: string = 'textContent';
-analysisTitle : string = 'Gender Analysis'
+analysisTitle : string = 'Overall Gender Analysis'
 
- users: any[] = [];
- defaultwords: any[] = [];
+users: any[] = [];
+defaultWords: any[] = [];
+closeResult = '';
 
-constructor(private router: Router, private activatedRoute: ActivatedRoute, private http: HttpClient){
+resultSection: string = '';
+
+constructor(private router: Router, private activatedRoute: ActivatedRoute, private http: HttpClient, private modalService: NgbModal){
   let state = this.router.getCurrentNavigation()!.extras.state;
 
   if (state) {
@@ -121,13 +125,13 @@ selectOptionForImage(option:string){
  selectAnalysis(type: string): void {
     this.selectedAnalysis = type;
     if(this.selectedAnalysis == "textContent"){
-        this.analysisTitle = 'Gender Analysis'
+        this.analysisTitle = 'Overall Gender Analysis'
       }
     else if(this.selectedAnalysis == "ethnicity"){
-        this.analysisTitle = 'Ethnicity Analysis'
+        this.analysisTitle = 'Overall Ethnicity Analysis'
       }
     else if(this.selectedAnalysis == "geoLocation"){
-       this.analysisTitle = 'GeoLocation Analysis'
+       this.analysisTitle = 'Overall GeoLocation Analysis'
       }
   }
 
@@ -216,7 +220,7 @@ ngOnInit(): void {
   this.http.get('/baisedwordresults', { responseType: 'json' })
           .subscribe((data: any) => {
            // alert(JSON.stringify(data));
-            this.defaultwords = data['baisedword_results'];
+            this.defaultWords = data['baisedword_results'];
            // alert(data);
           });
 
@@ -228,4 +232,26 @@ ngOnInit(): void {
           });
 
  }
+
+ activeTab(content:any,sectionName:string) {
+ this.resultSection=sectionName;
+this.modalService.open(content,
+   {ariaLabelledBy: 'modal-basic-title'}).result.then((result)=> {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult =
+         `Dismissed ${this.getDismissReason(reason)}`;
+    });
+}
+
+private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
+  }
+
 }

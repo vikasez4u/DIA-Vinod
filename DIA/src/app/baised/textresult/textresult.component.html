@@ -239,11 +239,11 @@
                                     Results
                                     <img src="magnify1.png" alt="magnifying glass"
                                     style="height:2.5rem;width:2.5rem; float: right;"></p>
-                                <a href="#" class="float-right"
-                                    style="margin-bottom:2rem;text-decoration: underline; margin-right:1.7rem; "> View Results
+                                <a class="float-right"
+                                    style="margin-bottom:2rem;text-decoration: underline; margin-right:1.7rem; ">
+                                  <span (click)="activeTab(content,'Text Results')"> View Results </span>
                                 </a>
                             </div>
-
                             <div class="horizontal-line"></div>
                             <div>
                               <div *ngIf="selectedTextOption === 'textContent'">
@@ -394,8 +394,9 @@
 
                                     <img src="gallery1.png" alt="gallery view"
                                     style="height:2.5rem;width:3rem; float: right;"></p>
-                                <a href="#" class="float-right"
-                                    style="margin-bottom:2rem;text-decoration: underline; margin-right:2rem; "> View Results
+                                <a class="float-right"
+                                    style="margin-bottom:2rem;text-decoration: underline; margin-right:2rem; ">
+                                  <span (click)="activeTab(content,'Alt Text Results')"> View Results </span>
                                 </a>
 
                             </div>
@@ -551,8 +552,9 @@
 
                                     <img src="text1.png" alt="font"
                                     style="height:2.5rem;width:2.5rem; float: right;"></p>
-                                <a href="#" class="float-right"
-                                    style="margin-bottom:2rem;text-decoration: underline; margin-right:2rem; "> View Results
+                                <a class="float-right"
+                                    style="margin-bottom:2rem;text-decoration: underline; margin-right:2rem; ">
+                                  <span (click)="activeTab(content,'Image Text Results')"> View Results </span>
                                 </a>
 
 
@@ -704,7 +706,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let u of defaultwords;  let i =index">
+                        <tr *ngFor="let u of defaultWords;  let i =index">
                             <td>{{i+1}}</td>
                             <td>{{u.GenderName}}</td>
                             <td>{{u.BaisedWord}}</td>
@@ -734,3 +736,62 @@
             </div>
         </div>
     </div>
+
+<ng-template #content let-modal>
+                                <div class="modal-header">
+                                    <h4 class="modal-title"
+                                        id="modal-basic-title">
+                                      <span >{{resultSection}} </span>
+                                    </h4>
+                                    <button type="button" class="close"
+                                            aria-label="Close" (click)=
+                                            "modal.dismiss('Cross click')">
+
+                                        <span aria-hidden="true">
+                                            ×
+                                        </span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form>
+                                        <div class="form-group" *ngIf="resultSection === 'Text Results'">
+                                            <div class="result" *ngIf="biased_txt_results.length>0">
+                                              <ul>
+                                                  <li *ngFor="let result of biased_txt_results;">
+                                                        {{ result[0] }}: <span [innerHTML]="result[1]"></span>
+                                                  </li>
+                                              </ul>
+                                            </div>
+                                            <div class="result" *ngIf="biased_txt_results.length==0">
+                                                <p>No biased sentences found in the text.</p>
+                                            </div>
+                                        </div>
+                                        <div class="form-group" *ngIf="resultSection === 'Alt Text Results'">
+                                            <div class="result" *ngIf="biased_alt_results.length>0">
+                                              <ul *ngFor="let result of biased_alt_results;">
+                                                <li>
+                                                  {{ result[0] }}: <span [innerHTML]="result[1]"></span>
+                                                </li>
+                                                <li><a href="{{ result[2] }}">{{ result[2] }}</a></li>
+                                              </ul>
+                                            </div>
+                                            <div class="result" *ngIf="biased_alt_results.length==0">
+                                                <p>No biased sentences found in the alt text.</p>
+                                            </div>
+                                        </div>
+                                        <div class="form-group" *ngIf="resultSection === 'Image Text Results'">
+                                            <div class="result" *ngIf="biased_img_results.length>0">
+                                              <ul *ngFor="let result of biased_img_results;">
+                                                <li>
+                                                  {{ result[0] }}: <span [innerHTML]="result[1]"></span>
+                                                </li>
+                                                <li><a href="{{ result[2] }}">{{ result[2] }}</a></li>
+                                              </ul>
+                                            </div>
+                                            <div class="result" *ngIf="biased_img_results.length==0">
+                                                <p>No biased sentences found in the img alt text.</p>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+</ng-template>
