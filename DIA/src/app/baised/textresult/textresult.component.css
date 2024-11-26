@@ -147,3 +147,8 @@
     margin-right: 0.5rem !important;
 }
 
+.dropdown-toggle {
+  position: relative;
+  top: -5px;
+}
+

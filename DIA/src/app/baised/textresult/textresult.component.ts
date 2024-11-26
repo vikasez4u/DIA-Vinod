@@ -66,6 +66,10 @@ maxGeoCount: number = 0;  // For maximum biased geo location count
 maxGeo: string = '';  // For the country associated with the maximum count
 maxGeoPercentage: number = 0;  // For the percentage of the maximum biased count
 
+selectedAnalysis: string = 'textContent';
+analysisTitle : string = 'Gender Analysis'
+
+
 constructor(private router: Router, private activatedRoute: ActivatedRoute){
   let state = this.router.getCurrentNavigation()!.extras.state;
 
@@ -109,6 +113,19 @@ selectOptionForALtText(option:string){
 
 selectOptionForImage(option:string){
   this.selectedImgTxtOption = option
+  }
+
+ selectAnalysis(type: string): void {
+    this.selectedAnalysis = type;
+    if(this.selectedAnalysis == "textContent"){
+        this.analysisTitle = 'Gender Analysis'
+      }
+    else if(this.selectedAnalysis == "ethnicity"){
+        this.analysisTitle = 'Ethnicity Analysis'
+      }
+    else if(this.selectedAnalysis == "geoLocation"){
+       this.analysisTitle = 'GeoLocation Analysis'
+      }
   }
 
 ngOnInit(): void {

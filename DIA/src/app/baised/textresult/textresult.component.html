@@ -157,12 +157,44 @@
   <div class="mt-5">
         <div class="row">
             <div class="col-md-4 mb-3">
-                <div class="card">
-                  <div class="card-body chart-legend-container">
-                    <h5 style="color:#981fae">Overall Gender Analysis</h5>
-                    <app-barchart [data]="overall_gender_count" [chartType]="'radial-bar'"></app-barchart>
-                  </div>
-                </div>
+<!--                <div class="card">-->
+<!--                  <div class="card-body chart-legend-container">-->
+<!--                    <h5 style="color:#981fae">Overall Gender Analysis</h5>-->
+<!--                    <app-barchart [data]="overall_gender_count" [chartType]="'radial-bar'"></app-barchart>-->
+<!--                  </div>-->
+<!--                </div>-->
+<div class="card">
+  <div class="card-header">
+    <div class="d-flex justify-content-between">
+      <h5 class="card-title">{{ analysisTitle }}</h5>
+      <!-- Dropdown -->
+      <div class="dropdown">
+        <button class="dropdown-toggle" style="background:#981fae; color:#fff" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+          Select
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <li><a class="dropdown-item"  (click)="selectAnalysis('textContent')">Overall Gender Analysis</a></li>
+          <li><a class="dropdown-item"  (click)="selectAnalysis('ethnicity')">Overall Ethnicity Analysis</a></li>
+          <li><a class="dropdown-item"  (click)="selectAnalysis('geoLocation')">Overall Geo-location Analysis</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-body">
+    <!-- Graph Container -->
+    <div *ngIf="selectedAnalysis === 'textContent'">
+      <app-barchart [data]="overall_gender_count" [chartType]="'radial-bar'"></app-barchart>
+    </div>
+    <div *ngIf="selectedAnalysis === 'ethnicity'">
+      <app-barchart [data]="total_Ethnicity_Count" [chartType]="'radial-bar'"></app-barchart>
+    </div>
+    <div *ngIf="selectedAnalysis === 'geoLocation'">
+     <app-barchart [data]="total_GeoLocation_Count" [chartType]="'radial-bar'"></app-barchart>
+    </div>
+  </div>
+</div>
+
 
             </div>
             <div class="col-md-4 mb-3">
