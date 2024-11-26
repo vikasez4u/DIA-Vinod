@@ -29,6 +29,21 @@ alt_text_results_tr_Gender_Count: any;
 img_text_results_tr_Gender_Count: any;
 overall_gender_count: any;
 textmodel_counts: any;
+total_Ethnicity_Count: any;
+total_GeoLocation_Count: any;
+text_results_Ethnicity_Count: any;
+alt_text_results_Ethnicity_Count: any;
+img_text_results_Ethnicity_Count: any;
+text_results_GeoLocation_Count : any;
+alt_text_results_GeoLocation_Count: any;
+img_text_results_GeoLocation_Count: any;
+total_Ethnicity_text: any;
+total_Ethnicity_alt_text: any;
+total_Ethnicity_img_text: any;
+total_GeoLocation_text: any;
+total_GeoLocation_alt_text: any;
+total_GeoLocation_img_text: any;
+
 
 maxTextValue: number = 0;
 maxAltValue: number = 0;
@@ -36,6 +51,20 @@ maxImgTxtValue: number = 0;
 maxGenderCount: number = 0;  // For maximum biased gender count
 maxGender: string = '';  // For the gender associated with the maximum count
 maxGenderPercentage: number = 0;  // For the percentage of the maximum biased count
+
+maxTextEthValue: number = 0;
+maxAltEthValue: number = 0;
+maxImgTxtEthValue: number = 0;
+maxEthnicityCount: number = 0;  // For maximum biased ethnicity count
+maxEthnicity: string = '';  // For the city associated with the maximum count
+maxEthnicityPercentage: number = 0;  // For the percentage of the maximum biased count
+
+maxTextGeoValue: number = 0;
+maxAltGeoValue: number = 0;
+maxImgTxtGeoValue: number = 0;
+maxGeoCount: number = 0;  // For maximum biased geo location count
+maxGeo: string = '';  // For the country associated with the maximum count
+maxGeoPercentage: number = 0;  // For the percentage of the maximum biased count
 
 constructor(private router: Router, private activatedRoute: ActivatedRoute){
   let state = this.router.getCurrentNavigation()!.extras.state;
@@ -53,6 +82,20 @@ constructor(private router: Router, private activatedRoute: ActivatedRoute){
     this.img_text_results_tr_Gender_Count = state['img_text_results_Gender_Count'];
     this.overall_gender_count = state['overall_gender_count'];
     this.textmodel_counts = state['textmodel_counts'];
+    this.total_Ethnicity_Count = state['total_Ethnicity_Count'];
+    this.total_GeoLocation_Count = state['total_GeoLocation_Count'];
+    this.text_results_Ethnicity_Count = state['text_results_Ethnicity_Count'];
+    this.alt_text_results_Ethnicity_Count = state['alt_text_results_Ethnicity_Count'];
+    this.img_text_results_Ethnicity_Count = state['img_text_results_Ethnicity_Count'];
+    this.text_results_GeoLocation_Count = state['text_results_GeoLocation_Count'];
+    this.alt_text_results_GeoLocation_Count = state['alt_text_results_GeoLocation_Count'];
+    this.img_text_results_GeoLocation_Count = state['img_text_results_GeoLocation_Count'];
+    this.total_Ethnicity_text = state['total_Ethnicity_text'];
+    this.total_Ethnicity_alt_text = state['total_Ethnicity_alt_text'];
+    this.total_Ethnicity_img_text = state['total_Ethnicity_img_text'];
+    this.total_GeoLocation_text = state['total_GeoLocation_text'];
+    this.total_GeoLocation_alt_text = state['total_GeoLocation_alt_text'];
+    this.total_GeoLocation_img_text = state['total_GeoLocation_img_text'];
   }
 }
 
@@ -95,9 +138,60 @@ ngOnInit(): void {
 
     // Calculate the percentage of the maximum biased count
     this.maxGenderPercentage = Math.round((this.maxGenderCount / totalCount) * 100);
+  }
 
+  // Calculate maxValue after the data has been assigned to text_results_Ethnicity_Count
+  if (this.text_results_Ethnicity_Count && this.text_results_Ethnicity_Count.length > 0) {
+    this.maxTextEthValue = Math.max(...this.text_results_Ethnicity_Count.map((item: [string, number]) => item[1]));
+  }
+  // Calculate maxValue after the data has been assigned to alt_text_results_Ethnicity_Count
+  if (this.alt_text_results_Ethnicity_Count && this.alt_text_results_Ethnicity_Count.length > 0) {
+    this.maxAltEthValue = Math.max(...this.alt_text_results_Ethnicity_Count.map((item: [string, number]) => item[1]));
+  }
+  // Calculate maxValue after the data has been assigned to img_text_results_Ethnicity_Count
+  if (this.img_text_results_Ethnicity_Count && this.img_text_results_Ethnicity_Count.length > 0) {
+    this.maxImgTxtEthValue = Math.max(...this.img_text_results_Ethnicity_Count.map((item: [string, number]) => item[1]));
+  }
 
+  // Calculate max ethnicity count and corresponding city
+  if (this.total_Ethnicity_Count && this.total_Ethnicity_Count.length > 0) {
+    const totalEthCount = this.total_Ethnicity_Count.reduce((sum: number, current: [string, number]) => sum + current[1], 0);  // Total count of all ethnicities
 
+    const maxEthEntry = this.total_Ethnicity_Count.reduce((max: [string, number], current: [string, number]) => {
+      return current[1] > max[1] ? current : max;
+    });
+    this.maxEthnicityCount = maxEthEntry[1];  // The maximum biased count
+    this.maxEthnicity = maxEthEntry[0];  // The corresponding Ethnicity
+
+    // Calculate the percentage of the maximum biased count
+    this.maxEthnicityPercentage = Math.round((this.maxEthnicityCount / totalEthCount) * 100);
+  }
+
+  // Calculate maxValue after the data has been assigned to text_results_GeoLocation_Count
+  if (this.text_results_GeoLocation_Count && this.text_results_GeoLocation_Count.length > 0) {
+    this.maxTextGeoValue = Math.max(...this.text_results_GeoLocation_Count.map((item: [string, number]) => item[1]));
+  }
+  // Calculate maxValue after the data has been assigned to alt_text_results_GeoLocation_Count
+  if (this.alt_text_results_GeoLocation_Count && this.alt_text_results_GeoLocation_Count.length > 0) {
+    this.maxAltGeoValue = Math.max(...this.alt_text_results_GeoLocation_Count.map((item: [string, number]) => item[1]));
+  }
+  // Calculate maxValue after the data has been assigned to img_text_results_GeoLocation_Count
+  if (this.img_text_results_GeoLocation_Count && this.img_text_results_GeoLocation_Count.length > 0) {
+    this.maxImgTxtGeoValue = Math.max(...this.img_text_results_GeoLocation_Count.map((item: [string, number]) => item[1]));
+  }
+
+  // Calculate max GeoLocation count and corresponding country
+  if (this.total_GeoLocation_Count && this.total_GeoLocation_Count.length > 0) {
+    const totalGeoCount = this.total_GeoLocation_Count.reduce((sum: number, current: [string, number]) => sum + current[1], 0);  // Total count of all locations
+
+    const maxGeoEntry = this.total_GeoLocation_Count.reduce((max: [string, number], current: [string, number]) => {
+      return current[1] > max[1] ? current : max;
+    });
+    this.maxGeoCount = maxGeoEntry[1];  // The maximum geo location count
+    this.maxGeo = maxGeoEntry[0];  // The corresponding country location
+
+    // Calculate the percentage of the maximum biased count
+    this.maxGeoPercentage = Math.round((this.maxGeoCount / totalGeoCount) * 100);
   }
  }
 }

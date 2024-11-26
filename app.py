@@ -164,7 +164,11 @@ def result():
       biased_text_results = list(zip(txt_results[1], txt_results[0]))
       biased_alt_results = list(zip(alt_results["biased_words"], alt_results["biased_sentences"], alt_results["image_links"]))
       biased_img_results = list(zip(txt_img_results["biased_words"], txt_img_results["biased_sentences"], txt_img_results["image_links"]))
-      total_biased_text, total_biased_alt_text, total_biased_img_results, text_results_Gender_Count, alt_text_results_Gender_Count, img_text_results_Gender_Count, overall_gender_count = diadb.textsummaryresult(transaction_id)
+      (total_biased_text, total_biased_alt_text, total_biased_img_results, text_results_Gender_Count, alt_text_results_Gender_Count,
+       img_text_results_Gender_Count, overall_gender_count, total_Ethnicity_Count, total_GeoLocation_Count, text_results_Ethnicity_Count,
+          alt_text_results_Ethnicity_Count, img_text_results_Ethnicity_Count, text_results_GeoLocation_Count, alt_text_results_GeoLocation_Count,
+          img_text_results_GeoLocation_Count,total_Ethnicity_text, total_Ethnicity_alt_text, total_Ethnicity_img_text, total_GeoLocation_text,
+          total_GeoLocation_alt_text, total_GeoLocation_img_text) = diadb.textsummaryresult(transaction_id)
 
       # Create a dictionary to map words to gender
       word_to_gender = {}
@@ -201,7 +205,21 @@ def result():
         "alt_text_results_Gender_Count": alt_text_results_Gender_Count,
         "img_text_results_Gender_Count": img_text_results_Gender_Count,
         "overall_gender_count": overall_count,
-        "textmodel_counts": textmodel_counts
+        "textmodel_counts": textmodel_counts,
+        "total_Ethnicity_Count": total_Ethnicity_Count,
+        "total_GeoLocation_Count": total_GeoLocation_Count,
+        "text_results_Ethnicity_Count": text_results_Ethnicity_Count,
+        "alt_text_results_Ethnicity_Count": alt_text_results_Ethnicity_Count,
+        "img_text_results_Ethnicity_Count": img_text_results_Ethnicity_Count,
+        "text_results_GeoLocation_Count" : text_results_GeoLocation_Count,
+        "alt_text_results_GeoLocation_Count": alt_text_results_GeoLocation_Count,
+        "img_text_results_GeoLocation_Count": img_text_results_GeoLocation_Count,
+        "total_Ethnicity_text": total_Ethnicity_text,
+        "total_Ethnicity_alt_text": total_Ethnicity_alt_text,
+        "total_Ethnicity_img_text": total_Ethnicity_img_text,
+        "total_GeoLocation_text": total_GeoLocation_text,
+        "total_GeoLocation_alt_text": total_GeoLocation_alt_text,
+        "total_GeoLocation_img_text": total_GeoLocation_img_text
       }
 
     elif image_mode:

@@ -174,14 +174,14 @@
                 </div>
                 <div class="card" style=" margin-bottom: 2.2rem; height:5.5rem">
                     <div style="text-align:center;">
-                        <h1 style="color:#981fae">{{ maxGenderPercentage }}%</h1>
-                        <p style="color:#000000"> {{ maxGender }} Biased</p>
+                        <h1 style="color:#981fae">{{ maxEthnicityPercentage }}%</h1>
+                        <p style="color:#000000"> {{ maxEthnicity }} Biased</p>
                     </div>
                 </div>
                 <div class="card" style="margin-bottom: 2.2rem; height:5.5rem">
                     <div style="text-align:center;">
-                        <h1 style="color:#981fae">{{ maxGenderPercentage }}%</h1>
-                        <p style="color:#000000"> {{ maxGender }} Biased</p>
+                        <h1 style="color:#981fae">{{ maxGeoPercentage }}%</h1>
+                        <p style="color:#000000"> {{ maxGeo }} Biased</p>
                     </div>
                 </div>
             </div>
@@ -278,7 +278,7 @@
 
                         <div *ngIf="selectedTextOption === 'ethnicity'">
                          <div class="progress-wrapper">
-                            <div *ngFor="let item of text_results_tr_Gender_Count">
+                            <div *ngFor="let item of text_results_Ethnicity_Count">
                                 <div class="progress-container">
                                     <div class="progress-header">
                                         <h6>{{ item[0] | titlecase }}</h6>
@@ -300,14 +300,14 @@
                           </div>
                           <hr />
                           <div class="chart-legend-container">
-                              Ethnicity Graph
+                              <app-barchart [data]="text_results_Ethnicity_Count" [chartType]="'doughnut'"></app-barchart>
                           </div>
                         </div>
 
 
                         <div *ngIf="selectedTextOption === 'geoLocation'">
                        <div class="progress-wrapper">
-                            <div *ngFor="let item of text_results_tr_Gender_Count">
+                            <div *ngFor="let item of text_results_GeoLocation_Count">
                                 <div class="progress-container">
                                     <div class="progress-header">
                                         <h6>{{ item[0] | titlecase }}</h6>
@@ -329,7 +329,7 @@
                           </div>
                           <hr />
                           <div class="chart-legend-container">
-                              Geo-Location Graph
+                              <app-barchart [data]="text_results_GeoLocation_Count" [chartType]="'doughnut'"></app-barchart>
                           </div>
                         </div>
                     </div>
@@ -395,7 +395,7 @@
                                 <div class="progress-container">
                                     <div class="progress-header">
                                         <h6>{{ item[0] | titlecase }}</h6>
-                                        <span>{{ item[1] }} Occurrences</span>
+                                        <span>{{ item[1] }}</span>
                                     </div>
                                     <div class="progress" style="height: 5px;">
                                         <div class="progress-bar"
@@ -420,11 +420,11 @@
 
                         <div *ngIf="selectedAltOption === 'ethnicity'">
                         <div class="progress-wrapper">
-                            <div *ngFor="let item of alt_text_results_tr_Gender_Count">
+                            <div *ngFor="let item of alt_text_results_Ethnicity_Count">
                                 <div class="progress-container">
                                     <div class="progress-header">
                                         <h6>{{ item[0] | titlecase }}</h6>
-                                        <span>{{ item[1] }} Occurrences</span>
+                                        <span>{{ item[1] }}</span>
                                     </div>
                                     <div class="progress" style="height: 5px;">
                                         <div class="progress-bar"
@@ -442,18 +442,18 @@
                           </div>
                           <hr />
                           <div class="chart-legend-container">
-                              Alt Ethnicity Graph
+                              <app-barchart [data]="alt_text_results_Ethnicity_Count" [chartType]="'doughnut'"></app-barchart>
                           </div>
                         </div>
 
 
                         <div *ngIf="selectedAltOption === 'geoLocation'">
                           <div class="progress-wrapper">
-                            <div *ngFor="let item of alt_text_results_tr_Gender_Count">
+                            <div *ngFor="let item of alt_text_results_GeoLocation_Count">
                                 <div class="progress-container">
                                     <div class="progress-header">
                                         <h6>{{ item[0] | titlecase }}</h6>
-                                        <span>{{ item[1] }} Occurrences</span>
+                                        <span>{{ item[1] }}</span>
                                     </div>
                                     <div class="progress" style="height: 5px;">
                                         <div class="progress-bar"
@@ -471,7 +471,7 @@
                           </div>
                           <hr />
                           <div class="chart-legend-container">
-                              AltGeo Graph
+                              <app-barchart [data]="alt_text_results_GeoLocation_Count" [chartType]="'doughnut'"></app-barchart>
                           </div>
                         </div>
                     </div>
@@ -539,7 +539,7 @@
                                 <div class="progress-container">
                                     <div class="progress-header">
                                         <h6>{{ item[0] | titlecase }}</h6>
-                                        <span>{{ item[1] }} Occurrences</span>
+                                        <span>{{ item[1] }}</span>
                                     </div>
                                     <div class="progress" style="height: 5px;">
                                         <div class="progress-bar"
@@ -562,11 +562,11 @@
                         </div>
                         <div *ngIf="selectedImgTxtOption === 'ethnicity'">
                           <div class="progress-wrapper">
-                            <div *ngFor="let item of img_text_results_tr_Gender_Count">
+                            <div *ngFor="let item of img_text_results_Ethnicity_Count">
                                 <div class="progress-container">
                                     <div class="progress-header">
                                         <h6>{{ item[0] | titlecase }}</h6>
-                                        <span>{{ item[1] }} Occurrences</span>
+                                        <span>{{ item[1] }}</span>
                                     </div>
                                     <div class="progress" style="height: 5px;">
                                         <div class="progress-bar"
@@ -584,16 +584,16 @@
                           </div>
                           <hr />
                           <div class="chart-legend-container">
-                              ImgTxt Ethnicity Graph
+                              <app-barchart [data]="img_text_results_Ethnicity_Count" [chartType]="'doughnut'"></app-barchart>
                           </div>
                         </div>
                         <div *ngIf="selectedImgTxtOption === 'geoLocation'">
                            <div class="progress-wrapper">
-                            <div *ngFor="let item of img_text_results_tr_Gender_Count">
+                            <div *ngFor="let item of img_text_results_GeoLocation_Count">
                                 <div class="progress-container">
                                     <div class="progress-header">
                                         <h6>{{ item[0] | titlecase }}</h6>
-                                        <span>{{ item[1] }} Occurrences</span>
+                                        <span>{{ item[1] }}</span>
                                     </div>
                                     <div class="progress" style="height: 5px;">
                                         <div class="progress-bar"
@@ -611,7 +611,7 @@
                           </div>
                           <hr />
                           <div class="chart-legend-container">
-                              ImgTxtGeo Graph
+                              <app-barchart [data]="img_text_results_GeoLocation_Count" [chartType]="'doughnut'"></app-barchart>
                           </div>
                         </div>
                     </div>

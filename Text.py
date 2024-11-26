@@ -53,7 +53,7 @@ def text_analysis_results(url, transaction_id, keyword_list):
             transaction_id=transaction_id,
             source='text',
             city=entity['entity'] if entity['type'] == 'ethnicity' else None,
-            country=entity['entity'] if entity['type'] != 'ethnicity' else None
+            country=entity['entity'] if entity['type'] == 'Country' else None
         )
 
     alt_texts = extract_alt_text_from_url(url)
@@ -71,7 +71,7 @@ def text_analysis_results(url, transaction_id, keyword_list):
             transaction_id=transaction_id,
             source='alt_text',
             city=entity['entity'] if entity['type'] == 'ethnicity' else None,
-            country=entity['entity'] if entity['type'] != 'ethnicity' else None
+            country=entity['entity'] if entity['type'] == 'Country' else None
         )
 
     img_results = extract_text_from_images(url, transaction_id, keyword_list, ethnicity_list)
@@ -81,7 +81,7 @@ def text_analysis_results(url, transaction_id, keyword_list):
             transaction_id=transaction_id,
             source='image',
             city=entity['entity'] if entity['type'] == 'ethnicity' else None,
-            country=entity['entity'] if entity['type'] != 'ethnicity' else None
+            country=entity['entity'] if entity['type'] == 'Country' else None
         )
 
     return {

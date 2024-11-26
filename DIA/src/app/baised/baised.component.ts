@@ -108,7 +108,22 @@ export class BaisedComponent implements OnInit {
               alt_text_results_Gender_Count: Page['alt_text_results_Gender_Count'],
               img_text_results_Gender_Count: Page['img_text_results_Gender_Count'],
               overall_gender_count: Page['overall_gender_count'],
-              textmodel_counts: Page['textmodel_counts']}});
+              textmodel_counts: Page['textmodel_counts'],
+              total_Ethnicity_Count: Page['total_Ethnicity_Count'],
+              total_GeoLocation_Count: Page['total_GeoLocation_Count'],
+              text_results_Ethnicity_Count: Page['text_results_Ethnicity_Count'],
+              alt_text_results_Ethnicity_Count: Page['alt_text_results_Ethnicity_Count'],
+              img_text_results_Ethnicity_Count: Page['img_text_results_Ethnicity_Count'],
+              text_results_GeoLocation_Count : Page['text_results_GeoLocation_Count'],
+              alt_text_results_GeoLocation_Count: Page['alt_text_results_GeoLocation_Count'],
+              img_text_results_GeoLocation_Count: Page['img_text_results_GeoLocation_Count'],
+              total_Ethnicity_text: Page['total_Ethnicity_text'],
+              total_Ethnicity_alt_text: Page['total_Ethnicity_alt_text'],
+              total_Ethnicity_img_text: Page['total_Ethnicity_img_text'],
+              total_GeoLocation_text: Page['total_GeoLocation_text'],
+              total_GeoLocation_alt_text: Page['total_GeoLocation_alt_text'],
+              total_GeoLocation_img_text: Page['total_GeoLocation_img_text']
+              }});
               //window.location.assign('/output');
             }
             else if (Page['file'] == 'Image') {

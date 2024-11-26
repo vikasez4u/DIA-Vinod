@@ -360,16 +360,74 @@ def textsummaryresult(transaction_id):
   query_results = [dict(row) for row in img_text_results_Gender_Count]
   img_text_results_Gender_Count = [(item['word'], item['count(*)']) for item in query_results]
 
+  total_Ethnicity_Count = cursor.execute('''
+              SELECT DISTINCT(geo_entity), count(*) FROM geographical_bias WHERE TRANSACTION_ID =  ? AND ENTITY_TYPE = 'City' group by geo_entity
+          ''', (transaction_id,)).fetchall()
+  query_results = [dict(row) for row in total_Ethnicity_Count]
+  total_Ethnicity_Count = [(item['geo_entity'], item['count(*)']) for item in query_results]
+
+  total_GeoLocation_Count = cursor.execute('''
+              SELECT DISTINCT(geo_entity), count(*) FROM geographical_bias WHERE TRANSACTION_ID =  ? AND ENTITY_TYPE = 'Country' group by geo_entity
+          ''', (transaction_id,)).fetchall()
+  query_results = [dict(row) for row in total_GeoLocation_Count]
+  total_GeoLocation_Count = [(item['geo_entity'], item['count(*)']) for item in query_results]
+
+  text_results_Ethnicity_Count = cursor.execute('''
+            SELECT DISTINCT(geo_entity), count(*) FROM geographical_bias WHERE TRANSACTION_ID =  ? AND SOURCE = 'text' AND ENTITY_TYPE = 'City' group by geo_entity
+        ''', (transaction_id,)).fetchall()
+  query_results = [dict(row) for row in text_results_Ethnicity_Count]
+  text_results_Ethnicity_Count = [(item['geo_entity'], item['count(*)']) for item in query_results]
+
+  alt_text_results_Ethnicity_Count = cursor.execute('''
+              SELECT DISTINCT(geo_entity), count(*) FROM geographical_bias WHERE TRANSACTION_ID =  ? AND SOURCE = 'alt_text' AND ENTITY_TYPE = 'City' group by geo_entity
+          ''', (transaction_id,)).fetchall()
+  query_results = [dict(row) for row in alt_text_results_Ethnicity_Count]
+  alt_text_results_Ethnicity_Count = [(item['geo_entity'], item['count(*)']) for item in query_results]
+
+  img_text_results_Ethnicity_Count = cursor.execute('''
+              SELECT DISTINCT(geo_entity), count(*) FROM geographical_bias WHERE TRANSACTION_ID =  ? AND SOURCE = 'image' AND ENTITY_TYPE = 'City' group by geo_entity
+          ''', (transaction_id,)).fetchall()
+  query_results = [dict(row) for row in img_text_results_Ethnicity_Count]
+  img_text_results_Ethnicity_Count = [(item['geo_entity'], item['count(*)']) for item in query_results]
+
+  text_results_GeoLocation_Count = cursor.execute('''
+            SELECT DISTINCT(geo_entity), count(*) FROM geographical_bias WHERE TRANSACTION_ID =  ? AND SOURCE = 'text' AND ENTITY_TYPE = 'Country' group by geo_entity
+        ''', (transaction_id,)).fetchall()
+  query_results = [dict(row) for row in text_results_GeoLocation_Count]
+  text_results_GeoLocation_Count = [(item['geo_entity'], item['count(*)']) for item in query_results]
+
+  alt_text_results_GeoLocation_Count = cursor.execute('''
+              SELECT DISTINCT(geo_entity), count(*) FROM geographical_bias WHERE TRANSACTION_ID =  ? AND SOURCE = 'alt_text' AND ENTITY_TYPE = 'Country' group by geo_entity
+          ''', (transaction_id,)).fetchall()
+  query_results = [dict(row) for row in alt_text_results_GeoLocation_Count]
+  alt_text_results_GeoLocation_Count = [(item['geo_entity'], item['count(*)']) for item in query_results]
+
+  img_text_results_GeoLocation_Count = cursor.execute('''
+              SELECT DISTINCT(geo_entity), count(*) FROM geographical_bias WHERE TRANSACTION_ID =  ? AND SOURCE = 'image' AND ENTITY_TYPE = 'Country' group by geo_entity
+          ''', (transaction_id,)).fetchall()
+  query_results = [dict(row) for row in img_text_results_GeoLocation_Count]
+  img_text_results_GeoLocation_Count = [(item['geo_entity'], item['count(*)']) for item in query_results]
+
   #combining all text results counts
   overall_gender_count = text_results_Gender_Count + alt_text_results_Gender_Count + img_text_results_Gender_Count
 
   total_biased_text = len(text_results)
   total_biased_alt_text = len(alt_text_results)
   total_biased_img_results = len(img_results)
+  total_Ethnicity_text = len(text_results_Ethnicity_Count)
+  total_Ethnicity_alt_text = len(alt_text_results_Ethnicity_Count)
+  total_Ethnicity_img_text = len(img_text_results_Ethnicity_Count)
+  total_GeoLocation_text = len(text_results_GeoLocation_Count)
+  total_GeoLocation_alt_text = len(alt_text_results_GeoLocation_Count)
+  total_GeoLocation_img_text = len(alt_text_results_GeoLocation_Count)
 
   print(f'{text_results_Gender_Count}\n{alt_text_results_Gender_Count}\n{img_text_results_Gender_Count}\n{overall_gender_count}')
 
-  return total_biased_text, total_biased_alt_text, total_biased_img_results,text_results_Gender_Count,alt_text_results_Gender_Count, img_text_results_Gender_Count, overall_gender_count
+  return (total_biased_text, total_biased_alt_text, total_biased_img_results,text_results_Gender_Count,alt_text_results_Gender_Count,
+          img_text_results_Gender_Count, overall_gender_count, total_Ethnicity_Count, total_GeoLocation_Count, text_results_Ethnicity_Count,
+          alt_text_results_Ethnicity_Count, img_text_results_Ethnicity_Count, text_results_GeoLocation_Count, alt_text_results_GeoLocation_Count,
+          img_text_results_GeoLocation_Count, total_Ethnicity_text, total_Ethnicity_alt_text, total_Ethnicity_img_text, total_GeoLocation_text,
+          total_GeoLocation_alt_text, total_GeoLocation_img_text)
 
 #Get Image Model Results Summary
 def imageSummaryResults(transaction_id):

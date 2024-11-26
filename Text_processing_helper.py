@@ -16,10 +16,10 @@ nlp = spacy.load('en_core_web_sm')
 def extract_text_from_url(url):
     """
     Fetches content from a URL and extracts text from the HTML if available.
-    
+
     Parameters:
         url (str): The URL of the page to retrieve content from.
-        
+
     Returns:
         str or None: Extracted text from HTML content, or None if fetching fails.
     """
@@ -31,10 +31,10 @@ def extract_text_from_url(url):
 def fetch_url_content(url):
     """
     Retrieves the raw content from a URL, handling authentication and errors.
-    
+
     Parameters:
         url (str): The URL to retrieve content from.
-        
+
     Returns:
         bytes or None: Raw content if successful, or None if an error occurs.
     """
@@ -49,10 +49,10 @@ def fetch_url_content(url):
 def extract_text_from_html(content):
     """
     Parses HTML content to extract and return plain text.
-    
+
     Parameters:
         content (bytes): The HTML content as bytes.
-        
+
     Returns:
         str or None: Extracted text, or None if parsing fails.
     """
@@ -67,14 +67,14 @@ def detect_biased_sentences(text, keyword_list, table_name, transaction_id, imag
     """
     Identifies biased words in text based on a list of keywords, highlights them,
     and inserts into a database table.
-    
+
     Parameters:
         text (str): Text to search for biased words.
         keyword_list (list): List of keywords to detect bias.
         table_name (str): Database table name for storing results.
         transaction_id (int): Unique identifier for the database transaction.
         image_link (str, optional): URL of the associated image, if applicable.
-        
+
     Returns:
         tuple: Lists of biased sentences and words found in the text.
     """
@@ -111,17 +111,77 @@ import re
 
 
 def detect_geo_ethnicity_bias(text, transaction_id, source, ethnicity_list=None, image_urls=None):
+  """
+  Detects geographical and ethnicity-related bias in text, and returns unique entities.
+
+  Parameters:
+      text (str): Text to analyze.
+      transaction_id (int): Unique identifier for the transaction.
+      source (str): Source identifier for the data.
+      ethnicity_list (list, optional): List of ethnicity keywords to detect.
+      image_urls (list, optional): List of image URLs associated with text or alt text.
+
+  Returns:
+      list: Combined list of detected entities with snippets, types, and associated image URLs.
+  """
+  if not isinstance(text, str):
+    print(f"Expected a string for text, but got {type(text)}")
+    return []
+
+  detected_entities = []
+  entity_image_map = {}
+
+  # Map image URLs to entities if provided
+  if image_urls:
+    for i, url in enumerate(image_urls):
+      entity_image_map[i] = url
+
+  # Process text with spaCy
+  doc = nlp(text)
+
+  # Extract geographical entities
+  for ent in doc.ents:
+    if ent.label_ in {"GPE", "LOC", "NORP"}:  # NORP includes Nationalities, Religious, Political groups
+      snippet = re.search(r'([^.]?\b{}\b[^.]\.)'.format(re.escape(ent.text)), text, re.IGNORECASE)
+      snippet_text = snippet.group(0) if snippet else ent.text
+      detected_entities.append({
+        "entity": ent.text,
+        "type": "Country" if ent.label_ == "GPE" else "City" if ent.label_ == "LOC" else "ethnicity",
+        "snippet": snippet_text,
+        "image_url": entity_image_map.get(len(detected_entities))
+      })
+
+  # Detect ethnicities from the custom list
+  if ethnicity_list:
+    lower_text = text.lower()
+    for ethnicity in ethnicity_list:
+      if ethnicity.lower() in lower_text:
+        snippet = re.search(r'([^.]?\b{}\b[^.]\.)'.format(re.escape(ethnicity)), text, re.IGNORECASE)
+        snippet_text = snippet.group(0) if snippet else ethnicity
+        detected_entities.append({
+          "entity": ethnicity,
+          "type": "ethnicity",
+          "snippet": snippet_text,
+          "image_url": entity_image_map.get(len(detected_entities))
+        })
+
+  # Remove duplicates
+  unique_entities = {f"{e['entity'].lower()}_{e['type']}": e for e in detected_entities}.values()
+
+  return list(unique_entities)
+
+def detect_geo_ethnicity_bias_orignal(text, transaction_id, source, ethnicity_list=None, image_urls=None):
     """
-    Detects geographical entities and ethnicity-related bias in text, combining results from spaCy NER 
+    Detects geographical entities and ethnicity-related bias in text, combining results from spaCy NER
     and a custom ethnicity list while removing duplicates.
-    
+
     Parameters:
         text (str): Text to analyze.
         transaction_id (int): Unique identifier for the transaction.
         source (str): Source identifier for the data.
         ethnicity_list (list, optional): List of ethnicity keywords to detect.
         image_urls (list, optional): List of image URLs associated with text or alt text.
-        
+
     Returns:
         list: Combined list of detected entities with snippets, types, and associated image URLs.
     """
@@ -131,7 +191,7 @@ def detect_geo_ethnicity_bias(text, transaction_id, source, ethnicity_list=None,
 
     detected_entities = []
     entity_image_map = {}
-    
+
     # Map image URLs to entities if provided
     if image_urls:
         for i, url in enumerate(image_urls):
@@ -186,7 +246,7 @@ def detect_geo_ethnicity_bias_1(text, transaction_id, source, ethnicity_list=Non
     if image_urls:
         for i, url in enumerate(image_urls):
             entity_image_map[i] = url  # Simplified; make sure this is correctly indexed with your entities
-            
+
     # Detect ethnicities based on provided list
     if ethnicity_list:
         lower_text = text.lower()
@@ -229,7 +289,7 @@ def detect_geo_ethnicity_bias_1(text, transaction_id, source, ethnicity_list=Non
     """
     Detects geographical and ethnicity-related bias in text, combining detected countries,
     cities, and ethnicities into a single list along with full sentence snippets.
-    
+
     Parameters:
         text (str): Text to search for geographical entities and ethnicities.
         transaction_id (int): Unique identifier for the transaction.
@@ -238,7 +298,7 @@ def detect_geo_ethnicity_bias_1(text, transaction_id, source, ethnicity_list=Non
         image_urls (list, optional): List of image URLs associated with alt texts.
 
     Returns:
-        list: List of dictionaries with detected entities (countries, cities, ethnicities) 
+        list: List of dictionaries with detected entities (countries, cities, ethnicities)
               and associated sentence snippets, along with their image URLs.
     """
     if not isinstance(text, str):
@@ -300,10 +360,10 @@ def detect_geo_ethnicity_bias_1(text, transaction_id, source, ethnicity_list=Non
 def extract_alt_text_from_url(url):
     """
     Extracts alt text and image sources from images on a webpage.
-    
+
     Parameters:
         url (str): URL of the page to retrieve images from.
-        
+
     Returns:
         list of tuples: Pairs of alt text and image source URL.
     """
@@ -318,12 +378,12 @@ def extract_alt_text_from_url(url):
 def detect_biased_sentences_in_alt_text(alt_texts, keyword_list, transaction_id):
     """
     Identifies biased words in alt text descriptions of images, highlighting and logging them.
-    
+
     Parameters:
         alt_texts (list): List of (alt text, image source) pairs.
         keyword_list (list): Keywords to detect bias.
         transaction_id (int): Unique transaction identifier for the database.
-        
+
     Returns:
         dict: Dictionary containing lists of biased alt text sentences, words, and associated image links.
     """
@@ -332,7 +392,7 @@ def detect_biased_sentences_in_alt_text(alt_texts, keyword_list, transaction_id)
         'biased_words': [],
         'image_links': []
     }
-    
+
     for alt_text, image_link in alt_texts:
         print(f"Processing alt text '{alt_text}' from image '{image_link}'.")
         sentences, words = detect_biased_sentences(alt_text, keyword_list, 'biased_alt_Text_results', transaction_id, image_link)
@@ -341,7 +401,7 @@ def detect_biased_sentences_in_alt_text(alt_texts, keyword_list, transaction_id)
             alt_results['biased_words'].extend(words)
             alt_results['image_links'].append(image_link)
             print(f"Insert into biased_alt_Text_results successful for alt text '{alt_text}' and image '{image_link}'.")
-    
+
     return alt_results
 def extract_text_from_images(url, transaction_id, keyword_list, ethnicity_list=None):
     """
@@ -397,12 +457,12 @@ def extract_text_from_images(url, transaction_id, keyword_list, ethnicity_list=N
 def process_image(image_url, page_url, transaction_id):
     """
     Fetches an image and extracts text using OCR.
-    
+
     Parameters:
         image_url (str): URL of the image.
         page_url (str): URL of the page where the image is located.
         transaction_id (int): Unique identifier for the transaction.
-        
+
     Returns:
         str or None: Extracted text from the image, or None if extraction fails.
     """
