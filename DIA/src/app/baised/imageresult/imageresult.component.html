@@ -4,130 +4,258 @@
 <script src='https://cdnjs.cloudflare.com/ajax/libs/textfit/2.4.0/textFit.min.js'></script>!-->
 
 <!-- TAB CONTROLLERS -->
-<input id="img-panel-1-ctrl"
-       class="img-panel-radios" type="radio" name="img-tab-radios" checked hidden="hidden">
-<input id="img-panel-2-ctrl"
-       class="img-panel-radios" type="radio" name="img-tab-radios" hidden="hidden">
-<input id="img-panel-3-ctrl"
-       class="img-panel-radios" type="radio" name="img-tab-radios" hidden="hidden">
-<input id="img-nav-ctrl"
-       class="img-panel-radios" type="checkbox" name="img-nav-checkbox" hidden="hidden">
+<!--<input id="img-panel-1-ctrl"-->
+<!--       class="img-panel-radios" type="radio" name="img-tab-radios" checked hidden="hidden">-->
+<!--<input id="img-panel-2-ctrl"-->
+<!--       class="img-panel-radios" type="radio" name="img-tab-radios" hidden="hidden">-->
+<!--<input id="img-panel-3-ctrl"-->
+<!--       class="img-panel-radios" type="radio" name="img-tab-radios" hidden="hidden">-->
+<!--<input id="img-nav-ctrl"-->
+<!--       class="img-panel-radios" type="checkbox" name="img-nav-checkbox" hidden="hidden">-->
 
 <!-- TABS LIST -->
-<ul id="img-tabs-list" [ngStyle]="{'margin-top': marginTop}">
-    <!-- MENU TOGGLE -->
-    <label id="img-open-nav-label" for="img-nav-ctrl"></label>
-  <li id="img-li-for-panel-1">
-      <label class="img-panel-label"
-             for="img-panel-1-ctrl">Summary</label>
-    </li>
-    <li id="img-li-for-panel-2">
-      <label class="img-panel-label"
-             for="img-panel-2-ctrl">Detected Image List</label>
-    </li><!--INLINE-BLOCK FIX
- --><li id="img-li-for-panel-3">
-      <label class="img-panel-label"
-             for="img-panel-3-ctrl">Image Results</label>
-    </li><!--INLINE-BLOCK FIX
- -->
-    <label id="img-close-nav-label" for="img-nav-ctrl">Close</label>
-</ul>
+<!--<ul id="img-tabs-list" [ngStyle]="{'margin-top': marginTop}">-->
+<!--    &lt;!&ndash; MENU TOGGLE &ndash;&gt;-->
+<!--    <label id="img-open-nav-label" for="img-nav-ctrl"></label>-->
+<!--  <li id="img-li-for-panel-1">-->
+<!--      <label class="img-panel-label"-->
+<!--             for="img-panel-1-ctrl">Summary</label>-->
+<!--    </li>-->
+<!--    <li id="img-li-for-panel-2">-->
+<!--      <label class="img-panel-label"-->
+<!--             for="img-panel-2-ctrl">Detected Image List</label>-->
+<!--    </li>&lt;!&ndash;INLINE-BLOCK FIX-->
+<!-- &ndash;&gt;<li id="img-li-for-panel-3">-->
+<!--      <label class="img-panel-label"-->
+<!--             for="img-panel-3-ctrl">Image Results</label>-->
+<!--    </li>&lt;!&ndash;INLINE-BLOCK FIX-->
+<!-- &ndash;&gt;-->
+<!--    <label id="img-close-nav-label" for="img-nav-ctrl">Close</label>-->
+<!--</ul>-->
 
 
-<article id="img-panels">
-  <div class="img-container">
-     <section id="img-panel-1">
-      <main>
-        <!--<h1>Summary</h1>-->
-         <p>
-                                    <div class="img-result" *ngIf="image_results_Gender_Count.length>0">
-                                      <!--  <h2>Image Text Results</h2>-->
-                                        <ul>
+<!--<article id="img-panels">-->
+<!--  <div class="img-container">-->
+<!--     <section id="img-panel-1">-->
+<!--      <main>-->
+<!--        &lt;!&ndash;<h1>Summary</h1>&ndash;&gt;-->
+<!--         <p>-->
+<!--                                    <div class="img-result" *ngIf="image_results_Gender_Count.length>0">-->
+<!--                                      &lt;!&ndash;  <h2>Image Text Results</h2>&ndash;&gt;-->
+<!--                                        <ul>-->
 
-                                            <li>
-                                              <p>Total Gender Biased Count</p>
-                                                  <ul> <!--*ngFor="let txt_gender_count of image_results_Gender_Count;"-->
-                                                    <li>Male:  {{ image_results_Gender_Count[0][1] }}</li>
-                                                    <li>Female:  {{ image_results_Gender_Count[1][1] }}</li>
-                                                  </ul>
-                                            </li>
+<!--                                            <li>-->
+<!--                                              <p>Total Gender Biased Count</p>-->
+<!--                                                  <ul> &lt;!&ndash;*ngFor="let txt_gender_count of image_results_Gender_Count;"&ndash;&gt;-->
+<!--                                                    <li>Male:  {{ image_results_Gender_Count[0][1] }}</li>-->
+<!--                                                    <li>Female:  {{ image_results_Gender_Count[1][1] }}</li>-->
+<!--                                                  </ul>-->
+<!--                                            </li>-->
 
-                                        </ul>
-                                    </div>
-                                    <div class="img-result" *ngIf="image_results_Gender_Count.length==0">
-                                        <p>No biased image found.</p>
-                                    </div>
-      </main>
-    </section>
-    <section id="img-panel-2">
-      <div class="img-progress-container">
-        <div class="img-progress-bar" id="img-myBar"></div>
+<!--                                        </ul>-->
+<!--                                    </div>-->
+<!--                                    <div class="img-result" *ngIf="image_results_Gender_Count.length==0">-->
+<!--                                        <p>No biased image found.</p>-->
+<!--                                    </div>-->
+<!--      </main>-->
+<!--    </section>-->
+<!--    <section id="img-panel-2">-->
+<!--      <div class="img-progress-container">-->
+<!--        <div class="img-progress-bar" id="img-myBar"></div>-->
+<!--      </div>-->
+<!--      <main>-->
+<!--        &lt;!&ndash;<h1>Detected Image List</h1>&ndash;&gt;-->
+<!--         <p>-->
+<!--                                    <div class="img-result" *ngIf="image_biased_results.length>0">-->
+<!--                                        &lt;!&ndash;<h2>Text Results</h2>&ndash;&gt;-->
+<!--                                        <ul *ngFor="let result of image_biased_results;">-->
+<!--                                            <li>-->
+<!--                                              <a href="{{ result[0] }}">{{ result[0] }}</a>-->
+<!--                                            </li>-->
+<!--                                            <ul>-->
+<!--                                              <li> Male:  {{ result[1] }} </li>-->
+<!--                                              <li> Female: {{ result[2] }} </li>-->
+<!--                                              <li>  Gender Bias Confidence: {{ result[3] }} </li>-->
+<!--                                              <li>  Skin Color: {{ result[4] }} </li>-->
+<!--                                              <li> Dominant Race: {{ result[5] }} </li>-->
+<!--                                             </ul>-->
+<!--                                        </ul>-->
+<!--                                    </div>-->
+<!--                                    <div class="img-result" *ngIf="image_biased_results.length==0">-->
+<!--                                        <p>No biased sentences found in the text.</p>-->
+<!--                                    </div>-->
+<!--      </main>-->
+<!--    </section>-->
+<!--    <section id="img-panel-3">-->
+<!--      <main>-->
+<!--       &lt;!&ndash; <h1>Image Results</h1>&ndash;&gt;-->
+
+
+<!--    <div class="swiper swiperCarousel">-->
+
+<!--        <div class="swiper-wrapper">-->
+<!--            <div class="swiper-slide" *ngFor="let img_result of image_biased_results">-->
+<!--                <div class="card">-->
+<!--                    <img class="avatar" src="{{ img_result[0] }}" />-->
+<!--                    <svg class="quote-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="125px" height="125px">-->
+<!--              <path-->
+<!--                d="M 16.482422 8.9921875 A 1.50015 1.50015 0 0 0 15.943359 9.1074219 C 15.943359 9.1074219 13.068414 10.279429 10.357422 13.464844 C 7.6464301 16.650259 5 21.927419 5 30 A 1.50015 1.50015 0 0 0 5.015625 30.21875 A 8.5 8.5 0 0 0 13.5 39 A 8.5 8.5 0 0 0 13.5 22 A 8.5 8.5 0 0 0 8.7089844 23.480469 C 9.5777265 19.777157 11.122152 17.196657 12.642578 15.410156 C 14.931586 12.720571 17.056641 11.892578 17.056641 11.892578 A 1.50015 1.50015 0 0 0 16.482422 8.9921875 z M 37.482422 8.9921875 A 1.50015 1.50015 0 0 0 36.943359 9.1074219 C 36.943359 9.1074219 34.068414 10.279429 31.357422 13.464844 C 28.64643 16.650259 26 21.927419 26 30 A 1.50015 1.50015 0 0 0 26.015625 30.21875 A 8.5 8.5 0 0 0 34.5 39 A 8.5 8.5 0 0 0 34.5 22 A 8.5 8.5 0 0 0 29.708984 23.480469 C 30.577727 19.777157 32.122152 17.196657 33.642578 15.410156 C 35.931586 12.720571 38.056641 11.892578 38.056641 11.892578 A 1.50015 1.50015 0 0 0 37.482422 8.9921875 z"-->
+<!--              />-->
+<!--            </svg>-->
+<!--                    <div class="headercar">-->
+<!--                        <h1 class="name">Image Details: </h1>-->
+<!--                    </div>-->
+<!--                    <div class="title">-->
+<!--                        <h2 class="title"> Male:  {{ img_result[1] }} </h2>-->
+<!--                        <h2 class="title"> Female: {{ img_result[2] }} </h2>-->
+<!--                        <h2 class="title">  Gender Bias Confidence: {{ img_result[3] }} </h2>-->
+<!--                        <h2 class="title">  Skin Color: {{ img_result[4] }} </h2>-->
+<!--                        <h2 class="title"> Dominant Race: {{ img_result[5] }} </h2>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+
+<!--        <div class="swiper-button-next"></div>-->
+<!--        <div class="swiper-button-prev"></div>-->
+<!--        <div class="swiper-pagination"></div>-->
+<!--    </div>-->
+
+<!--      </main>-->
+<!--    </section>-->
+
+<!--  </div>-->
+<!--</article>-->
+
+<!--<br><app-barchart [data]="image_results_Gender_Count" [chartType]="'radial-bar'"></app-barchart><br><br>-->
+<!--<br><app-barchart [data]="image_results_Confidence_Count" [chartType]="'doughnut'"></app-barchart><br><br>-->
+<!--<br><app-barchart [data]="image_results_Skin_Color_Count" [chartType]="'doughnut'"></app-barchart><br><br>-->
+<!--<br><app-barchart [data]="image_results_Race_Count" [chartType]="'doughnut'"></app-barchart><br><br>-->
+
+
+<!--New Code-->
+  <div class="mt-5">
+    <div class="row">
+      <!-- Card 1 -->
+      <div class="col-md-2">
+        <div class="card">
+          <div class="card-body">
+            <div class="Text-align:center">
+              <h1 style="color:#981fae">5</h1>
+              <p>Image Detected</p>
+          </div>
+          </div>
+        </div>
       </div>
-      <main>
-        <!--<h1>Detected Image List</h1>-->
-         <p>
-                                    <div class="img-result" *ngIf="image_biased_results.length>0">
-                                        <!--<h2>Text Results</h2>-->
-                                        <ul *ngFor="let result of image_biased_results;">
-                                            <li>
-                                              <a href="{{ result[0] }}">{{ result[0] }}</a>
-                                            </li>
-                                            <ul>
-                                              <li> Male:  {{ result[1] }} </li>
-                                              <li> Female: {{ result[2] }} </li>
-                                              <li>  Gender Bias Confidence: {{ result[3] }} </li>
-                                              <li>  Skin Color: {{ result[4] }} </li>
-                                              <li> Dominant Race: {{ result[5] }} </li>
-                                             </ul>
-                                        </ul>
-                                    </div>
-                                    <div class="img-result" *ngIf="image_biased_results.length==0">
-                                        <p>No biased sentences found in the text.</p>
-                                    </div>
-      </main>
-    </section>
-    <section id="img-panel-3">
-      <main>
-       <!-- <h1>Image Results</h1>-->
 
+      <!-- Card 2 -->
+      <div class="col-md-2">
+        <div class="card">
+          <div class="card-body">
+            <div class="Text-align:center">
+              <h1 style="color:#981fae">72%</h1>
+              <p> Gender (M/F) Biased</p>
+          </div>
+          </div>
+        </div>
+      </div>
 
-    <div class="swiper swiperCarousel">
+      <!-- Card 3 -->
+      <div class="col-md-3">
+        <div class="card">
+          <div class="card-body">
+            <div class="Text-align:center">
+              <h1 style="color:#981fae">56%</h1>
+              <p>0.5 Gender Biased Confidence</p>
+          </div>
+          </div>
+        </div>
+      </div>
 
-        <div class="swiper-wrapper">
-            <div class="swiper-slide" *ngFor="let img_result of image_biased_results">
-                <div class="card">
-                    <img class="avatar" src="{{ img_result[0] }}" />
-                    <svg class="quote-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="125px" height="125px">
-              <path
-                d="M 16.482422 8.9921875 A 1.50015 1.50015 0 0 0 15.943359 9.1074219 C 15.943359 9.1074219 13.068414 10.279429 10.357422 13.464844 C 7.6464301 16.650259 5 21.927419 5 30 A 1.50015 1.50015 0 0 0 5.015625 30.21875 A 8.5 8.5 0 0 0 13.5 39 A 8.5 8.5 0 0 0 13.5 22 A 8.5 8.5 0 0 0 8.7089844 23.480469 C 9.5777265 19.777157 11.122152 17.196657 12.642578 15.410156 C 14.931586 12.720571 17.056641 11.892578 17.056641 11.892578 A 1.50015 1.50015 0 0 0 16.482422 8.9921875 z M 37.482422 8.9921875 A 1.50015 1.50015 0 0 0 36.943359 9.1074219 C 36.943359 9.1074219 34.068414 10.279429 31.357422 13.464844 C 28.64643 16.650259 26 21.927419 26 30 A 1.50015 1.50015 0 0 0 26.015625 30.21875 A 8.5 8.5 0 0 0 34.5 39 A 8.5 8.5 0 0 0 34.5 22 A 8.5 8.5 0 0 0 29.708984 23.480469 C 30.577727 19.777157 32.122152 17.196657 33.642578 15.410156 C 35.931586 12.720571 38.056641 11.892578 38.056641 11.892578 A 1.50015 1.50015 0 0 0 37.482422 8.9921875 z"
-              />
-            </svg>
-                    <div class="headercar">
-                        <h1 class="name">Image Details: </h1>
-                    </div>
-                    <div class="title">
-                        <h2 class="title"> Male:  {{ img_result[1] }} </h2>
-                        <h2 class="title"> Female: {{ img_result[2] }} </h2>
-                        <h2 class="title">  Gender Bias Confidence: {{ img_result[3] }} </h2>
-                        <h2 class="title">  Skin Color: {{ img_result[4] }} </h2>
-                        <h2 class="title"> Dominant Race: {{ img_result[5] }} </h2>
-                    </div>
-                </div>
+      <!-- Card 4 -->
+      <div class="col-md-2">
+        <div class="card">
+          <div class="card-body">
+            <div class="Text-align:center">
+              <h1 style="color:#981fae">34%</h1>
+              <p>Sienna Biased Skin Color</p>
+          </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 5 -->
+      <div class="col-md-3">
+        <div class="card">
+          <div class="card-body">
+            <div class="Text-align:center">
+              <h1 style="color:#981fae">83%</h1>
+              <p>Asian Dominant Race</p>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+<br/>
+
+    <div class="row">
+        <div class="col-md-4 mb-3">
+             <div class="card">
+          <div class="card-body chart-legend-container">
+            <h5 style="color:#981fae">Overall Gender Analysis</h5>
+                <app-barchart [data]="image_results_Gender_Count" [chartType]="'radial-bar'"></app-barchart>
+            </div>
             </div>
         </div>
-
-        <div class="swiper-button-next"></div>
-        <div class="swiper-button-prev"></div>
-        <div class="swiper-pagination"></div>
+            <div class="col-md-4 mb-3">
+                  <div class="card">
+        <div class="card-body chart-legend-container">
+           <div>
+                                <p class="card-title" style="color:#981fae; font-size:medium; font-weight: light; font-size:1.5rem">Image Model Results
+                                    Results
+                                    <img src="imgModel.png" alt="image Model"
+                                    style="height:2.5rem;width:2.5rem; float: right;"></p>
+                                <a class="float-right"
+                                    style="margin-bottom:2rem;text-decoration: underline; margin-right:1.7rem; ">
+                                  <span (click)="activeTab()"> View Results </span>
+                                </a>
+                            </div>
+          <div class="horizontal-line"></div>
+          <div>
+<!--    Image Model Results-->
+          </div>
+          </div>
+          </div>
+        </div>
+            <div class="col-md-4 mb-3">
+               <div class="card">
+      <div class="card-body chart-legend-container">
+        <h5 style="color:#981fae">Overall Skin Color Analysis</h5>
+          <app-barchart [data]="image_results_Skin_Color_Count" [chartType]="'radial-bar'"></app-barchart>
+        </div>
+        </div>
+        </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4 mb-3">
+           <div class="card">
+          <div class="card-body chart-legend-container">
+            <h5 style="color:#981fae">Overall Gender Biased Confidence Analysis</h5>
+                <app-barchart [data]="image_results_Confidence_Count" [chartType]="'radial-bar'"></app-barchart>
+            </div>
+            </div>
+      </div>
+      <div class="col-md-4 mb-3"></div>
+      <div class="col-md-4 mb-3"> <div class="card">
+      <div class="card-body chart-legend-container">
+        <h5 style="color:#981fae">Overall Dominant Race Analysis</h5>
+          <app-barchart [data]="image_results_Race_Count" [chartType]="'radial-bar'"></app-barchart>
+        </div>
+        </div></div>
     </div>
 
-      </main>
-    </section>
 
-  </div>
-</article>
 
-<br><app-barchart [data]="image_results_Gender_Count" [chartType]="'radial-bar'"></app-barchart><br><br>
-<br><app-barchart [data]="image_results_Confidence_Count" [chartType]="'doughnut'"></app-barchart><br><br>
-<br><app-barchart [data]="image_results_Skin_Color_Count" [chartType]="'doughnut'"></app-barchart><br><br>
-<br><app-barchart [data]="image_results_Race_Count" [chartType]="'doughnut'"></app-barchart><br><br>
+    </div>
+
+

@@ -39,4 +39,6 @@ constructor(private router: Router, private activatedRoute: ActivatedRoute){
 
 ngOnInit(): void { runImage();}
 
+ activeTab() {}
+
 }
