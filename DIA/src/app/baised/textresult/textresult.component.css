@@ -152,3 +152,7 @@
   top: -5px;
 }
 
+::ng-deep .modal-content{
+width: 38rem !important;
+}
+
