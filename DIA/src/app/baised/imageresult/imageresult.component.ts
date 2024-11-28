@@ -22,6 +22,22 @@ image_results_Confidence_Count: any[] = [];
 image_results_Skin_Color_Count: any[] = [];
 image_results_Race_Count: any[] = [];
 
+maxImgGenderCount: number = 0;  // For maximum biased gender count
+maxImgGender: string = '';  // For the gender associated with the maximum count
+maxImgGenderPercentage: number = 0;  // For the percentage of the maximum biased count
+
+maxImgConfidenceCount: number = 0;  // For maximum biased confidence count
+maxImgConfidence: string = '';  // For the confidence associated with the maximum count
+maxImgConfidencePercentage: number = 0;  // For the percentage of the maximum biased count
+
+maxImgSkinColorCount: number = 0;  // For maximum biased skin color count
+maxImgSkinColor: string = '';  // For the skin color associated with the maximum count
+maxImgSkinColorPercentage: number = 0;  // For the percentage of the maximum biased count
+
+maxImgRaceCount: number = 0;  // For maximum biased race count
+maxImgRace: string = '';  // For the race associated with the maximum count
+maxImgRacePercentage: number = 0;  // For the percentage of the maximum biased count
+
 constructor(private router: Router, private activatedRoute: ActivatedRoute){
   let state = this.router.getCurrentNavigation()!.extras.state;
 
@@ -37,7 +53,66 @@ constructor(private router: Router, private activatedRoute: ActivatedRoute){
   }
 }
 
-ngOnInit(): void { runImage();}
+ngOnInit(): void {
+  runImage();
+
+  // Calculate max gender count and corresponding gender
+  if (this.image_results_Gender_Count && this.image_results_Gender_Count.length > 0) {
+    const totalImgGenderCount = this.image_results_Gender_Count.reduce((sum: number, current: [string, number]) => sum + current[1], 0);  // Total count of all genders
+
+    const maxImgGenderEntry = this.image_results_Gender_Count.reduce((max: [string, number], current: [string, number]) => {
+      return current[1] > max[1] ? current : max;
+    });
+    this.maxImgGenderCount = maxImgGenderEntry[1];  // The maximum biased count
+    this.maxImgGender = maxImgGenderEntry[0];  // The corresponding gender (Male/Female)
+
+    // Calculate the percentage of the maximum biased count
+    this.maxImgGenderPercentage = Math.round((this.maxImgGenderCount / totalImgGenderCount) * 100);
+  }
+
+  // Calculate max confidence count and corresponding confidence
+  if (this.image_results_Confidence_Count && this.image_results_Confidence_Count.length > 0) {
+    const totalImgConfidenceCount = this.image_results_Confidence_Count.reduce((sum: number, current: [string, number]) => sum + current[1], 0);  // Total count of all confidence
+
+    const maxImgConfidenceEntry = this.image_results_Confidence_Count.reduce((max: [string, number], current: [string, number]) => {
+      return current[1] > max[1] ? current : max;
+    });
+    this.maxImgConfidenceCount = maxImgConfidenceEntry[1];  // The maximum biased count
+    this.maxImgConfidence = maxImgConfidenceEntry[0];  // The corresponding confidence
+
+    // Calculate the percentage of the maximum biased count
+    this.maxImgConfidencePercentage = Math.round((this.maxImgConfidenceCount / totalImgConfidenceCount) * 100);
+  }
+
+  // Calculate max skin color count and corresponding skin color
+  if (this.image_results_Skin_Color_Count && this.image_results_Skin_Color_Count.length > 0) {
+    const totalImgColorCount = this.image_results_Skin_Color_Count.reduce((sum: number, current: [string, number]) => sum + current[1], 0);  // Total count of all skin color
+
+    const maxImgColorEntry = this.image_results_Skin_Color_Count.reduce((max: [string, number], current: [string, number]) => {
+      return current[1] > max[1] ? current : max;
+    });
+    this.maxImgSkinColorCount = maxImgColorEntry[1];  // The maximum biased count
+    this.maxImgSkinColor = maxImgColorEntry[0];  // The corresponding skin color
+
+    // Calculate the percentage of the maximum biased count
+    this.maxImgSkinColorPercentage = Math.round((this.maxImgSkinColorCount / totalImgColorCount) * 100);
+  }
+
+  // Calculate max race count and corresponding race
+  if (this.image_results_Race_Count && this.image_results_Race_Count.length > 0) {
+    const totalImgRaceCount = this.image_results_Race_Count.reduce((sum: number, current: [string, number]) => sum + current[1], 0);  // Total count of all genraceders
+
+    const maxImgRaceEntry = this.image_results_Race_Count.reduce((max: [string, number], current: [string, number]) => {
+      return current[1] > max[1] ? current : max;
+    });
+    this.maxImgRaceCount = maxImgRaceEntry[1];  // The maximum biased count
+    this.maxImgRace = maxImgRaceEntry[0];  // The corresponding race
+
+    // Calculate the percentage of the maximum biased count
+    this.maxImgRacePercentage = Math.round((this.maxImgRaceCount / totalImgRaceCount) * 100);
+  }
+
+}
 
  activeTab() {}
 

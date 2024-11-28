@@ -141,8 +141,8 @@
         <div class="card">
           <div class="card-body">
             <div class="Text-align:center">
-              <h1 style="color:#981fae">5</h1>
-              <p>Image Detected</p>
+              <h1 style="color:#981fae">{{ image_results_Count }}</h1>
+              <p>Image(s) Detected</p>
           </div>
           </div>
         </div>
@@ -153,8 +153,8 @@
         <div class="card">
           <div class="card-body">
             <div class="Text-align:center">
-              <h1 style="color:#981fae">72%</h1>
-              <p> Gender (M/F) Biased</p>
+              <h1 style="color:#981fae">{{ maxImgGenderPercentage }}%</h1>
+              <p> {{ maxImgGender }} Biased</p>
           </div>
           </div>
         </div>
@@ -165,8 +165,8 @@
         <div class="card">
           <div class="card-body">
             <div class="Text-align:center">
-              <h1 style="color:#981fae">56%</h1>
-              <p>0.5 Gender Biased Confidence</p>
+              <h1 style="color:#981fae">{{ maxImgConfidencePercentage }}%</h1>
+              <p>{{ maxImgConfidence }} Gender Biased Confidence</p>
           </div>
           </div>
         </div>
@@ -177,8 +177,8 @@
         <div class="card">
           <div class="card-body">
             <div class="Text-align:center">
-              <h1 style="color:#981fae">34%</h1>
-              <p>Sienna Biased Skin Color</p>
+              <h1 style="color:#981fae">{{ maxImgSkinColorPercentage }}%</h1>
+              <p>{{ maxImgSkinColor }} Biased Skin Color</p>
           </div>
           </div>
         </div>
@@ -189,8 +189,8 @@
         <div class="card">
           <div class="card-body">
             <div class="Text-align:center">
-              <h1 style="color:#981fae">83%</h1>
-              <p>Asian Dominant Race</p>
+              <h1 style="color:#981fae">{{ maxImgRacePercentage }}%</h1>
+              <p>{{ maxImgRace }} Dominant Race</p>
           </div>
           </div>
         </div>
