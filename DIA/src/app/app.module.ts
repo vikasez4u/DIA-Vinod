@@ -14,6 +14,7 @@ import {APP_BASE_HREF} from '@angular/common';
 import { BarchartComponent } from './barchart/barchart.component';
 import { TextresultComponent } from './baised/textresult/textresult.component';
 import { ImageresultComponent } from './baised/imageresult/imageresult.component';
+import { ParallelexecComponent } from './baised/parallelexec/parallelexec.component';
 import { ConfigurationComponent } from './configuration/configuration.component';
 import { PanelMenuModule } from 'primeng/panelmenu';
 import { GenderComponent } from './configuration/gender/gender.component';
@@ -49,6 +50,7 @@ const routes : Routes = [
     BarchartComponent,
     TextresultComponent,
     ImageresultComponent,
+    ParallelexecComponent,
     routingComponents,
     ConfigurationComponent,
     GenderComponent,

@@ -10,6 +10,7 @@ import cairosvg  # To convert SVGs to PNGs for OCR processing
 from requests import RequestException
 import Geographical_Entity_Extractor as geoExtractor
 import db as diadb
+from app import app
 import spacy
 # Load spaCy's language model (you can replace 'en_core_web_sm' with a larger model if needed)
 nlp = spacy.load('en_core_web_sm')
@@ -100,6 +101,7 @@ def detect_biased_sentences(text, keyword_list, table_name, transaction_id, imag
 
                 #Uncomment the following lines to enable database insertion
                 try:
+                  with app.app_context():
                     diadb.insert_biased_result(table_name, transaction_id, 'Text', highlighted_sentence, word, image_link)
                     print(f"Insert into {table_name} successful for word '{word}' and sentence '{highlighted_sentence}'.")
                 except Exception as e:
@@ -167,6 +169,20 @@ def detect_geo_ethnicity_bias(text, transaction_id, source, ethnicity_list=None,
 
   # Remove duplicates
   unique_entities = {f"{e['entity'].lower()}_{e['type']}": e for e in detected_entities}.values()
+
+  try:
+    with app.app_context():
+      for entity in list(unique_entities):
+        diadb.insert_geo_bias_result(
+          transaction_id=transaction_id,
+          source=source,
+          city=entity['entity'] if entity['type'] == 'ethnicity' else None,
+          country=entity['entity'] if entity['type'] == 'Country' else None
+        )
+      print("Inserted text eth geo")
+  except Exception as e:
+    (
+      print(f"Failed to insert into geographical table: {e}"))
 
   return list(unique_entities)
 

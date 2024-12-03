@@ -100,7 +100,8 @@ export class BaisedComponent implements OnInit {
           let self = this;
           function loadTo(Page: any): void {
             if (Page['file'] == 'Text') {
-              self.router.navigate(['biased/textresult'], {state: { biased_txt_results: Page['txt_results'], biased_alt_results: Page['alt_results'],
+              self.router.navigate(['biased/textresult'],
+              {state: { biased_txt_results: Page['txt_results'], biased_alt_results: Page['alt_results'],
               biased_img_results: Page['txt_img_results'], total_biased_text: Page['total_biased_text'],
               total_biased_alt_text: Page['total_biased_alt_text'],
               total_biased_img_results: Page['total_biased_img_results'],
@@ -137,14 +138,37 @@ export class BaisedComponent implements OnInit {
               //window.location.assign('/imageOp');
             }
             else {
-              self.router.navigate(['biased/parallelexec'], {state: { biased_txt_results: Page['txt_results'], biased_alt_results: Page['alt_results'],
+              self.router.navigate(['biased/parallelexec'],
+              {state: { biased_txt_results: Page['txt_results'], biased_alt_results: Page['alt_results'],
               biased_img_results: Page['txt_img_results'], total_biased_text: Page['total_biased_text'],
               total_biased_alt_text: Page['total_biased_alt_text'],
               total_biased_img_results: Page['total_biased_img_results'],
-              text_results_tr_Gender_Count: Page['text_results_tr_Gender_Count'],
-              alt_text_results_tr_Gender_Count: Page['alt_text_results_tr_Gender_Count'],
-              img_text_results_tr_Gender_Count: Page['img_text_results_tr_Gender_Count'],
-              image_biased_results: Page['image_results'], image_results_tr: Page['image_results_tr']}});
+              text_results_Gender_Count: Page['text_results_Gender_Count'],
+              alt_text_results_Gender_Count: Page['alt_text_results_Gender_Count'],
+              img_text_results_Gender_Count: Page['img_text_results_Gender_Count'],
+              overall_gender_count: Page['overall_gender_count'],
+              textmodel_counts: Page['textmodel_counts'],
+              total_Ethnicity_Count: Page['total_Ethnicity_Count'],
+              total_GeoLocation_Count: Page['total_GeoLocation_Count'],
+              text_results_Ethnicity_Count: Page['text_results_Ethnicity_Count'],
+              alt_text_results_Ethnicity_Count: Page['alt_text_results_Ethnicity_Count'],
+              img_text_results_Ethnicity_Count: Page['img_text_results_Ethnicity_Count'],
+              text_results_GeoLocation_Count : Page['text_results_GeoLocation_Count'],
+              alt_text_results_GeoLocation_Count: Page['alt_text_results_GeoLocation_Count'],
+              img_text_results_GeoLocation_Count: Page['img_text_results_GeoLocation_Count'],
+              total_Ethnicity_text: Page['total_Ethnicity_text'],
+              total_Ethnicity_alt_text: Page['total_Ethnicity_alt_text'],
+              total_Ethnicity_img_text: Page['total_Ethnicity_img_text'],
+              total_GeoLocation_text: Page['total_GeoLocation_text'],
+              total_GeoLocation_alt_text: Page['total_GeoLocation_alt_text'],
+              total_GeoLocation_img_text: Page['total_GeoLocation_img_text'],
+              image_biased_results: Page['image_results'],
+              image_results_Count: Page['image_results_Count'],
+              image_results_Gender_Count: Page['image_results_Gender_Count'],
+              image_results_Confidence_Count: Page['image_results_Confidence_Count'],
+              image_results_Skin_Color_Count: Page['image_results_Skin_Color_Count'],
+              image_results_Race_Count: Page['image_results_Race_Count']
+              }});
               //window.location.assign('/parallelexec');
             }
           }

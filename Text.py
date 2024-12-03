@@ -1,5 +1,6 @@
 #from flask import Flask
-from db import init_db, ensure_tables_exist, insert_biased_result, insert_geo_bias_result
+#from db import init_db, ensure_tables_exist, insert_biased_result, insert_geo_bias_result
+
 from Text_processing_helper import (
     extract_text_from_url,
     detect_biased_sentences,
@@ -48,13 +49,17 @@ def text_analysis_results(url, transaction_id, keyword_list):
         text_content, transaction_id, source='text', ethnicity_list=ethnicity_list
     )
 
-    for entity in text_geo_ethnicities:
-        insert_geo_bias_result(
-            transaction_id=transaction_id,
-            source='text',
-            city=entity['entity'] if entity['type'] == 'ethnicity' else None,
-            country=entity['entity'] if entity['type'] == 'Country' else None
-        )
+    '''try:
+      for entity in text_geo_ethnicities:
+          diadb.insert_geo_bias_result(
+              transaction_id=transaction_id,
+              source='text',
+              city=entity['entity'] if entity['type'] == 'ethnicity' else None,
+              country=entity['entity'] if entity['type'] == 'Country' else None
+          )
+      print("Inserted text eth geo")
+    except Exception as e:(
+      print(f"Failed to insert into geographical table: {e}"))'''
 
     alt_texts = extract_alt_text_from_url(url)
     alt_results = detect_biased_sentences_in_alt_text(alt_texts, keyword_list, transaction_id)
@@ -66,31 +71,38 @@ def text_analysis_results(url, transaction_id, keyword_list):
         image_urls=[url for _, url in alt_texts]
     )
 
-    for entity in alttext_geo_ethnicities:
-        insert_geo_bias_result(
-            transaction_id=transaction_id,
-            source='alt_text',
-            city=entity['entity'] if entity['type'] == 'ethnicity' else None,
-            country=entity['entity'] if entity['type'] == 'Country' else None
-        )
+    '''try:
+      for entity in alttext_geo_ethnicities:
+          diadb.insert_geo_bias_result(
+              transaction_id=transaction_id,
+              source='alt_text',
+              city=entity['entity'] if entity['type'] == 'ethnicity' else None,
+              country=entity['entity'] if entity['type'] == 'Country' else None
+          )
+      print("Inserted text eth geo")
+    except Exception as e: (
+      print(f"Failed to insert into geographical table: {e}"))'''
 
     img_results = extract_text_from_images(url, transaction_id, keyword_list, ethnicity_list)
 
-    for entity in img_results['geo_bias_results']:
-        insert_geo_bias_result(
-            transaction_id=transaction_id,
-            source='image',
-            city=entity['entity'] if entity['type'] == 'ethnicity' else None,
-            country=entity['entity'] if entity['type'] == 'Country' else None
-        )
+    '''try:
+      for entity in img_results['geo_bias_results']:
+          diadb.insert_geo_bias_result(
+              transaction_id=transaction_id,
+              source='image',
+              city=entity['entity'] if entity['type'] == 'ethnicity' else None,
+              country=entity['entity'] if entity['type'] == 'Country' else None
+          )
+      print("Inserted text eth geo")
+    except Exception as e: (
+      print(f"Failed to insert into geographical table: {e}"))'''
 
     return {
         'text_bias_results': txt_results,
         'alt_text_results': alt_results,
         'text_geo_ethnicities': text_geo_ethnicities,
         'alt_text_geo_ethnicities': alttext_geo_ethnicities,
-        'image_results': img_results,
-        'image_text_geo_ethnicities': img_results['geo_bias_results'],
+        'image_results': img_results
     }
 
 # Standalone Testing
