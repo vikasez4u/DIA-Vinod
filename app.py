@@ -48,7 +48,7 @@ diadb.init_db(app)
 
 
 @app.route('/')
-@app.route('/home')
+@app.route('/dia/home')
 @app.route('/dia/')
 def home():
   # Create tables as needed
@@ -146,7 +146,7 @@ def result():
       import Image_Mode_Race_colour as imageMode
       loom = ThreadLoom(max_runner_cap=2)
       loom.add_function(text_analysis_results, [url, transaction_id, keyword_list], {})
-      loom.add_function(imageMode.main, [url], {})
+      loom.add_function(imageMode.main, [url, transaction_id], {})
       parllelexecresult = loom.execute()
       print(parllelexecresult)
 
@@ -285,7 +285,7 @@ def result():
 
     elif image_mode:
       import Image_Mode_Race_colour as imageMode
-      image_results = imageMode.main(url)
+      image_results = imageMode.main(url,transaction_id)
       image_results_Count, image_results_Gender_Count, image_results_Confidence_Count, image_results_Skin_Color_Count, image_results_Race_Count = diadb.imageSummaryResults(transaction_id)
       return {
         "file": "Image",
@@ -297,28 +297,10 @@ def result():
         "image_results_Race_Count": image_results_Race_Count
       }
 
-  return {}
-
-
-def run_text_analysis_with_context(url, transaction_id):
-  return run_with_app_context(text_analysis, url=url, transaction_id=transaction_id)
-
-
-def run_image_analysis_with_context(url):
-  return run_with_app_context(imageMode.main, url=url)
-
 
 def run_with_app_context(func, **kwargs):
   with app.app_context():
     return func(**kwargs)
-
-
-@app.route('/text', methods=['POST'])
-def text_analysis(url, transaction_id):
-
-  txt_results, alt_results, img_results = text_analysis_results(url, transaction_id,keyword_list)
-  return txt_results, alt_results, img_results
-
 
 
 @app.route("/form", methods=["POST", "GET"])
@@ -411,4 +393,4 @@ def readExcel():
 
 if __name__ == '__main__':
   keyword_list = load_gender_biased_words()
-  app.run(debug=True)
+  app.run(debug=False)

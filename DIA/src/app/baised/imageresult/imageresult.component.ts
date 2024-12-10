@@ -1,5 +1,7 @@
 import { Component, OnInit, Injectable, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { HttpClient } from "@angular/common/http";
+import {NgbModal, ModalDismissReasons}  from '@ng-bootstrap/ng-bootstrap';
 declare function runImage(): void;
 
 @Component({
@@ -38,7 +40,13 @@ maxImgRaceCount: number = 0;  // For maximum biased race count
 maxImgRace: string = '';  // For the race associated with the maximum count
 maxImgRacePercentage: number = 0;  // For the percentage of the maximum biased count
 
-constructor(private router: Router, private activatedRoute: ActivatedRoute){
+users: any[] = [];
+defaultWords: any[] = [];
+closeResult = '';
+
+resultSection: string = '';
+
+constructor(private router: Router, private activatedRoute: ActivatedRoute, private http: HttpClient, private modalService: NgbModal){
   let state = this.router.getCurrentNavigation()!.extras.state;
 
   if (state) {
@@ -112,8 +120,41 @@ ngOnInit(): void {
     this.maxImgRacePercentage = Math.round((this.maxImgRaceCount / totalImgRaceCount) * 100);
   }
 
+  this.http.get('/baisedwordresults', { responseType: 'json' })
+          .subscribe((data: any) => {
+           // alert(JSON.stringify(data));
+            this.defaultWords = data['baisedword_results'];
+           // alert(data);
+          });
+
+    this.http.get('/readExcel', { responseType: 'json' })
+          .subscribe((data: any) => {
+           // alert(JSON.stringify(data));
+            this.users = data['excel_data'];
+           // alert(data);
+          });
+
 }
 
- activeTab() {}
+ activeTab(content:any,sectionName:string) {
+ this.resultSection=sectionName;
+this.modalService.open(content,
+   {ariaLabelledBy: 'modal-basic-title'}).result.then((result)=> {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult =
+         `Dismissed ${this.getDismissReason(reason)}`;
+    });
+}
+
+private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
+  }
 
 }

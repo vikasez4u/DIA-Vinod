@@ -143,8 +143,8 @@ def extract_image_links(url):
     img_links = [urljoin(url, img.get("src")) if img.get("src").endswith((".jpg", ".jpeg", ".png", ".gif", ".svg")) else None for img in img_tags]
     return [link for link in img_links if link]
 
-def main(url):
-    transaction_id = datetime.now().strftime("%Y%m%d%H%M%S")
+def main(url, transaction_id):
+    #transaction_id = datetime.now().strftime("%Y%m%d%H%M%S")
     GENDER_MODEL = os.path.join(os.path.dirname(__file__), 'weights', 'gender_net.caffemodel')
     GENDER_PROTO = os.path.join(os.path.dirname(__file__), 'weights', 'deploy_gender.prototxt')
     FACE_PROTO = os.path.join(os.path.dirname(__file__), 'weights', 'deploy.prototxt')
