@@ -787,7 +787,7 @@ color: rgba(var(--bs-link-color-rgb), var(--bs-link-opacity, 1));
 
 /*New Code*/
  .card {
-      height: 100%;
+      height: auto;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -807,4 +807,13 @@ color: rgba(var(--bs-link-color-rgb), var(--bs-link-opacity, 1));
     margin-top: 3rem !important;
     margin-left: 0.5rem !important;
     margin-right: 0.5rem !important;
+}
+
+::ng-deep .modal-content {
+    width: 44rem !important;
+}
+
+::ng-deep .avatar {
+  height:12rem;
+   width:23rem;
 }
