@@ -214,11 +214,10 @@
                                 </a>
                             </div>
           <div class="horizontal-line"></div>
-          <div>
-
-            <div>
-                <div  *ngFor="let img_result of image_biased_results">
-                    <div>
+          <div class="swiper-container">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide"  *ngFor="let img_result of image_biased_results">
+                    <div class="img-res-card">
                         <img class="avatar" src="{{ img_result[0] }}" />
 <!--                        <svg class="quote-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="2rem" height="2rem">-->
 <!--                  <path-->
@@ -238,10 +237,9 @@
                     </div>
                 </div>
             </div>
-
-<!--            <div class="swiper-button-next"></div>-->
-<!--            <div class="swiper-button-prev"></div>-->
-<!--            <div class="swiper-pagination"></div>-->
+            <div class="swiper-pagination"></div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
           </div>
           </div>
           </div>
@@ -258,7 +256,7 @@
             </div>
             </div>
           </div>
-          <div class="col-12">
+          <div class="col-12" style="margin-left: 15.75rem;margin-top: 1.5rem;">
            <div class="card">
       <div class="card-body chart-legend-container">
         <h5 style="color:#981fae">Overall Skin Color Analysis</h5>
@@ -272,14 +270,14 @@
       <!-- Column 3 -->
       <div class="col-md-4">
         <div class="row g-3">
-          <div class="col-12">
+          <!--div class="col-12">
            <div class="card">
           <div class="card-body chart-legend-container">
             <h6 style="color:#981fae">Overall Gender Biased Confidence Analysis</h6>
                 <app-barchart [data]="image_results_Confidence_Count" [chartType]="'radial-bar'"></app-barchart>
             </div>
             </div>
-          </div>
+          </div-->
           <div class="col-12">
            <div class="card">
       <div class="card-body chart-legend-container">

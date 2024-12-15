@@ -814,6 +814,27 @@ color: rgba(var(--bs-link-color-rgb), var(--bs-link-opacity, 1));
 }
 
 ::ng-deep .avatar {
-  height:12rem;
-   width:23rem;
+  height:18rem;
+   width:24rem;
+}
+
+.swiper-container {
+  width: 100%;
+  height: 700px;
+  overflow: hidden;
+}
+
+.swiper-slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.img-res-card{
+  height: 43rem;
+}
+
+.long-card{
+  height: 45.9rem;
 }

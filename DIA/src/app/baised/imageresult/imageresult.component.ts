@@ -2,7 +2,12 @@ import { Component, OnInit, Injectable, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient } from "@angular/common/http";
 import {NgbModal, ModalDismissReasons}  from '@ng-bootstrap/ng-bootstrap';
-declare function runImage(): void;
+import Swiper from 'swiper';
+import { Navigation, Pagination } from 'swiper/modules';
+
+//declare function runImage(): void;
+
+Swiper.use([Navigation, Pagination]);
 
 @Component({
   selector: 'app-imageresult',
@@ -62,7 +67,21 @@ constructor(private router: Router, private activatedRoute: ActivatedRoute, priv
 }
 
 ngOnInit(): void {
-  runImage();
+  //runImage();
+  const swiper = new Swiper('.swiper-container', {
+      loop: true,
+      slidesPerView: 1,
+      spaceBetween: 10,
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      modules: [Navigation, Pagination]
+  });
 
   // Calculate max gender count and corresponding gender
   if (this.image_results_Gender_Count && this.image_results_Gender_Count.length > 0) {
