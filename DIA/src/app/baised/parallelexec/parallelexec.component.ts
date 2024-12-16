@@ -24,7 +24,7 @@ text_results_tr_Gender_Count: any;
 alt_text_results_tr_Gender_Count: any;
 img_text_results_tr_Gender_Count: any;
 image_biased_results: any;
-image_results_tr: any;
+image_results_Count: any;
 //parallelexecScript: HTMLScriptElement;
 
 constructor(private router: Router, private activatedRoute: ActivatedRoute){
@@ -42,7 +42,7 @@ constructor(private router: Router, private activatedRoute: ActivatedRoute){
     this.alt_text_results_tr_Gender_Count = state['alt_text_results_tr_Gender_Count'];
     this.img_text_results_tr_Gender_Count = state['img_text_results_tr_Gender_Count'];
     this.image_biased_results = state['image_biased_results'];
-    this.image_results_tr = state['image_results_tr'];
+    this.image_results_Count = state['image_results_Count'];
   }
 
   /**this.parallelexecScript = document.createElement("script");
