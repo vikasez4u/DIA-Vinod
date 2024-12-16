@@ -813,6 +813,11 @@ color: rgba(var(--bs-link-color-rgb), var(--bs-link-opacity, 1));
     width: 44rem !important;
 }
 
+::ng-deep .modal-body{
+    overflow: hidden;
+    margin-right: 1rem;
+}
+
 ::ng-deep .avatar {
   height:18rem;
    width:24rem;

@@ -153,6 +153,10 @@
 }
 
 ::ng-deep .modal-content{
-width: 38rem !important;
+  width: 38rem !important;
 }
 
+::ng-deep .modal-body{
+  overflow: hidden;
+  margin-right: 1rem;
+}
