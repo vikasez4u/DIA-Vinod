@@ -1,4 +1,4 @@
-<!-- TAB CONTROLLERS -->
+<!-- TAB CONTROLLERS >
 <input id="main-panel-1-ctrl"
        class="main-panel-radios" type="radio" name="main-tab-radios" checked hidden="hidden">
 <input id="main-panel-2-ctrl"
@@ -6,21 +6,21 @@
 <input id="main-nav-ctrl"
        class="main-panel-radios" type="checkbox" name="main-nav-checkbox" hidden="hidden">
 
-<!-- TABS LIST -->
+< TABS LIST >
 <ul id="main-tabs-list">
-    <!-- MENU TOGGLE -->
+    <-- MENU TOGGLE >
     <label id="main-open-nav-label" for="main-nav-ctrl"></label>
     <li id="main-li-for-panel-1">
       <label class="main-panel-label" for="main-panel-1-ctrl">Text Model Results</label>
-    </li><!--INLINE-BLOCK FIX-->
+    </li><--INLINE-BLOCK FIX>
     <li id="main-li-for-panel-2">
       <label class="main-panel-label" for="main-panel-2-ctrl">Image Model Results</label>
-    </li><!--INLINE-BLOCK FIX-->
+    </li><--INLINE-BLOCK FIX>
     <label id="main-close-nav-label" for="main-nav-ctrl">Close</label>
 </ul>
 
-<!-- THE PANELS -->
-<article id="main-panels">
+< THE PANELS >
+<article-- id="main-panels">
   <div class="main-container">
     <section id="main-panel-1">
       <main>
@@ -33,5 +33,22 @@
       </main>
     </section>
   </div>
-</article>
+</article-->
+
+<div class="tabs">
+  <input type="radio" id="text" name="tab" [(ngModel)]="selectedTab" [value]="1">>
+  <label for="text" class="tab">Text Model Results</label>
+
+  <input type="radio" id="Image" name="tab" [(ngModel)]="selectedTab" [value]="2">>
+  <label for="Image" class="tab">Image Model Results</label>
+
+</div>
+
+<div [ngClass]="{'active-tab': selectedTab === 1}" class="tab-content">
+  <app-textresult></app-textresult>
+</div>
+
+<div [ngClass]="{'active-tab': selectedTab === 2}" class="tab-content">
+  <app-imageresult></app-imageresult>
+</div>
 

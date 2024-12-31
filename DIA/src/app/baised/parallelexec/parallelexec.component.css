@@ -1,4 +1,4 @@
-/*--Page Loader--*/
+/*--Page Loader--/
  .lds-grid {
   display: inline-block;
   position: relative;
@@ -66,7 +66,7 @@
     opacity: 0.5;
   }
 }
-/*-- Page Loader--*/
+/*-- Page Loader--/
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400|Inconsolata);
 ul#main-tabs-list {
   list-style: none;
@@ -113,7 +113,7 @@ label.main-panel-label:hover {
   //border: 1px solid black;
   //border-collapse: separate;
   //border-spacing: 0px;
-  //margin-left: 190px;**/
+  //margin-left: 190px;/
   max-height: 0px;
 }
 
@@ -198,11 +198,11 @@ label.main-panel-label:hover {
   }
   #main-panel-1-ctrl:checked ~ #main-tabs-list #main-li-for-panel-1 label.main-panel-label {
     /**background-color: white;
-    //color: #2f4f4f;**/
+    //color: #2f4f4f;/
     background-color: white;
     color: #981fae;
     /*background-color: #c0392b;
-    color: white;*/
+    color: white;/
   }
 
   #main-panel-2-ctrl:checked ~ #main-tabs-list #main-li-for-panel-2 {
@@ -213,7 +213,7 @@ label.main-panel-label:hover {
     background-color: white;
     color: #981fae;
     /*background-color: #c0392b;
-    color: white;*/
+    color: white;/
   }
 
   #main-panels .main-container {
@@ -355,7 +355,7 @@ body {
 }
 
 main h1 {
-  /**margin-top: -40px;**/
+  /**margin-top: -40px;/
   font-weight: 300;
   color: white;
 }
@@ -407,4 +407,33 @@ ul#tabs-list {
     margin-top: 70px;
 }*/
 
+.tabs {
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.tab {
+  margin-right: 20px;
+  cursor: pointer;
+  padding: 10px;
+  background-color: #f1f1f1;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.tab:hover {
+  background-color: #ddd;
+}
+
+input[type="radio"] {
+  display: none;
+}
+
+.tab-content {
+  display: none; /* Hide all tabs initially */
+}
+
+.active-tab {
+  display: block; /* Show the active tab */
+}
 

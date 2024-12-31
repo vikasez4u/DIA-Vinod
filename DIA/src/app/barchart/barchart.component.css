@@ -4,12 +4,16 @@
 
 #Chart{
 background-color: white;
-display: center;
+display: center !important;
 margin-left: -8px;
 margin-right: -6px;
 margin-top: 0px;
 border:1px solid black;
 padding: 15px;
+width: 32.625rem !important;
+max-width: 36.3125rem !important;
+height: 21.375rem !important;
+max-height: 17.4375rem !important;
 }
 
 .content-container{

@@ -52,7 +52,7 @@ closeResult = '';
 resultSection: string = '';
 
 constructor(private router: Router, private activatedRoute: ActivatedRoute, private http: HttpClient, private modalService: NgbModal){
-  let state = this.router.getCurrentNavigation()!.extras.state;
+  let state = this.router.getCurrentNavigation()?.extras.state;
 
   if (state) {
     //this.modelType = state['modelType'];

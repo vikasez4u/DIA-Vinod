@@ -12,7 +12,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 
 export class ParallelexecComponent implements OnInit {
-
+selectedTab: number = 1;
 modelType: any;
 biased_txt_results: any;
 biased_alt_results: any;
@@ -25,10 +25,14 @@ alt_text_results_tr_Gender_Count: any;
 img_text_results_tr_Gender_Count: any;
 image_biased_results: any;
 image_results_Count: any;
+image_results_Gender_Count: any[] = [];
+image_results_Confidence_Count: any[] = [];
+image_results_Skin_Color_Count: any[] = [];
+image_results_Race_Count: any[] = [];
 //parallelexecScript: HTMLScriptElement;
 
 constructor(private router: Router, private activatedRoute: ActivatedRoute){
-  let state = this.router.getCurrentNavigation()!.extras.state;
+  let state = this.router.getCurrentNavigation()?.extras.state;
 
   if (state) {
     this.modelType = state['modelType'];
@@ -43,6 +47,10 @@ constructor(private router: Router, private activatedRoute: ActivatedRoute){
     this.img_text_results_tr_Gender_Count = state['img_text_results_tr_Gender_Count'];
     this.image_biased_results = state['image_biased_results'];
     this.image_results_Count = state['image_results_Count'];
+    this.image_results_Gender_Count = state['image_results_Gender_Count'];
+    this.image_results_Confidence_Count = state['image_results_Confidence_Count'];
+    this.image_results_Skin_Color_Count = state['image_results_Skin_Color_Count'];
+    this.image_results_Race_Count = state['image_results_Race_Count'];
   }
 
   /**this.parallelexecScript = document.createElement("script");
