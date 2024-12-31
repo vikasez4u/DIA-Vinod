@@ -35,13 +35,12 @@
   </div>
 </article-->
 
-<div class="tabs">
-  <input type="radio" id="text" name="tab" [(ngModel)]="selectedTab" [value]="1">>
-  <label for="text" class="tab">Text Model Results</label>
+<div class="tabs" >
+  <input type="radio" id="text" name="tab" [(ngModel)]="selectedTab" [value]="1">
+  <label for="text" class="tab"> Text Model Results </label>
 
-  <input type="radio" id="Image" name="tab" [(ngModel)]="selectedTab" [value]="2">>
-  <label for="Image" class="tab">Image Model Results</label>
-
+  <input type="radio" id="Image" name="tab" [(ngModel)]="selectedTab" [value]="2">
+  <label for="Image" class="tab"> Image Model Results </label>
 </div>
 
 <div [ngClass]="{'active-tab': selectedTab === 1}" class="tab-content">
