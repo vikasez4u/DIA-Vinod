@@ -184,13 +184,28 @@
   <div class="card-body">
     <!-- Graph Container -->
     <div *ngIf="selectedAnalysis === 'textContent'">
-      <app-barchart [data]="overall_gender_count" [chartType]="'radial-bar'"></app-barchart>
+      <div *ngIf="overall_gender_count.length>0">
+        <app-barchart [data]="overall_gender_count" [chartType]="'radial-bar'"></app-barchart>
+      </div>
+      <div *ngIf="overall_gender_count.length==0">
+        <p>No biased keywords found in the text content.</p>
+      </div>
     </div>
     <div *ngIf="selectedAnalysis === 'ethnicity'">
-      <app-barchart [data]="total_Ethnicity_Count" [chartType]="'radial-bar'"></app-barchart>
+      <div *ngIf="overall_gender_count.length>0">
+        <app-barchart [data]="total_Ethnicity_Count" [chartType]="'radial-bar'"></app-barchart>
+      </div>
+      <div *ngIf="overall_gender_count.length==0">
+        <p>No biased keywords found in ethnicity.</p>
+      </div>
     </div>
     <div *ngIf="selectedAnalysis === 'geoLocation'">
-     <app-barchart [data]="total_GeoLocation_Count" [chartType]="'radial-bar'"></app-barchart>
+      <div *ngIf="overall_gender_count.length>0">
+        <app-barchart [data]="total_GeoLocation_Count" [chartType]="'radial-bar'"></app-barchart>
+      </div>
+      <div *ngIf="overall_gender_count.length==0">
+        <p>No biased keywords found in Geo-Locations.</p>
+      </div>
     </div>
   </div>
 </div>
@@ -221,7 +236,12 @@
                 <div class="card">
                   <div class="card-body">
                     <h5 style="color:#981fae">Overall Text Model Results</h5>
-                    <app-barchart [data]="textmodel_counts" [chartType]="'semi-donut'"></app-barchart>
+                    <div *ngIf="textmodel_counts.length>0">
+                      <app-barchart [data]="textmodel_counts" [chartType]="'semi-donut'"></app-barchart>
+                    </div>
+                    <div *ngIf="textmodel_counts.length==0">
+                      <p>No keywords detected in text model.</p>
+                    </div>
                   </div>
                 </div>
             </div>
@@ -294,7 +314,8 @@
 
                         <hr>
                         <div *ngIf="selectedTextOption === 'textContent'">
-                          <div class="progress-wrapper">
+                          <div *ngIf="text_results_tr_Gender_Count.length>0">
+                            <div class="progress-wrapper">
                             <div *ngFor="let item of text_results_tr_Gender_Count">
                                 <div class="progress-container">
                                     <div class="progress-header">
@@ -319,11 +340,16 @@
                           <div class="chart-legend-container">
                               <app-barchart [data]="text_results_tr_Gender_Count" [chartType]="'doughnut'"></app-barchart>
                           </div>
+                          </div>
+                          <div *ngIf="text_results_tr_Gender_Count.length==0">
+                            <p>No biased keywords found in the text content.</p>
+                          </div>
                         </div>
 
 
                         <div *ngIf="selectedTextOption === 'ethnicity'">
-                         <div class="progress-wrapper">
+                          <div *ngIf="text_results_Ethnicity_Count.length>0">
+                            <div class="progress-wrapper">
                             <div *ngFor="let item of text_results_Ethnicity_Count">
                                 <div class="progress-container">
                                     <div class="progress-header">
@@ -348,11 +374,16 @@
                           <div class="chart-legend-container">
                               <app-barchart [data]="text_results_Ethnicity_Count" [chartType]="'doughnut'"></app-barchart>
                           </div>
+                          </div>
+                          <div *ngIf="text_results_Ethnicity_Count.length==0">
+                            <p>No biased keywords found in ethnicity.</p>
+                          </div>
                         </div>
 
 
                         <div *ngIf="selectedTextOption === 'geoLocation'">
-                       <div class="progress-wrapper">
+                          <div *ngIf="text_results_GeoLocation_Count.length>0">
+                            <div class="progress-wrapper">
                             <div *ngFor="let item of text_results_GeoLocation_Count">
                                 <div class="progress-container">
                                     <div class="progress-header">
@@ -376,6 +407,10 @@
                           <hr />
                           <div class="chart-legend-container">
                               <app-barchart [data]="text_results_GeoLocation_Count" [chartType]="'doughnut'"></app-barchart>
+                          </div>
+                        </div>
+                          <div *ngIf="text_results_GeoLocation_Count.length==0">
+                            <p>No biased keywords found in Geo-Locations.</p>
                           </div>
                         </div>
                     </div>
@@ -451,88 +486,103 @@
 
                         <hr>
                         <div *ngIf="selectedAltOption === 'textContent'">
-                          <div class="progress-wrapper">
-                            <div *ngFor="let item of alt_text_results_tr_Gender_Count">
-                                <div class="progress-container">
-                                    <div class="progress-header">
-                                        <h6>{{ item[0] | titlecase }}</h6>
-                                        <span>{{ item[1] }}</span>
-                                    </div>
-                                    <div class="progress" style="height: 5px;">
-                                        <div class="progress-bar"
-                                            [style.background-color]="'#981fae'"
-                                            [ngStyle]="{ width: (item[1] / maxAltValue) * 100 + '%', height: '5px' }"
-                                            role="progressbar"
-                                            [attr.aria-valuenow]="item[1]"
-                                            aria-valuemin="0"
-                                            aria-valuemax="100">
-                                        </div>
-                                    </div>
-                                </div>
-                                <br />
+                          <div *ngIf="alt_text_results_tr_Gender_Count.length>0">
+                            <div class="progress-wrapper">
+                              <div *ngFor="let item of alt_text_results_tr_Gender_Count">
+                                  <div class="progress-container">
+                                      <div class="progress-header">
+                                          <h6>{{ item[0] | titlecase }}</h6>
+                                          <span>{{ item[1] }}</span>
+                                      </div>
+                                      <div class="progress" style="height: 5px;">
+                                          <div class="progress-bar"
+                                              [style.background-color]="'#981fae'"
+                                              [ngStyle]="{ width: (item[1] / maxAltValue) * 100 + '%', height: '5px' }"
+                                              role="progressbar"
+                                              [attr.aria-valuenow]="item[1]"
+                                              aria-valuemin="0"
+                                              aria-valuemax="100">
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <br />
+                              </div>
+                            </div>
+                            <hr />
+                            <div class="chart-legend-container">
+                                <app-barchart [data]="alt_text_results_tr_Gender_Count" [chartType]="'doughnut'"></app-barchart>
                             </div>
                           </div>
-                          <hr />
-                          <div class="chart-legend-container">
-                              <app-barchart [data]="alt_text_results_tr_Gender_Count" [chartType]="'doughnut'"></app-barchart>
+                          <div *ngIf="alt_text_results_tr_Gender_Count.length==0">
+                            <p>No biased keywords found in the text content.</p>
                           </div>
                         </div>
 
 
                         <div *ngIf="selectedAltOption === 'ethnicity'">
-                        <div class="progress-wrapper">
-                            <div *ngFor="let item of alt_text_results_Ethnicity_Count">
-                                <div class="progress-container">
-                                    <div class="progress-header">
-                                        <h6>{{ item[0] | titlecase }}</h6>
-                                        <span>{{ item[1] }}</span>
-                                    </div>
-                                    <div class="progress" style="height: 5px;">
-                                        <div class="progress-bar"
-                                            [style.background-color]="'#981fae'"
-                                            [ngStyle]="{ width: (item[1] / maxAltValue) * 100 + '%', height: '5px' }"
-                                            role="progressbar"
-                                            [attr.aria-valuenow]="item[1]"
-                                            aria-valuemin="0"
-                                            aria-valuemax="100">
+                          <div *ngIf="alt_text_results_Ethnicity_Count>0">
+                            <div class="progress-wrapper">
+                                <div *ngFor="let item of alt_text_results_Ethnicity_Count">
+                                    <div class="progress-container">
+                                        <div class="progress-header">
+                                            <h6>{{ item[0] | titlecase }}</h6>
+                                            <span>{{ item[1] }}</span>
+                                        </div>
+                                        <div class="progress" style="height: 5px;">
+                                            <div class="progress-bar"
+                                                [style.background-color]="'#981fae'"
+                                                [ngStyle]="{ width: (item[1] / maxAltValue) * 100 + '%', height: '5px' }"
+                                                role="progressbar"
+                                                [attr.aria-valuenow]="item[1]"
+                                                aria-valuemin="0"
+                                                aria-valuemax="100">
+                                            </div>
                                         </div>
                                     </div>
+                                    <br />
                                 </div>
-                                <br />
                             </div>
+                              <hr />
+                              <div class="chart-legend-container">
+                                  <app-barchart [data]="alt_text_results_Ethnicity_Count" [chartType]="'doughnut'"></app-barchart>
+                              </div>
                           </div>
-                          <hr />
-                          <div class="chart-legend-container">
-                              <app-barchart [data]="alt_text_results_Ethnicity_Count" [chartType]="'doughnut'"></app-barchart>
+                          <div *ngIf="alt_text_results_Ethnicity_Count.length==0">
+                            <p>No biased keywords found in ethnicity.</p>
                           </div>
                         </div>
 
 
                         <div *ngIf="selectedAltOption === 'geoLocation'">
-                          <div class="progress-wrapper">
-                            <div *ngFor="let item of alt_text_results_GeoLocation_Count">
-                                <div class="progress-container">
-                                    <div class="progress-header">
-                                        <h6>{{ item[0] | titlecase }}</h6>
-                                        <span>{{ item[1] }}</span>
-                                    </div>
-                                    <div class="progress" style="height: 5px;">
-                                        <div class="progress-bar"
-                                            [style.background-color]="'#981fae'"
-                                            [ngStyle]="{ width: (item[1] / maxAltValue) * 100 + '%', height: '5px' }"
-                                            role="progressbar"
-                                            [attr.aria-valuenow]="item[1]"
-                                            aria-valuemin="0"
-                                            aria-valuemax="100">
-                                        </div>
-                                    </div>
-                                </div>
-                                <br />
+                          <div *ngIf="alt_text_results_GeoLocation_Count.length>0">
+                            <div class="progress-wrapper">
+                              <div *ngFor="let item of alt_text_results_GeoLocation_Count">
+                                  <div class="progress-container">
+                                      <div class="progress-header">
+                                          <h6>{{ item[0] | titlecase }}</h6>
+                                          <span>{{ item[1] }}</span>
+                                      </div>
+                                      <div class="progress" style="height: 5px;">
+                                          <div class="progress-bar"
+                                              [style.background-color]="'#981fae'"
+                                              [ngStyle]="{ width: (item[1] / maxAltValue) * 100 + '%', height: '5px' }"
+                                              role="progressbar"
+                                              [attr.aria-valuenow]="item[1]"
+                                              aria-valuemin="0"
+                                              aria-valuemax="100">
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <br />
+                              </div>
+                            </div>
+                            <hr />
+                            <div class="chart-legend-container">
+                                <app-barchart [data]="alt_text_results_GeoLocation_Count" [chartType]="'doughnut'"></app-barchart>
                             </div>
                           </div>
-                          <hr />
-                          <div class="chart-legend-container">
-                              <app-barchart [data]="alt_text_results_GeoLocation_Count" [chartType]="'doughnut'"></app-barchart>
+                          <div *ngIf="alt_text_results_GeoLocation_Count.length==0">
+                            <p>No biased keywords found in Geo-Locations.</p>
                           </div>
                         </div>
                     </div>
@@ -610,84 +660,99 @@
 
                         <hr>
                         <div *ngIf="selectedImgTxtOption === 'textContent'">
-                          <div class="progress-wrapper">
-                            <div *ngFor="let item of img_text_results_tr_Gender_Count">
-                                <div class="progress-container">
-                                    <div class="progress-header">
-                                        <h6>{{ item[0] | titlecase }}</h6>
-                                        <span>{{ item[1] }}</span>
-                                    </div>
-                                    <div class="progress" style="height: 5px;">
-                                        <div class="progress-bar"
-                                            [style.background-color]="'#981fae'"
-                                            [ngStyle]="{ width: (item[1] / maxImgTxtValue) * 100 + '%', height: '5px' }"
-                                            role="progressbar"
-                                            [attr.aria-valuenow]="item[1]"
-                                            aria-valuemin="0"
-                                            aria-valuemax="100">
-                                        </div>
-                                    </div>
-                                </div>
-                                <br />
+                          <div *ngIf="img_text_results_tr_Gender_Count.length>0">
+                            <div class="progress-wrapper">
+                              <div *ngFor="let item of img_text_results_tr_Gender_Count">
+                                  <div class="progress-container">
+                                      <div class="progress-header">
+                                          <h6>{{ item[0] | titlecase }}</h6>
+                                          <span>{{ item[1] }}</span>
+                                      </div>
+                                      <div class="progress" style="height: 5px;">
+                                          <div class="progress-bar"
+                                              [style.background-color]="'#981fae'"
+                                              [ngStyle]="{ width: (item[1] / maxImgTxtValue) * 100 + '%', height: '5px' }"
+                                              role="progressbar"
+                                              [attr.aria-valuenow]="item[1]"
+                                              aria-valuemin="0"
+                                              aria-valuemax="100">
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <br />
+                              </div>
+                            </div>
+                            <hr />
+                            <div class="chart-legend-container">
+                                <app-barchart [data]="img_text_results_tr_Gender_Count" [chartType]="'doughnut'"></app-barchart>
                             </div>
                           </div>
-                          <hr />
-                          <div class="chart-legend-container">
-                              <app-barchart [data]="img_text_results_tr_Gender_Count" [chartType]="'doughnut'"></app-barchart>
+                          <div *ngIf="img_text_results_tr_Gender_Count.length==0">
+                            <p>No biased keywords found in the text content.</p>
                           </div>
                         </div>
                         <div *ngIf="selectedImgTxtOption === 'ethnicity'">
-                          <div class="progress-wrapper">
-                            <div *ngFor="let item of img_text_results_Ethnicity_Count">
-                                <div class="progress-container">
-                                    <div class="progress-header">
-                                        <h6>{{ item[0] | titlecase }}</h6>
-                                        <span>{{ item[1] }}</span>
-                                    </div>
-                                    <div class="progress" style="height: 5px;">
-                                        <div class="progress-bar"
-                                            [style.background-color]="'#981fae'"
-                                            [ngStyle]="{ width: (item[1] / maxImgTxtValue) * 100 + '%', height: '5px' }"
-                                            role="progressbar"
-                                            [attr.aria-valuenow]="item[1]"
-                                            aria-valuemin="0"
-                                            aria-valuemax="100">
-                                        </div>
-                                    </div>
-                                </div>
-                                <br />
+                          <div *ngIf="img_text_results_Ethnicity_Count.length>0">
+                            <div class="progress-wrapper">
+                              <div *ngFor="let item of img_text_results_Ethnicity_Count">
+                                  <div class="progress-container">
+                                      <div class="progress-header">
+                                          <h6>{{ item[0] | titlecase }}</h6>
+                                          <span>{{ item[1] }}</span>
+                                      </div>
+                                      <div class="progress" style="height: 5px;">
+                                          <div class="progress-bar"
+                                              [style.background-color]="'#981fae'"
+                                              [ngStyle]="{ width: (item[1] / maxImgTxtValue) * 100 + '%', height: '5px' }"
+                                              role="progressbar"
+                                              [attr.aria-valuenow]="item[1]"
+                                              aria-valuemin="0"
+                                              aria-valuemax="100">
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <br />
+                              </div>
+                            </div>
+                            <hr />
+                            <div class="chart-legend-container">
+                                <app-barchart [data]="img_text_results_Ethnicity_Count" [chartType]="'doughnut'"></app-barchart>
                             </div>
                           </div>
-                          <hr />
-                          <div class="chart-legend-container">
-                              <app-barchart [data]="img_text_results_Ethnicity_Count" [chartType]="'doughnut'"></app-barchart>
+                          <div *ngIf="img_text_results_Ethnicity_Count.length==0">
+                            <p>No biased keywords found in ethnicity.</p>
                           </div>
                         </div>
                         <div *ngIf="selectedImgTxtOption === 'geoLocation'">
-                           <div class="progress-wrapper">
-                            <div *ngFor="let item of img_text_results_GeoLocation_Count">
-                                <div class="progress-container">
-                                    <div class="progress-header">
-                                        <h6>{{ item[0] | titlecase }}</h6>
-                                        <span>{{ item[1] }}</span>
-                                    </div>
-                                    <div class="progress" style="height: 5px;">
-                                        <div class="progress-bar"
-                                            [style.background-color]="'#981fae'"
-                                            [ngStyle]="{ width: (item[1] / maxImgTxtValue) * 100 + '%', height: '5px' }"
-                                            role="progressbar"
-                                            [attr.aria-valuenow]="item[1]"
-                                            aria-valuemin="0"
-                                            aria-valuemax="100">
-                                        </div>
-                                    </div>
-                                </div>
-                                <br />
+                          <div *ngIf="img_text_results_GeoLocation_Count.length>0">
+                             <div class="progress-wrapper">
+                              <div *ngFor="let item of img_text_results_GeoLocation_Count">
+                                  <div class="progress-container">
+                                      <div class="progress-header">
+                                          <h6>{{ item[0] | titlecase }}</h6>
+                                          <span>{{ item[1] }}</span>
+                                      </div>
+                                      <div class="progress" style="height: 5px;">
+                                          <div class="progress-bar"
+                                              [style.background-color]="'#981fae'"
+                                              [ngStyle]="{ width: (item[1] / maxImgTxtValue) * 100 + '%', height: '5px' }"
+                                              role="progressbar"
+                                              [attr.aria-valuenow]="item[1]"
+                                              aria-valuemin="0"
+                                              aria-valuemax="100">
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <br />
+                              </div>
+                            </div>
+                            <hr />
+                            <div class="chart-legend-container">
+                                <app-barchart [data]="img_text_results_GeoLocation_Count" [chartType]="'doughnut'"></app-barchart>
                             </div>
                           </div>
-                          <hr />
-                          <div class="chart-legend-container">
-                              <app-barchart [data]="img_text_results_GeoLocation_Count" [chartType]="'doughnut'"></app-barchart>
+                          <div *ngIf="img_text_results_GeoLocation_Count.length==0">
+                            <p>No biased keywords found in Geo-Locations.</p>
                           </div>
                         </div>
                     </div>
