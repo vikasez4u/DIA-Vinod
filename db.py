@@ -488,6 +488,34 @@ def gendersave(name):
     print(f"Error inserting into the database: {e}")
     return 'Failed to Save'
 
+def genderupdate(Id, name):
+  db = get_db()
+  cursor = db.cursor()
+  try:
+    create_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    cursor.execute("UPDATE Gender_Table SET gender_name ='"+name+"'  WHERE gender_id ='"+Id+"'")
+    db.commit()
+    return 'Successfully Updated'
+  except Exception as e:
+    print(f"Error inserting into the database: {e}")
+    return 'Failed to update'
+
+
+def genderdelete(id):
+  db = get_db()
+  cursor = db.cursor()
+  try:
+    gender_results = nativeQuery("SELECT * FROM Gender_Table WHERE gender_id ='" + id + "'")
+    if len(gender_results) > 0:
+      cursor.execute("DELETE FROM Biased_Words WHERE gender_id ='" + id + "'")
+      cursor.execute("DELETE FROM Gender_Table WHERE gender_id ='"+id+"'")
+      db.commit()
+      return 'Successfully Deleted'
+    else:
+      return 'No Data Found'
+  except Exception as e:
+    print(f"Error inserting into the database: {e}")
+    return 'Failed to Delete'
 
 def nativeQuery(query):
   try:
@@ -501,7 +529,7 @@ def nativeQuery(query):
   finally:
     if cursor:
       cursor.close()
-    close_db()  # Ensure the connection is closed
+    #close_db()  # Ensure the connection is closed
   return result
 
 

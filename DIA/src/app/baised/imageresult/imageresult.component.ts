@@ -94,7 +94,7 @@ ngOnInit(): void {
     this.maxImgGender = maxImgGenderEntry[0];  // The corresponding gender (Male/Female)
 
     // Calculate the percentage of the maximum biased count
-    this.maxImgGenderPercentage = Math.round((this.maxImgGenderCount / totalImgGenderCount) * 100);
+    this.maxImgGenderPercentage = (this.maxImgGenderCount !== 0 && totalImgGenderCount !== 0) ? Math.round((this.maxImgGenderCount / totalImgGenderCount) * 100): 0;
   }
 
   // Calculate max confidence count and corresponding confidence
