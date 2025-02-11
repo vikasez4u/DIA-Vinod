@@ -27,6 +27,8 @@ import { BadgeModule } from 'primeng/badge';
 import { AboutComponent } from './about/about.component';
 import { FooterComponent } from './footer/footer.component';
 import { SampleResultComponent } from '../sample-result/sample-result.component';
+import { EthnicityComponent } from './configuration/ethnicity/ethnicity.component';
+import { GeolocationComponent } from './configuration/geolocation/geolocation.component';
 
 const routes : Routes = [
 { path: 'home', component: BaisedComponent},
@@ -59,7 +61,9 @@ const routes : Routes = [
     FaqComponent,
     AboutComponent,
     FooterComponent,
-    SampleResultComponent
+    SampleResultComponent,
+    EthnicityComponent,
+    GeolocationComponent
   ],
   imports: [
     BrowserModule,
