@@ -184,26 +184,26 @@
   <div class="card-body">
     <!-- Graph Container -->
     <div *ngIf="selectedAnalysis === 'textContent'">
-      <div *ngIf="overall_gender_count.length>0">
+      <div *ngIf="overall_gender_count.length>0 && maxGenderPercentage!==0">
         <app-barchart [data]="overall_gender_count" [chartType]="'radial-bar'"></app-barchart>
       </div>
-      <div *ngIf="overall_gender_count.length==0">
+      <div *ngIf="maxGenderPercentage===0">
         <p>No biased keywords found in the text content.</p>
       </div>
     </div>
     <div *ngIf="selectedAnalysis === 'ethnicity'">
-      <div *ngIf="overall_gender_count.length>0">
+      <div *ngIf="total_Ethnicity_Count.length>0">
         <app-barchart [data]="total_Ethnicity_Count" [chartType]="'radial-bar'"></app-barchart>
       </div>
-      <div *ngIf="overall_gender_count.length==0">
+      <div *ngIf="total_Ethnicity_Count.length==0">
         <p>No biased keywords found in ethnicity.</p>
       </div>
     </div>
     <div *ngIf="selectedAnalysis === 'geoLocation'">
-      <div *ngIf="overall_gender_count.length>0">
+      <div *ngIf="total_GeoLocation_Count.length>0">
         <app-barchart [data]="total_GeoLocation_Count" [chartType]="'radial-bar'"></app-barchart>
       </div>
-      <div *ngIf="overall_gender_count.length==0">
+      <div *ngIf="total_GeoLocation_Count.length==0">
         <p>No biased keywords found in Geo-Locations.</p>
       </div>
     </div>
@@ -236,10 +236,10 @@
                 <div class="card">
                   <div class="card-body">
                     <h5 style="color:#981fae">Overall Text Model Results</h5>
-                    <div *ngIf="textmodel_counts.length>0">
+                    <div *ngIf="textmodel_counts.length>0 && totalModelCount!==0">
                       <app-barchart [data]="textmodel_counts" [chartType]="'semi-donut'"></app-barchart>
                     </div>
-                    <div *ngIf="textmodel_counts.length==0">
+                    <div *ngIf="totalModelCount===0">
                       <p>No keywords detected in text model.</p>
                     </div>
                   </div>

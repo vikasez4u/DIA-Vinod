@@ -68,6 +68,8 @@ maxGeoCount: number = 0;  // For maximum biased geo location count
 maxGeo: string = '';  // For the country associated with the maximum count
 maxGeoPercentage: number = 0;  // For the percentage of the maximum biased count
 
+totalModelCount: number = 0;
+
 selectedAnalysis: string = 'textContent';
 analysisTitle : string = 'Overall Gender Analysis'
 
@@ -160,7 +162,7 @@ ngOnInit(): void {
     this.maxGender = maxEntry[0];  // The corresponding gender (Male/Female)
 
     // Calculate the percentage of the maximum biased count
-    this.maxGenderPercentage = Math.round((this.maxGenderCount / totalCount) * 100);
+    this.maxGenderPercentage = (this.maxGenderCount !== 0 && totalCount !== 0) ? Math.round((this.maxGenderCount/ totalCount)*100): 0;
   }
 
   // Calculate maxValue after the data has been assigned to text_results_Ethnicity_Count
@@ -216,6 +218,8 @@ ngOnInit(): void {
     // Calculate the percentage of the maximum biased count
     this.maxGeoPercentage = Math.round((this.maxGeoCount / totalGeoCount) * 100);
   }
+
+  this.totalModelCount = this.textmodel_counts.reduce((sum: number, current: [string, number]) => sum + current[1], 0);  // Total count of all text results type
 
   this.http.get('/baisedwordresults', { responseType: 'json' })
           .subscribe((data: any) => {
