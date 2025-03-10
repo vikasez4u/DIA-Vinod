@@ -150,6 +150,22 @@ def create_table(table_name):
               REFERENCES Gender_Table (gender_id)
           )
       ''')
+  elif table_name == 'Ethnicity_Table':
+    cursor.execute(f'''
+          CREATE TABLE IF NOT EXISTS {table_name} (
+              ethnicity_id INTEGER PRIMARY KEY AUTOINCREMENT,
+              ethnicity_name TEXT NOT NULL UNIQUE,
+              create_date TEXT
+          )
+      ''')
+  elif table_name == 'Geolocation_Table':
+    cursor.execute(f'''
+          CREATE TABLE IF NOT EXISTS {table_name} (
+              geolocation_id INTEGER PRIMARY KEY AUTOINCREMENT,
+              geolocation_name TEXT NOT NULL UNIQUE,
+              create_date TEXT
+          )
+      ''')
 
   db.commit()
 
@@ -602,6 +618,106 @@ def baisedworddelete(id):
     return 'Failed to Delete'
   # finally:
   # db.close()
+
+def ethnicityresult():
+  db = get_db()
+  cursor = db.cursor()
+  ethnicity_results = cursor.execute('SELECT ethnicity_id, ethnicity_name FROM Ethnicity_Table').fetchall()
+  return ethnicity_results
+
+
+def ethnicitysave(name):
+  db = get_db()
+  cursor = db.cursor()
+  try:
+    create_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    cursor.execute('''
+          INSERT INTO Ethnicity_Table (ethnicity_name, create_date)
+          VALUES (?, ?)
+      ''', (name, create_date))
+    db.commit()
+    return 'Successfully Saved'
+  except Exception as e:
+    print(f"Error inserting into the database: {e}")
+    return 'Failed to Save'
+
+def ethnicityupdate(Id, name):
+  db = get_db()
+  cursor = db.cursor()
+  try:
+    create_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    cursor.execute("UPDATE Ethnicity_Table SET ethnicity_name ='"+name+"'  WHERE ethnicity_id ='"+Id+"'")
+    db.commit()
+    return 'Successfully Updated'
+  except Exception as e:
+    print(f"Error inserting into the database: {e}")
+    return 'Failed to update'
+
+
+def ethnicitydelete(id):
+  db = get_db()
+  cursor = db.cursor()
+  try:
+    ethnicity_results = nativeQuery("SELECT * FROM Ethnicity_Table WHERE ethnicity_id ='" + id + "'")
+    if len(ethnicity_results) > 0:
+      cursor.execute("DELETE FROM Ethnicity_Table WHERE ethnicity_id ='"+id+"'")
+      db.commit()
+      return 'Successfully Deleted'
+    else:
+      return 'No Data Found'
+  except Exception as e:
+    print(f"Error inserting into the database: {e}")
+    return 'Failed to Delete'
+
+def geolocationresult():
+  db = get_db()
+  cursor = db.cursor()
+  geolocation_results = cursor.execute('SELECT geolocation_id, geolocation_name FROM Geolocation_Table').fetchall()
+  return geolocation_results
+
+
+def geolocationsave(name):
+  db = get_db()
+  cursor = db.cursor()
+  try:
+    create_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    cursor.execute('''
+          INSERT INTO Geolocation_Table (geolocation_name, create_date)
+          VALUES (?, ?)
+      ''', (name, create_date))
+    db.commit()
+    return 'Successfully Saved'
+  except Exception as e:
+    print(f"Error inserting into the database: {e}")
+    return 'Failed to Save'
+
+def geolocationupdate(Id, name):
+  db = get_db()
+  cursor = db.cursor()
+  try:
+    create_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    cursor.execute("UPDATE Geolocation_Table SET geolocation_name ='"+name+"'  WHERE geolocation_id ='"+Id+"'")
+    db.commit()
+    return 'Successfully Updated'
+  except Exception as e:
+    print(f"Error inserting into the database: {e}")
+    return 'Failed to update'
+
+
+def geolocationdelete(id):
+  db = get_db()
+  cursor = db.cursor()
+  try:
+    geolocation_results = nativeQuery("SELECT * FROM Geolocation_Table WHERE geolocation_id ='" + id + "'")
+    if len(geolocation_results) > 0:
+      cursor.execute("DELETE FROM Geolocation_Table WHERE geolocation_id ='"+id+"'")
+      db.commit()
+      return 'Successfully Deleted'
+    else:
+      return 'No Data Found'
+  except Exception as e:
+    print(f"Error inserting into the database: {e}")
+    return 'Failed to Delete'
 
 
 if __name__ == "__main__":

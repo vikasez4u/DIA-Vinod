@@ -1,9 +1,57 @@
-
 <div ng-app="myapp">
 	<div class="form-header" ng-controller="MainCtrl">
     <div>
-       <h2>Geo-Location</h2>
+       <h2>GeoLocation Configuration</h2>
     </div>
+    <div class="form-outline">
 
+      <form>
+  <div class="form-group row">
+    <label class="col-sm-2 col-form-label"><strong>Geolocation Name : </strong></label>
+    <div class="col-sm-6">
+      <input type="text"  [(ngModel)]="name" class="form-control"  id="geolocationNameId" name="geolocationName" placeholder={{gename}} required/>
+    </div>
+    <button (click)="geolocationsave(name)" class="col-sm-2 btn btn-primary" style="margin-right:10px;">Add</button>
+  </div>
+      </form>
+    </div>
+    <div class="row form-excel-data">
+      <div class="col-sm-12 table-wrapper" >
+          <table class= "table" >
+              <thead class="thead-light">
+                <tr>
+                  <th>S.No</th>
+                  <th>Geolocation Name</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let data of gName; let i =index">
+                  <td>{{i+1}}</td>
+                  <td>
+                    <ng-container *ngIf="!editCache[data.id].edit; else addressInputTpl">
+                      {{ data.GeolocationName }}
+                    </ng-container>
+                    <ng-template #addressInputTpl>
+                      <input type="text" nz-input [(ngModel)]="editCache[data.id].data.GeolocationName" />
+                    </ng-template>
+                  </td>
+                  <td>
+                    <div class="editable-row-operations">
+                      <ng-container *ngIf="!editCache[data.id].edit; else saveTpl">
+                        <a (click)="startEdit(data.id)">Edit</a>
+                        <a (click)="delete(data.id)">Delete</a>
+                      </ng-container>
+                      <ng-template #saveTpl>
+                        <a (click)="saveEdit(data.id)">Update</a>
+                        <a (click)="cancelEdit(data.id)">Cancel</a>
+                      </ng-template>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+        </table>
+      </div>
+    </div>
   </div>
 </div>

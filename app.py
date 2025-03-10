@@ -60,6 +60,8 @@ def home():
   diadb.create_table('geographical_bias')
   diadb.create_table('Biased_Words')
   diadb.create_table('Gender_Table')
+  diadb.create_table('Ethnicity_Table')
+  diadb.create_table('Geolocation_Table')
   return render_template('index.html')
 
 
@@ -390,6 +392,65 @@ def readExcel():
   print(exceldata)
   return {'excel_data': exceldata}
 
+@app.route('/ethnicityresults', methods=["GET"])
+def ethnicityresults():
+  ethnicity_results = diadb.ethnicityresult()
+  return {"ethnicityresults": [{"id": str(result[0]), "EthnicityName": result[1]} for result in ethnicity_results]}
+
+
+@app.route('/ethnicitysave', methods=["POST"])
+def ethnicitysave():
+  data = request.get_json()
+  name = data["updates"][0]["value"]
+  result = diadb.ethnicitysave(name)
+  return {'result': result}
+
+
+@app.route('/ethnicityupdate', methods=["POST"])
+def ethnicityupdate():
+  data = request.get_json()
+  id = data["updates"][0]["value"]
+  name = data["updates"][1]["value"]
+  result = diadb.ethnicityupdate(id, name)
+  return {'result': result}
+
+
+@app.route('/ethnicitydelete', methods=["POST"])
+def ethnicitydelete():
+  data = request.get_json()
+  id = data["updates"][0]["value"]
+  result = diadb.ethnicitydelete(id)
+  return {'result': result}
+
+@app.route('/geolocationresults', methods=["GET"])
+def geolocationresults():
+  geolocation_results = diadb.geolocationresult()
+  return {"geolocationresults": [{"id": str(result[0]), "GeolocationName": result[1]} for result in geolocation_results]}
+
+
+@app.route('/geolocationsave', methods=["POST"])
+def geolocationsave():
+  data = request.get_json()
+  name = data["updates"][0]["value"]
+  result = diadb.geolocationsave(name)
+  return {'result': result}
+
+
+@app.route('/geolocationupdate', methods=["POST"])
+def geolocationupdate():
+  data = request.get_json()
+  id = data["updates"][0]["value"]
+  name = data["updates"][1]["value"]
+  result = diadb.geolocationupdate(id, name)
+  return {'result': result}
+
+
+@app.route('/geolocationdelete', methods=["POST"])
+def geolocationdelete():
+  data = request.get_json()
+  id = data["updates"][0]["value"]
+  result = diadb.geolocationdelete(id)
+  return {'result': result}
 
 if __name__ == '__main__':
   keyword_list = load_gender_biased_words()
