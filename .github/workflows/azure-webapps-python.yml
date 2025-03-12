@@ -61,11 +61,7 @@ jobs:
          uses: actions/download-artifact@v4
          with:
           name: python-app
-
-       - name: Build and deploy
-         run: |
-          oryx build /github/workspace --platform python --platform-version 3.10 > oryx-build.log
-          cat oryx-build.log
+          path: ./build
           
        - name: Zip Artifact
          run: zip -r diaweb.zip ./build
