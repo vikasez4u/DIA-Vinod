@@ -1,7 +1,7 @@
 name: Build and deploy Python app to Azure Web App
 
 env:
-  AZURE_WEBAPP_NAME: diawebapp    # set this to your application's name
+  AZURE_WEBAPP_NAME: diaweb    # set this to your application's name
   PYTHON_VERSION: '3.10'               # set this to the Python version to use
 
 on:
@@ -57,5 +57,5 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@85270a1854658d167ab239bce43949edb336fa7c
         with:
-          app-name: ${{ env.diawebapp }}
+          app-name: ${{ env.diaweb }}
           publish-profile: ${{ secrets.AZUREWEBAPPPUBLISHPROFILE }}
