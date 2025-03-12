@@ -41,7 +41,7 @@ jobs:
       - name: Create artifact
         run: |
           mkdir -p src/build
-          cp -R * src/build/
+          cp -R *  /
       
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
