@@ -28,7 +28,7 @@ jobs:
         run: source .venv/bin/activate
 
       - name: Install TensorFlow
-        run: pip install tensorflow-intel==2.14.0
+        run: pip install tensorflow-intel==2.15.1
 
       - name: Set up dependency caching for faster installs
         uses: actions/cache@v3
