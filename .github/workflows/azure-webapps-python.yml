@@ -27,9 +27,6 @@ jobs:
       - name: Activate virtual environment
         run: source .venv/bin/activate
 
-      - name: Install TensorFlow
-        run: pip install tensorflow-intel
-
       - name: Set up dependency caching for faster installs
         uses: actions/cache@v3
         with:
@@ -55,7 +52,6 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: python-app
-          path: .
 
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
