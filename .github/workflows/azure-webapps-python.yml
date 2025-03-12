@@ -64,3 +64,5 @@ jobs:
         with:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
           publish-profile: ${{ secrets.AZUREWEBAPPPUBLISHPROFILE }}
+          ENABLE_ORYX_BUILD: false
+          SCM_DO_BUILD_DURING_DEPLOYMENT: true
