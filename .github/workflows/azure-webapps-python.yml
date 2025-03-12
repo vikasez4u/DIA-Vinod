@@ -40,8 +40,8 @@ jobs:
 
       - name: Create artifact
         run: |
-          mkdir -p build
-          cp -R * build/
+          mkdir -p src/build
+          cp -R * src/build/
       
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
@@ -73,7 +73,7 @@ jobs:
           cat oryx-build.log
           
        - name: Zip Artifact
-         run: zip -r diaweb.zip build
+         run: zip -r diaweb.zip src/build
         
        - name: 'Deploy to Azure Web App'
          id: deploy-to-webapp
