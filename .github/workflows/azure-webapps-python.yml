@@ -40,14 +40,14 @@ jobs:
 
       - name: Create artifact
         run: |
-          mkdir -p src/build
-          cp -R *  /
+          mkdir -p ./build
+          cp -R *  ./build/
       
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
           name: python-app
-          path: build
+          path: ./build
 
       # Optional: Add a step to run tests here (PyTest, Django test suites, etc.)
 
@@ -73,7 +73,7 @@ jobs:
           cat oryx-build.log
           
        - name: Zip Artifact
-         run: zip -r diaweb.zip src/build
+         run: zip -r diaweb.zip ./build
         
        - name: 'Deploy to Azure Web App'
          id: deploy-to-webapp
