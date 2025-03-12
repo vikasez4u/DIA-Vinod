@@ -58,7 +58,7 @@ jobs:
         uses: actions/download-artifact@v4
 
       - name: Zip Artifact
-        run: zip -r dia.zip build
+        run: zip -r diaweb.zip build
         
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
@@ -67,4 +67,4 @@ jobs:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
           publish-profile: ${{ secrets.AZUREWEBAPPPUBLISHPROFILE }}
           slot-name: production
-          package: dia.zip
+          package: diaweb.zip
